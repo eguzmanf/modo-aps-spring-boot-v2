@@ -1,0 +1,5 @@
+JpaUserDetailsService - package cl.excelsium.springboot.app.models.service;
+AuthenticationSuccessErrorHandler - package cl.excelsium.springboot.app;
+LoginFailedHandler - package cl.excelsium.springboot.app.auth.handler;
+SpringSecurityConfig - package cl.excelsium.springboot.app;
+

@@ -1,0 +1,32 @@
+Microsoft Windows [Versión 10.0.19608.1006]
+(c) 2020 Microsoft Corporation. Todos los derechos reservados.
+
+C:\Users\guzma>netstat -ano | findstr : 8080
+FINDSTR: No se puede abrir 8080
+
+C:\Users\guzma>netstat -ano | findstr :8080
+  TCP    0.0.0.0:8080           0.0.0.0:0              LISTENING       21320
+  TCP    [::]:8080              [::]:0                 LISTENING       21320
+
+C:\Users\guzma>taskkill /PID 21320 /F
+Correcto: se terminó el proceso con PID 21320.
+
+C:\Users\guzma>netstat -ano | findstr :8080
+  TCP    [::1]:55726            [::1]:8080             TIME_WAIT       0
+
+C:\Users\guzma>taskkill /PID 21320 /F
+ERROR: no se encontró el proceso "21320".
+
+C:\Users\guzma>netstat -ano | findstr :8080
+  TCP    0.0.0.0:8080           0.0.0.0:0              LISTENING       10596
+  TCP    [::]:8080              [::]:0                 LISTENING       10596
+  TCP    [::1]:55726            [::1]:8080             TIME_WAIT       0
+
+C:\Users\guzma>taskkill /PID 10596 /F
+Correcto: se terminó el proceso con PID 10596.
+
+C:\Users\guzma>
+
+##############################################################
+Linux
+fuser -k 8080/tcp

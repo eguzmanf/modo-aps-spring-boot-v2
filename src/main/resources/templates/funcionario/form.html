@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+
+<body>
+
+<header th:replace="layout/layout :: header"></header>
+
+<div class="container py-4">
+
+    <div class="card bg-secondary text-white panel-shadow-blue-2">
+        <div class="card-header" th:text="${titulo}"></div>
+        <div class="card-body bg-light text-dark">
+
+            <h4 class="card-title">
+                <a class="btn btn-dark btn-sm" th:href="@{/funcionario/listar}" th:text="'&laquo; Volver Listado de Funcionarios'"></a>
+            </h4>
+
+            <!--
+                <div th:object="${funcionario}" th:remove="tag">
+                    <ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                        <li th:each="err: ${#fields.errors('*')}" th:text="${err}"></li>
+                    </ul>
+                </div>
+            -->
+
+            <form th:action="@{/funcionario/form/}" th:object="${funcionario}" method="post">
+                <!-- <input type="hidden" id="idPaciente" th:field="*{id}"> -->
+                <div class="form-group row">
+                    <label for="nombres" class="col-form-label col-sm-2">Nombres: </label>
+                    <div class="col-sm-4">
+                        <input type="text" id="nombres" th:field="*{nombres}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                    </div>
+                    <small th:if="${#fields.hasErrors('nombres')}" th:errors="*{nombres}" class="form-text text-danger"></small>
+                </div>
+                <div class="form-group row">
+                    <label for="apellidoPaterno" class="col-form-label col-sm-2">Apellido Paterno: </label>
+                    <div class="col-sm-4">
+                        <input type="text" id="apellidoPaterno" th:field="*{apellidoPaterno}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                    </div>
+                    <small th:if="${#fields.hasErrors('apellidoPaterno')}" th:errors="*{apellidoPaterno}" class="form-text text-danger"></small>
+                </div>
+                <div class="form-group row">
+                    <label for="apellidoMaterno" class="col-form-label col-sm-2">Apellido Materno: </label>
+                    <div class="col-sm-4">
+                        <input type="text" id="apellidoMaterno" th:field="*{apellidoMaterno}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                    </div>
+                    <small th:if="${#fields.hasErrors('apellidoMaterno')}" th:errors="*{apellidoMaterno}" class="form-text text-danger"></small>
+                </div>
+                <div class="form-group row">
+                    <label for="run" class="col-form-label col-sm-2">Run: </label>
+                    <div class="col-sm-4">
+                        <input type="text" id="run" th:field="*{run}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                    </div>
+                    <small th:if="${#fields.hasErrors('run')}" th:errors="*{run}" class="form-text text-danger"></small>
+                    <!-- <small class="form-text text-danger" th:text="${errorRun}"></small> -->
+                </div>
+                <div class="form-group row">
+                    <label for="sexo.id" class="col-form-label col-sm-2">Sexo: </label>
+                    <div class="col-sm-4">
+                        <select id="sexo.id" th:field="*{sexo.id}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                            <option value="">-- Seleccionar --</option>
+                            <option th:each="sexo : ${listaSexo}" th:text="${sexo.sexo}" th:value="${sexo.id}"></option>
+                        </select>
+                    </div>
+                    <small th:if="${#fields.hasErrors('sexo.id')}" th:errors="*{sexo.id}" class="form-text text-danger"></small>
+                </div>
+                <div class="form-group row">
+                    <label for="nacionalidad.id" class="col-form-label col-sm-2">Nacionalidad: </label>
+                    <div class="col-sm-4">
+                        <select id="nacionalidad.id" th:field="*{nacionalidad.id}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                            <option value="">-- Seleccionar --</option>
+                            <option th:each="nacionalidad : ${listaNacionalidad}" th:text="${nacionalidad.nacionalidad}" th:value="${nacionalidad.id}"></option>
+                        </select>
+                    </div>
+                    <small th:if="${#fields.hasErrors('nacionalidad.id')}" th:errors="*{nacionalidad.id}" class="form-text text-danger"></small>
+                </div>
+                <div class="form-group row">
+                    <label for="fechaNacimiento" class="col-form-label col-sm-2">Fecha Nacimiento: </label>
+                    <div class="col-sm-4">
+                        <input type="date" id="fechaNacimiento" th:field="*{fechaNacimiento}" placeholder="dd/MM/yyyy" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                    </div>
+                    <small th:if="${#fields.hasErrors('fechaNacimiento')}" th:errors="*{fechaNacimiento}" class="form-text text-danger"></small>
+                </div>
+                <!-- ########################################### Button Form ################################################ -->
+                <hr class="style38 mt-5">
+                <div class="form-group row justify-content-center text-center">
+                    <div class="col-sm-4">
+                        <input id="btnCrear" type="submit" value="Crear Funcionario" class="btn btn-dark">
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+<footer th:replace="layout/layout :: footer"></footer>
+
+</body>
+</html>

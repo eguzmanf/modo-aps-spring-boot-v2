@@ -1,0 +1,13 @@
+/* Funcionarios Datos de Pruebas */
+INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at) VALUES('Exequiel Antonio', 'Guzmán', 'Fontecilla', 2, 1, '13433025-2', '1978-02-01', '2021-08-04');
+INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at) VALUES('Lorena Angélica', 'Concha', 'Hasember', 1, 1, '10970239-0', '1974-06-21', '2021-08-11');
+INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at) VALUES('Yennifer Edith', 'Rojas', 'Balboa', 1, 1, '16468009-6', '1986-11-13', '2021-08-05');
+INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at) VALUES('Javier', 'Carisaya', 'Leyton', 2, 1, '13639725-7', '1979-11-16', '2021-08-05');
+INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at) VALUES('Abigail', 'Yavi', 'Gutierrez', 1, 1, '25120537-K', '2015-09-11', '2021-08-18');
+INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at) VALUES('Luis Eduardo', 'Anacona', 'Jelvez', 2, 1, '7083130-9', '1958-02-14', '2021-08-18');
+INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at) VALUES('Jose Antonio', 'Triviño', 'Santibañez', 2, 2, '17511809-8', '1989-07-27', '2021-08-18');
+INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at) VALUES('Carolina Victoria', 'Romero', 'Paez', 1, 7, '13639694-3', '1979-11-07', '2021-08-18');
+INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at) VALUES('Clemencia Marisol', 'Rios', 'Aguilar', 1, 1, '24312189-2', '1974-01-07', '2021-08-18');
+INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at) VALUES('Elaine', 'Catalan', 'Gutierrez', 1, 10, '14561236-5', '1973-09-17', '2021-08-18');
+INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at) VALUES('Veronica', 'Gonzalez', 'Rodríguez', 1, 11, '13005046-8', '1972-11-21', '2021-08-18');
+INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at) VALUES('José', 'Cortez', 'Hernandez', 2, 15, '23173879-7', '2009-11-16', '2021-08-18');

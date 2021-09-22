@@ -1,0 +1,11 @@
+package cl.divap.modoaps.app.errors;
+
+public class UsuarioBloqueadoException extends AuthenticationException {
+
+	private static final long serialVersionUID = -1835217940720429531L;
+
+	public UsuarioBloqueadoException(String message) {
+		super(message);
+	}
+
+}

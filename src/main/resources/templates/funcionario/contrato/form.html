@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+<header th:replace="layout/layout :: header"></header>
+
+    <div class="container py-4">
+
+        <div class="card bg-dark text-white rounded panel-shadow-blue-2">
+            <div class="card-header" th:text="${titulo}"></div>
+            <div class="card-body bg-light text-dark">
+
+                <h4 class="card-title">
+                    <a class="btn btn-dark btn-sm" th:href="@{/funcionario/ver/} + ${contrato.funcionario.id}" th:text="'&laquo; Volver a Contratos'"></a>
+                </h4>
+
+                <h4 class="card-title">
+                    <a class="btn btn-dark btn-sm" th:href="@{/funcionario/listar}" th:text="'&laquo; Volver Listado de Funcionarios'"></a>
+                </h4>
+
+                <form th:action="@{/contrato/form/}" th:object="${contrato}" method="post">
+                    <input type="hidden" id="idContrato" th:field="*{id}">
+                    <div class="form-group row">
+                        <label for="funcionario" class="col-form-label col-sm-2">Funcionario: </label>
+                        <div class="col-sm-6">
+                            <input type="text" id="funcionario" th:value="${contrato.funcionario.nombres} + ' ' + ${contrato.funcionario.apellidoPaterno} + ' ' + ${contrato.funcionario.apellidoMaterno}" class="form-control form-control-sm" disabled="disabled" />
+                        </div>
+                    </div>
+                    <div class="card bg-secondary text-white mb-3 rounded panel-shadow-gray-2">
+                        <div class="card-header" th:text="'Datos del Establecimiento'"></div>
+                        <div class="card-body bg-light text-dark">
+                            <div class="form-group row">
+                                <label for="servicioSalud.id" class="col-form-label col-sm-2">Servicio de Salud: </label>
+                                <div class="col-sm-4">
+                                    <select id="servicioSalud.id" th:field="*{servicioSalud.id}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                        <option value="">-- Seleccionar --</option>
+                                        <option th:each="servicioSalud : ${listaServiciosSalud}" th:text="${servicioSalud.servicioSalud}" th:value="${servicioSalud.id}"></option>
+                                    </select>
+                                </div>
+                                <small th:if="${#fields.hasErrors('servicioSalud.id')}" th:errors="*{servicioSalud.id}" class="form-text text-danger"></small>
+                            </div>
+                            <div class="form-group row">
+                                <label for="comuna.codigoComuna" class="col-form-label col-sm-2">Comuna: </label>
+                                <div class="col-sm-4">
+                                    <select id="comuna.codigoComuna" th:field="*{comuna.codigoComuna}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                        <option value="">-- Seleccionar --</option>
+                                        <option th:each="comuna : ${listaComunas}" th:text="${comuna.comuna}" th:value="${comuna.codigoComuna}"></option>
+                                    </select>
+                                </div>
+                                <small th:if="${#fields.hasErrors('comuna.codigoComuna')}" th:errors="*{comuna.codigoComuna}" class="form-text text-danger"></small>
+                            </div>
+                            <div class="form-group row">
+                                <label for="establecimiento.id" class="col-form-label col-sm-2">Establecimiento: </label>
+                                <div class="col-sm-4">
+                                    <select id="establecimiento.id" th:field="*{establecimiento.id}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                        <option value="">-- Seleccionar --</option>
+                                        <option th:each="establecimiento : ${listaEstablecimientos}" th:text="${establecimiento.establecimientoNombre}" th:value="${establecimiento.id}"></option>
+                                    </select>
+                                </div>
+                                <small th:if="${#fields.hasErrors('establecimiento.id')}" th:errors="*{establecimiento.id}" class="form-text text-danger"></small>
+                            </div>
+                            <div class="form-group row">
+                                <label for="adminSalud.id" class="col-form-label col-sm-2">Administración Salud: </label>
+                                <div class="col-sm-4">
+                                    <select id="adminSalud.id" th:field="*{adminSalud.id}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                        <option value="">-- Seleccionar --</option>
+                                        <option th:each="adminSalud : ${listaAdminSalud}" th:text="${adminSalud.adminSalud}" th:value="${adminSalud.id}"></option>
+                                    </select>
+                                </div>
+                                <small th:if="${#fields.hasErrors('adminSalud.id')}" th:errors="*{adminSalud.id}" class="form-text text-danger"></small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-secondary text-white rounded panel-shadow-gray-2">
+                        <div class="card-header" th:text="'Datos del Contrato'"></div>
+                        <div class="card-body bg-light text-dark">
+                            <div class="form-row justify-content-center">
+                                <div class="col-sm-6">
+                                    <div class="form-group row">
+                                        <label for="ley.id" class="col-form-label col-sm-3">Ley: </label>
+                                        <div class="col-sm-6">
+                                            <select id="ley.id" th:field="*{ley.id}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                                <option value="">-- Seleccionar --</option>
+                                                <option th:each="ley : ${listaLeyes}" th:text="${ley.ley}" th:value="${ley.id}"></option>
+                                            </select>
+                                        </div>
+                                        <small th:if="${#fields.hasErrors('ley.id')}" th:errors="*{ley.id}" class="form-text text-danger"></small>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="tipoContrato.id" class="col-form-label col-sm-3">Tipo Contrato: </label>
+                                        <div class="col-sm-6">
+                                            <select id="tipoContrato.id" th:field="*{tipoContrato.id}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                                <option value="">-- Seleccionar --</option>
+                                                <option th:each="tipoContrato : ${listaTiposContratos}" th:text="${tipoContrato.tipoContrato}" th:value="${tipoContrato.id}"></option>
+                                            </select>
+                                        </div>
+                                        <small th:if="${#fields.hasErrors('tipoContrato.id')}" th:errors="*{tipoContrato.id}" class="form-text text-danger"></small>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="categoriaProfesion.id" class="col-form-label col-sm-3">Categoría: </label>
+                                        <div class="col-sm-6">
+                                            <select id="categoriaProfesion.id" th:field="*{categoriaProfesion.id}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                                <option value="">-- Seleccionar --</option>
+                                                <option th:each="categoriaProfesion : ${listaCategoriasProfesion}" th:text="${categoriaProfesion.categoriaProfesion}" th:value="${categoriaProfesion.id}"></option>
+                                            </select>
+                                        </div>
+                                        <small th:if="${#fields.hasErrors('categoriaProfesion.id')}" th:errors="*{categoriaProfesion.id}" class="form-text text-danger"></small>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="nivelCarrera.id" class="col-form-label col-sm-3">Nivel Carrera: </label>
+                                        <div class="col-sm-6">
+                                            <select id="nivelCarrera.id" th:field="*{nivelCarrera.id}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                                <option value="">-- Seleccionar --</option>
+                                                <option th:each="nivelCarrera : ${listaNivelesCarreras}" th:text="${nivelCarrera.nivelCarrera}" th:value="${nivelCarrera.id}"></option>
+                                            </select>
+                                        </div>
+                                        <small th:if="${#fields.hasErrors('nivelCarrera.id')}" th:errors="*{nivelCarrera.id}" class="form-text text-danger"></small>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="profesion.id" class="col-form-label col-sm-3">Profesión: </label>
+                                        <div class="col-sm-6">
+                                            <select id="profesion.id" th:field="*{profesion.id}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                                <option value="">-- Seleccionar --</option>
+                                                <option th:each="profesion : ${listaProfesiones}" th:text="${profesion.profesion}" th:value="${profesion.id}"></option>
+                                            </select>
+                                        </div>
+                                        <small th:if="${#fields.hasErrors('profesion.id')}" th:errors="*{profesion.id}" class="form-text text-danger"></small>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="especialidad.id" class="col-form-label col-sm-3">Especialidad: </label>
+                                        <div class="col-sm-6">
+                                            <select id="especialidad.id" th:field="*{especialidad.id}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                                <option value="">-- Seleccionar --</option>
+                                                <option th:each="especialidad : ${listaEspecialidades}" th:text="${especialidad.especialidad}" th:value="${especialidad.id}"></option>
+                                            </select>
+                                        </div>
+                                        <small th:if="${#fields.hasErrors('especialidad.id')}" th:errors="*{especialidad.id}" class="form-text text-danger"></small>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="cargo.id" class="col-form-label col-sm-3">Cargo: </label>
+                                        <div class="col-sm-6">
+                                            <select id="cargo.id" th:field="*{cargo.id}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                                <option value="">-- Seleccionar --</option>
+                                                <option th:each="cargo : ${listaCargos}" th:text="${cargo.cargo}" th:value="${cargo.id}"></option>
+                                            </select>
+                                        </div>
+                                        <small th:if="${#fields.hasErrors('cargo.id')}" th:errors="*{cargo.id}" class="form-text text-danger"></small>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="asignacionChofer.id" class="col-form-label col-sm-3">Asignación Chofer: </label>
+                                        <div class="col-sm-6">
+                                            <select id="asignacionChofer.id" th:field="*{asignacionChofer.id}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                                <option value="">-- Seleccionar --</option>
+                                                <option th:each="asignacionChofer : ${listaAsignacionesChofer}" th:text="${asignacionChofer.asignacionChofer}" th:value="${asignacionChofer.id}"></option>
+                                            </select>
+                                        </div>
+                                        <small th:if="${#fields.hasErrors('asignacionChofer.id')}" th:errors="*{asignacionChofer.id}" class="form-text text-danger"></small>
+                                    </div>
+                                </div> <!-------- col-sm-6 -------->
+                                <div class="col-sm-6">
+                                    <div class="form-group row">
+                                        <label for="jornadaLaboral" class="col-form-label col-sm-4">Jornada Laboral: </label>
+                                        <div class="col-sm-6">
+                                            <input type="number" id="jornadaLaboral" th:field="*{jornadaLaboral}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                        </div>
+                                        <small th:if="${#fields.hasErrors('jornadaLaboral')}" th:errors="*{jornadaLaboral}" class="form-text text-danger"></small>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="aniosServicio" class="col-form-label col-sm-4">Años de servicio: </label>
+                                        <div class="col-sm-6">
+                                            <input type="number" id="aniosServicio" th:field="*{aniosServicio}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                        </div>
+                                        <small th:if="${#fields.hasErrors('aniosServicio')}" th:errors="*{aniosServicio}" class="form-text text-danger"></small>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="fechaIngreso" class="col-form-label col-sm-4">Fecha Ingreso: </label>
+                                        <div class="col-sm-6">
+                                            <input type="date" id="fechaIngreso" th:field="*{fechaIngreso}" placeholder="dd/MM/yyyy" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                        </div>
+                                        <small th:if="${#fields.hasErrors('fechaIngreso')}" th:errors="*{fechaIngreso}" class="form-text text-danger"></small>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="bienios.id" class="col-form-label col-sm-4">Bienios: </label>
+                                        <div class="col-sm-6">
+                                            <select id="bienios.id" th:field="*{bienios.id}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                                <option value="">-- Seleccionar --</option>
+                                                <option th:each="bienios : ${listaBienios}" th:text="${bienios.bienios}" th:value="${bienios.id}"></option>
+                                            </select>
+                                        </div>
+                                        <small th:if="${#fields.hasErrors('bienios.id')}" th:errors="*{bienios.id}" class="form-text text-danger"></small>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="prevision.id" class="col-form-label col-sm-4">Previsión: </label>
+                                        <div class="col-sm-6">
+                                            <select id="prevision.id" th:field="*{prevision.id}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                                <option value="">-- Seleccionar --</option>
+                                                <option th:each="prevision : ${listaPrevisiones}" th:text="${prevision.prevision}" th:value="${prevision.id}"></option>
+                                            </select>
+                                        </div>
+                                        <small th:if="${#fields.hasErrors('prevision.id')}" th:errors="*{prevision.id}" class="form-text text-danger"></small>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="isapre.id" class="col-form-label col-sm-4">Isapre: </label>
+                                        <div class="col-sm-6">
+                                            <select id="isapre.id" th:field="*{isapre.id}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                                <option value="">-- Seleccionar --</option>
+                                                <option th:each="isapre : ${listaIsapres}" th:text="${isapre.isapre}" th:value="${isapre.id}"></option>
+                                            </select>
+                                        </div>
+                                        <small th:if="${#fields.hasErrors('isapre.id')}" th:errors="*{isapre.id}" class="form-text text-danger"></small>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="sueldoBase" class="col-form-label col-sm-4">Sueldo Base: </label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="sueldoBase" th:field="*{sueldoBase}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                        </div>
+                                        <small th:if="${#fields.hasErrors('sueldoBase')}" th:errors="*{sueldoBase}" class="form-text text-danger"></small>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="totalHaberes" class="col-form-label col-sm-4">Total Haberes: </label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="totalHaberes" th:field="*{totalHaberes}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                        </div>
+                                        <small th:if="${#fields.hasErrors('totalHaberes')}" th:errors="*{totalHaberes}" class="form-text text-danger"></small>
+                                    </div>
+                                </div> <!-------- col-sm-6 -------->
+                            </div> <!-------- form-row -------->
+                        </div>
+                    </div>
+                    <!-- ########################################### Button Form ################################################ -->
+                    <hr class="style38 mt-5">
+                    <div class="form-group row justify-content-center text-center">
+                        <div class="col-sm-4">
+                            <input id="btnCrear" type="submit" th:value="${boton}" class="btn btn-dark">
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+<footer th:replace="layout/layout :: footer"></footer>
+
+</body>
+</html>

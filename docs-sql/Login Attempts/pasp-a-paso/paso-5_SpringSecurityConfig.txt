@@ -1,0 +1,47 @@
+package cl.divap.modoaps.app;
+
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
+@Configuration
+public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
+    // @Autowired
+    // private DataSource dataSource;
+
+    @Autowired
+    private LoginSuccessHandler loginSuccessHandler;
+
+    @Autowired
+    private LoginFailedHandler failedHandler;
+	
+	....
+	....
+	...
+	..
+	.
+	
+	@Override
+    protected void configure(HttpSecurity http) throws Exception {
+		//
+		http.authorizeRequests()
+		....
+		...
+		..
+		.
+		.and()
+			.formLogin()
+				.successHandler(loginSuccessHandler)
+				.failureHandler(failedHandler)			// ==> ****
+				.loginPage("/login")
+			.permitAll()
+		.and()
+		....
+		...
+		..
+		.
+	
+	}
+
+}

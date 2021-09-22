@@ -1,0 +1,97 @@
+/* ################################################## CUSTOM CSS ################################################## */
+
+.panel-shadow-blue-1 {
+    box-shadow: 1px 2px 27px -1px rgba(54,158,214,1)
+}
+
+ .panel-shadow-blue-2 {
+    box-shadow: 5px 5px 10px 0px rgba(54,158,214,1)
+}
+
+ .panel-shadow-blue-3 {
+    box-shadow: 1px 1px 12px 0px rgba(54,158,214,1)
+}
+
+ .panel-shadow-green-1 {
+    box-shadow: 1px 2px 27px -1px rgba(25,237,14,1)
+}
+
+ .panel-shadow-green-2 {
+    box-shadow: 5px 5px 10px 0px rgba(25,237,14,1)
+}
+
+ .panel-shadow-green-3 {
+    box-shadow: 1px 1px 12px 0px rgba(25,237,14,1)
+}
+
+ .panel-shadow-red-1 {
+    box-shadow: 1px 2px 27px -1px rgba(255,0,21,1)
+}
+
+ .panel-shadow-red-2 {
+    box-shadow: 5px 5px 10px 0px rgba(255,0,21,1)
+}
+
+ .panel-shadow-red-3 {
+    box-shadow: 1px 1px 12px 0px rgba(255,0,21,1)
+}
+
+ .panel-shadow-gray-1 {
+    box-shadow: 1px 2px 27px -1px rgba(71,120,120,1)
+}
+
+ .panel-shadow-gray-2 {
+    box-shadow: 5px 5px 10px 0px rgba(71,120,120,1)
+}
+
+ .panel-shadow-gray-3 {
+    box-shadow: 1px 1px 12px 0px rgba(71,120,120,1)
+}
+
+ .page-header {
+    margin: 0 0 20px 0;
+    padding: 0 0 0 0;
+    box-shadow: 5px 5px 10px 0px rgba()
+}
+
+ .page-header h2 {
+    color: #6C757D;
+    font-weight: bold;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
+    font-size: 28px; /*text-align:center*/
+}
+
+ .page-header h3 {
+    color: #428BCA;
+    font-weight: bold;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.2)
+}
+
+ .page-header h4 {
+    color: #428BCA;
+    font-weight: bold;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.2)
+}
+
+ .page-header h5 {
+    color: #6C757D;
+    font-weight: bold;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
+    font-size: 28px; /*text-align:center*/
+}
+
+ .tabla {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center
+}
+
+ .table-style th {
+    font-size: 12px
+}
+
+ .table-style td {
+    font-size: 12px
+}
+
+/* ################################################################################################################ */
