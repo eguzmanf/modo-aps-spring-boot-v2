@@ -9,7 +9,7 @@ public class Ley implements Serializable {
 
     private static final long serialVersionUID = 4273038894851796384L;
 
-    @NotNull
+    // @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,6 +17,7 @@ public class Ley implements Serializable {
     @Column(nullable = false)
     private String ley;
 
+    @NotNull
     public Long getId() {
         return id;
     }

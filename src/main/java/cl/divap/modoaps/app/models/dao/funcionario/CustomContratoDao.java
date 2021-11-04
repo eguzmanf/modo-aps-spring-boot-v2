@@ -17,7 +17,6 @@ public class CustomContratoDao implements ICustomContratoDao {
     @PersistenceContext
     private EntityManager em;
 
-    @Transactional
     @Override
     public void saveContratoCustom(Contrato contrato) {
         //

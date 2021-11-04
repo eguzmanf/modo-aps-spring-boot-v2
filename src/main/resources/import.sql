@@ -1,27 +1,31 @@
 /* SEXO */
-INSERT sexos (id, sexo) VALUES (1, N'MUJER')
-INSERT sexos (id, sexo) VALUES (2, N'HOMBRE')
-INSERT sexos (id, sexo) VALUES (3, N'INTERSEX (INDETERMINADO)')
-INSERT sexos (id, sexo) VALUES (4, N'DESCONOCIDO')
+SET IDENTITY_INSERT sexos ON;
+INSERT sexos (id, sexo) VALUES (1, N'MUJER');
+INSERT sexos (id, sexo) VALUES (2, N'HOMBRE');
+INSERT sexos (id, sexo) VALUES (3, N'INTERSEX (INDETERMINADO)');
+INSERT sexos (id, sexo) VALUES (4, N'DESCONOCIDO');
+SET IDENTITY_INSERT sexos OFF;
 
 /* NACIONALIDAD */
-INSERT nacionalidades (id, nacionalidad) VALUES (1, N'CHILE')
-INSERT nacionalidades (id, nacionalidad) VALUES (2, N'ALEMANIA')
-INSERT nacionalidades (id, nacionalidad) VALUES (3, N'ARGENTINA')
-INSERT nacionalidades (id, nacionalidad) VALUES (4, N'BOLIVIA')
-INSERT nacionalidades (id, nacionalidad) VALUES (5, N'BRASIL')
-INSERT nacionalidades (id, nacionalidad) VALUES (6, N'CHINA')
-INSERT nacionalidades (id, nacionalidad) VALUES (7, N'COLOMBIA')
-INSERT nacionalidades (id, nacionalidad) VALUES (8, N'CUBA')
-INSERT nacionalidades (id, nacionalidad) VALUES (9, N'ECUADOR')
-INSERT nacionalidades (id, nacionalidad) VALUES (10, N'ESPAÑA')
-INSERT nacionalidades (id, nacionalidad) VALUES (11, N'ESTADOS UNIDOS DE AMERICA')
-INSERT nacionalidades (id, nacionalidad) VALUES (12, N'HAITI')
-INSERT nacionalidades (id, nacionalidad) VALUES (13, N'MEXICO')
-INSERT nacionalidades (id, nacionalidad) VALUES (14, N'PERU')
-INSERT nacionalidades (id, nacionalidad) VALUES (15, N'REPUBLICA DOMINICANA')
-INSERT nacionalidades (id, nacionalidad) VALUES (16, N'VENEZUELA')
-INSERT nacionalidades (id, nacionalidad) VALUES (17, N'OTRO PAIS')
+SET IDENTITY_INSERT nacionalidades ON;
+INSERT nacionalidades (id, nacionalidad) VALUES (1, N'CHILE');
+INSERT nacionalidades (id, nacionalidad) VALUES (2, N'ALEMANIA');
+INSERT nacionalidades (id, nacionalidad) VALUES (3, N'ARGENTINA');
+INSERT nacionalidades (id, nacionalidad) VALUES (4, N'BOLIVIA');
+INSERT nacionalidades (id, nacionalidad) VALUES (5, N'BRASIL');
+INSERT nacionalidades (id, nacionalidad) VALUES (6, N'CHINA');
+INSERT nacionalidades (id, nacionalidad) VALUES (7, N'COLOMBIA');
+INSERT nacionalidades (id, nacionalidad) VALUES (8, N'CUBA');
+INSERT nacionalidades (id, nacionalidad) VALUES (9, N'ECUADOR');
+INSERT nacionalidades (id, nacionalidad) VALUES (10, N'ESPAÑA');
+INSERT nacionalidades (id, nacionalidad) VALUES (11, N'ESTADOS UNIDOS DE AMERICA');
+INSERT nacionalidades (id, nacionalidad) VALUES (12, N'HAITI');
+INSERT nacionalidades (id, nacionalidad) VALUES (13, N'MEXICO');
+INSERT nacionalidades (id, nacionalidad) VALUES (14, N'PERU');
+INSERT nacionalidades (id, nacionalidad) VALUES (15, N'REPUBLICA DOMINICANA');
+INSERT nacionalidades (id, nacionalidad) VALUES (16, N'VENEZUELA');
+INSERT nacionalidades (id, nacionalidad) VALUES (17, N'OTRO PAIS');
+SET IDENTITY_INSERT nacionalidades OFF;
 
 /* Region */
 INSERT INTO regiones (region) VALUES(UPPER('De Tarapacá'));
@@ -42,6 +46,7 @@ INSERT INTO regiones (region) VALUES(UPPER('Arica y Parinacota'));
 INSERT INTO regiones (region) VALUES(UPPER('De Ñuble'));
 
 /* SERVICIO DE SALUD */
+SET IDENTITY_INSERT servicios_salud ON;
 INSERT INTO servicios_salud (id, servicio_salud, region_id) VALUES(1, UPPER('Arica'), '15');
 INSERT INTO servicios_salud (id, servicio_salud, region_id) VALUES(2, UPPER('Iquique'), '1');
 INSERT INTO servicios_salud (id, servicio_salud, region_id) VALUES(3, UPPER('Antofagasta'), '2');
@@ -71,6 +76,7 @@ INSERT INTO servicios_salud (id, servicio_salud, region_id) VALUES(24, UPPER('De
 INSERT INTO servicios_salud (id, servicio_salud, region_id) VALUES(33, UPPER('Chiloé'), '10');
 INSERT INTO servicios_salud (id, servicio_salud, region_id) VALUES(25, UPPER('Aisén'), '11');
 INSERT INTO servicios_salud (id, servicio_salud, region_id) VALUES(26, UPPER('Magallanes'), '12');
+SET IDENTITY_INSERT servicios_salud OFF;
 
 /* COMUNA */
 INSERT INTO comunas (codigo_comuna, comuna, region_id, servicio_salud_id) VALUES('1101', UPPER('Iquique'), '1', '2');
@@ -421,6 +427,7 @@ INSERT INTO comunas (codigo_comuna, comuna, region_id, servicio_salud_id) VALUES
 INSERT INTO comunas (codigo_comuna, comuna, region_id, servicio_salud_id) VALUES('15202', UPPER('General Lagos'), '15', '1');
 
 /* Establecimientos */
+SET IDENTITY_INSERT establecimientos ON;
 INSERT establecimientos (id, id_macro_zona, macro_zona, region_id, region_nombre, region_alias, region_orden, region_codigo, servicio_id, servicio_nombre, id_orden_servicio, codigo_comuna, id_comuna_texto, comuna_nombre, comuna_mayusc, id_dependencia, dependencia, codigo_antiguo, codigo_nuevo, establecimiento_nombre, id_tipo, id_tipo_est, tipo_establecimiento, elimid, nivel_atencion, dir, acompanamiento, iaaps, id_servicio_id_comuna) VALUES (1, 2, N'Centro Norte', 5, N'De Valparaíso', N'V', 6, N'5', 7, N'Viña del Mar Quillota', 7, 5103, N'5103', N'Con Con', N'CON CON ', 2, N'Municipal', N'07-600', 107600, N'COSAM y Psiquiatría Comunitaria Concón', N'COSAM', N'COSAM', N'Consultorio de Salud Mental', 0, N'Secundario', N'NULL', N'NULL', N'NO', 75103)
 INSERT establecimientos (id, id_macro_zona, macro_zona, region_id, region_nombre, region_alias, region_orden, region_codigo, servicio_id, servicio_nombre, id_orden_servicio, codigo_comuna, id_comuna_texto, comuna_nombre, comuna_mayusc, id_dependencia, dependencia, codigo_antiguo, codigo_nuevo, establecimiento_nombre, id_tipo, id_tipo_est, tipo_establecimiento, elimid, nivel_atencion, dir, acompanamiento, iaaps, id_servicio_id_comuna) VALUES (2, 2, N'Centro Norte', 5, N'De Valparaíso', N'V', 6, N'5', 7, N'Viña del Mar Quillota', 7, 5109, N'5109', N'Viña del Mar', N'VIÑA DEL MAR', 2, N'Municipal', N'07-702', 107702, N'Centro Comunitario de Salud Familiar Achupallas "Sergio Donoso" ', N'CECOSF', N'CECOSF', N'Centro Comunitario de Salud Familiar', 0, N'Primario', N'NULL', N'NULL', N'SI', 75109)
 INSERT establecimientos (id, id_macro_zona, macro_zona, region_id, region_nombre, region_alias, region_orden, region_codigo, servicio_id, servicio_nombre, id_orden_servicio, codigo_comuna, id_comuna_texto, comuna_nombre, comuna_mayusc, id_dependencia, dependencia, codigo_antiguo, codigo_nuevo, establecimiento_nombre, id_tipo, id_tipo_est, tipo_establecimiento, elimid, nivel_atencion, dir, acompanamiento, iaaps, id_servicio_id_comuna) VALUES (3, 2, N'Centro Norte', 5, N'De Valparaíso', N'V', 6, N'5', 7, N'Viña del Mar Quillota', 7, 5109, N'5109', N'Viña del Mar', N'VIÑA DEL MAR', 2, N'Municipal', N'07-703', 107703, N'Centro Comunitario de Salud Familiar Santa Julia ', N'CECOSF', N'CECOSF', N'Centro Comunitario de Salud Familiar', 0, N'Primario', N'NULL', N'NULL', N'SI', 75109)
@@ -3035,24 +3042,32 @@ INSERT establecimientos (id, id_macro_zona, macro_zona, region_id, region_nombre
 INSERT establecimientos (id, id_macro_zona, macro_zona, region_id, region_nombre, region_alias, region_orden, region_codigo, servicio_id, servicio_nombre, id_orden_servicio, codigo_comuna, id_comuna_texto, comuna_nombre, comuna_mayusc, id_dependencia, dependencia, codigo_antiguo, codigo_nuevo, establecimiento_nombre, id_tipo, id_tipo_est, tipo_establecimiento, elimid, nivel_atencion, dir, acompanamiento, iaaps, id_servicio_id_comuna) VALUES (2613, 2, N'Centro Norte', 4, N'De Coquimbo', N'IV', 5, N'4', 5, N'Coquimbo', 5, 4301, N'4301', N'Ovalle ', N'OVALLE ', 2, N'Municipal', N'05-928', 200721, N'SAPU Fray Jorge', N'SAPU', N'SAPU', N'Servicio de Atención Primaria de Urgencia', 0, N'Primario', NULL, NULL, N'NO', 54301)
 INSERT establecimientos (id, id_macro_zona, macro_zona, region_id, region_nombre, region_alias, region_orden, region_codigo, servicio_id, servicio_nombre, id_orden_servicio, codigo_comuna, id_comuna_texto, comuna_nombre, comuna_mayusc, id_dependencia, dependencia, codigo_antiguo, codigo_nuevo, establecimiento_nombre, id_tipo, id_tipo_est, tipo_establecimiento, elimid, nivel_atencion, dir, acompanamiento, iaaps, id_servicio_id_comuna) VALUES (2614, 2, N'Centro Norte', 4, N'De Coquimbo', N'IV', 5, N'4', 5, N'Coquimbo', 5, 4102, N'4102', N'Coquimbo ', N'COQUIMBO ', 2, N'Municipal', N'05-924', 200607, N'Centro de Salud Familiar Lila Cortés Godoy', N'CESFAM', N'CESFAM', N'Centro de Salud Familiar', 0, N'NULL', NULL, NULL, N'NO', 54102)
 INSERT establecimientos (id, id_macro_zona, macro_zona, region_id, region_nombre, region_alias, region_orden, region_codigo, servicio_id, servicio_nombre, id_orden_servicio, codigo_comuna, id_comuna_texto, comuna_nombre, comuna_mayusc, id_dependencia, dependencia, codigo_antiguo, codigo_nuevo, establecimiento_nombre, id_tipo, id_tipo_est, tipo_establecimiento, elimid, nivel_atencion, dir, acompanamiento, iaaps, id_servicio_id_comuna) VALUES (2615, 2, N'Centro Norte', 4, N'De Coquimbo', N'IV', 5, N'4', 5, N'Coquimbo', 5, 4303, N'4303', N'Monte Patria', N'MONTE PATRIA ', 2, N'Municipal', N'05-927', 200720, N'SAR Monte Patria', N'Servicio de Urgencia de APS', N'Servicio de Urgencia de APS', N'Servicio de Urgencia de APS', 0, N'NULL', NULL, NULL, N'SI', 54303)
+SET IDENTITY_INSERT establecimientos OFF;
 
 /* Administracion Salud */
+SET IDENTITY_INSERT administracion_salud ON;
 INSERT administracion_salud (id, admin_salud) VALUES (1, N'DSMU')
 INSERT administracion_salud (id, admin_salud) VALUES (2, N'DSMR')
+SET IDENTITY_INSERT administracion_salud OFF;
 
 /* Ley */
+SET IDENTITY_INSERT ley ON;
 INSERT ley (id, ley) VALUES (1, N'Ley 19.378')
 INSERT ley (id, ley) VALUES (2, N'Honorario')
 INSERT ley (id, ley) VALUES (3, N'Código del Trabajo')
+SET IDENTITY_INSERT ley OFF;
 
 /* Tipo Contratos */
+SET IDENTITY_INSERT tipo_contrato ON;
 INSERT tipo_contrato (id, tipo_contrato, ley_id) VALUES (1, N'INDEFINIDO', 1)
 INSERT tipo_contrato (id, tipo_contrato, ley_id) VALUES (2, N'PLAZO FIJO', 1)
 INSERT tipo_contrato (id, tipo_contrato, ley_id) VALUES (3, N'REEMPLAZO', 1)
 INSERT tipo_contrato (id, tipo_contrato, ley_id) VALUES (4, N'N/A', 2)
 INSERT tipo_contrato (id, tipo_contrato, ley_id) VALUES (5, N'N/A', 3)
+SET IDENTITY_INSERT tipo_contrato OFF;
 
 /* Categorias de Profesiones */
+SET IDENTITY_INSERT categoria_profesion ON;
 INSERT categoria_profesion (id, categoria_profesion) VALUES (1, N'A')
 INSERT categoria_profesion (id, categoria_profesion) VALUES (2, N'B')
 INSERT categoria_profesion (id, categoria_profesion) VALUES (3, N'C')
@@ -3060,8 +3075,10 @@ INSERT categoria_profesion (id, categoria_profesion) VALUES (4, N'D')
 INSERT categoria_profesion (id, categoria_profesion) VALUES (5, N'E')
 INSERT categoria_profesion (id, categoria_profesion) VALUES (6, N'F')
 INSERT categoria_profesion (id, categoria_profesion) VALUES (7, N'N/A')
+SET IDENTITY_INSERT categoria_profesion OFF;
 
 /* Nivel de Carrera */
+SET IDENTITY_INSERT nivel_carrera ON;
 INSERT nivel_carrera (id, nivel_carrera) VALUES (1, N'15')
 INSERT nivel_carrera (id, nivel_carrera) VALUES (2, N'14')
 INSERT nivel_carrera (id, nivel_carrera) VALUES (3, N'13')
@@ -3078,8 +3095,10 @@ INSERT nivel_carrera (id, nivel_carrera) VALUES (13, N'3')
 INSERT nivel_carrera (id, nivel_carrera) VALUES (14, N'2')
 INSERT nivel_carrera (id, nivel_carrera) VALUES (15, N'1')
 INSERT nivel_carrera (id, nivel_carrera) VALUES (16, N'0')
+SET IDENTITY_INSERT nivel_carrera OFF;
 
 /* Profesion relacionada a su categoria*/
+SET IDENTITY_INSERT profesion ON;
 INSERT profesion (id, profesion, categoria_profesion_id) VALUES (1, N'BIOQUIMICO', 1)
 INSERT profesion (id, profesion, categoria_profesion_id) VALUES (2, N'MEDICO', 1)
 INSERT profesion (id, profesion, categoria_profesion_id) VALUES (3, N'ODONTOLOGO(A)', 1)
@@ -3123,8 +3142,10 @@ INSERT profesion (id, profesion, categoria_profesion_id) VALUES (40, N'TECNICO D
 INSERT profesion (id, profesion, categoria_profesion_id) VALUES (41, N'ADMINISTRATIVO', 7)
 INSERT profesion (id, profesion, categoria_profesion_id) VALUES (42, N'AUXILIAR DE SERVICIO', 7)
 INSERT profesion (id, profesion, categoria_profesion_id) VALUES (43, N'MATRON(A)', 7)
+SET IDENTITY_INSERT profesion OFF;
 
 /* Especialidades (Medicos)*/
+SET IDENTITY_INSERT especialidad ON;
 INSERT especialidad (id, especialidad, profesion_id) VALUES (1, N'N/A', 1)
 INSERT especialidad (id, especialidad, profesion_id) VALUES (2, N'MEDICINA FAMILIAR', 2)
 INSERT especialidad (id, especialidad, profesion_id) VALUES (3, N'PEDIATRIA', 2)
@@ -3154,8 +3175,10 @@ INSERT especialidad (id, especialidad, profesion_id) VALUES (26, N'N/A', 20)
 INSERT especialidad (id, especialidad, profesion_id) VALUES (27, N'N/A', 21)
 INSERT especialidad (id, especialidad, profesion_id) VALUES (28, N'N/A', 22)
 INSERT especialidad (id, especialidad, profesion_id) VALUES (29, N'N/A', 2)
+SET IDENTITY_INSERT especialidad OFF;
 
 /* Cargos de trabajp o puestos laborales */
+SET IDENTITY_INSERT cargo ON;
 INSERT cargo (id, cargo) VALUES (1, N'ADMINISTRATIVO')
 INSERT cargo (id, cargo) VALUES (2, N'ATENCIÓN CLÍNICA')
 INSERT cargo (id, cargo) VALUES (3, N'ATENCIÓN ODONTOLÓGICA')
@@ -3171,8 +3194,10 @@ INSERT cargo (id, cargo) VALUES (12, N'MANTENIMIENTO')
 INSERT cargo (id, cargo) VALUES (13, N'SECRETARIA')
 INSERT cargo (id, cargo) VALUES (14, N'SUBDIRECTOR(A)')
 INSERT cargo (id, cargo) VALUES (15, N'OTRO')
+SET IDENTITY_INSERT cargo OFF;
 
 /* Asignacion Chofer */
+SET IDENTITY_INSERT asignacion_chofer ON;
 INSERT asignacion_chofer (id, asignacion_chofer, cargo_id) VALUES (1, N'N/A', 1)
 INSERT asignacion_chofer (id, asignacion_chofer, cargo_id) VALUES (2, N'N/A', 2)
 INSERT asignacion_chofer (id, asignacion_chofer, cargo_id) VALUES (3, N'N/A', 3)
@@ -3189,8 +3214,10 @@ INSERT asignacion_chofer (id, asignacion_chofer, cargo_id) VALUES (13, N'N/A', 1
 INSERT asignacion_chofer (id, asignacion_chofer, cargo_id) VALUES (14, N'N/A', 13)
 INSERT asignacion_chofer (id, asignacion_chofer, cargo_id) VALUES (15, N'N/A', 14)
 INSERT asignacion_chofer (id, asignacion_chofer, cargo_id) VALUES (16, N'N/A', 15)
+SET IDENTITY_INSERT asignacion_chofer OFF;
 
 /* Bienios */
+SET IDENTITY_INSERT bienios ON;
 INSERT bienios (id, bienios) VALUES (1, N'0')
 INSERT bienios (id, bienios) VALUES (2, N'1')
 INSERT bienios (id, bienios) VALUES (3, N'2')
@@ -3207,13 +3234,17 @@ INSERT bienios (id, bienios) VALUES (13, N'12')
 INSERT bienios (id, bienios) VALUES (14, N'13')
 INSERT bienios (id, bienios) VALUES (15, N'14')
 INSERT bienios (id, bienios) VALUES (16, N'15')
+SET IDENTITY_INSERT bienios OFF;
 
 /* Sistema o Tipo de Prevision */
+SET IDENTITY_INSERT prevision ON;
 INSERT prevision (id, prevision) VALUES (1, N'AFP')
 INSERT prevision (id, prevision) VALUES (2, N'IPS')
 INSERT prevision (id, prevision) VALUES (3, N'NO COTIZA')
+SET IDENTITY_INSERT prevision OFF;
 
 /* Tipo de Isapre */
+SET IDENTITY_INSERT isapre ON;
 INSERT isapre (id, isapre) VALUES (1, N'FONASA')
 INSERT isapre (id, isapre) VALUES (2, N'ISAPRE')
 INSERT isapre (id, isapre) VALUES (3, N'CAPREDENA')
@@ -3221,8 +3252,10 @@ INSERT isapre (id, isapre) VALUES (4, N'DIPRECA')
 INSERT isapre (id, isapre) VALUES (5, N'SISA')
 INSERT isapre (id, isapre) VALUES (6, N'NINGUNA')
 INSERT isapre (id, isapre) VALUES (7, N'DESCONOCIDO')
+SET IDENTITY_INSERT isapre OFF;
 
 /*Servicio-Comuna: Es la comuna donde se encuentra el servicio de salud */
+SET IDENTITY_INSERT servicio_comuna ON;
 INSERT servicio_comuna (id, servicio_salud_id, servicio_salud, codigo_comuna, comuna_nombre, perfil_id, perfil_nombre) VALUES (1, 8, N'Aconcagua', 5701, N'San Felipe', 1, N'Servicio de Salud')
 INSERT servicio_comuna (id, servicio_salud_id, servicio_salud, codigo_comuna, comuna_nombre, perfil_id, perfil_nombre) VALUES (2, 3, N'Antofagasta', 2101, N'Antofagasta', 1, N'Servicio de Salud')
 INSERT servicio_comuna (id, servicio_salud_id, servicio_salud, codigo_comuna, comuna_nombre, perfil_id, perfil_nombre) VALUES (3, 29, N'Araucanía Norte', 9201, N'Angol', 1, N'Servicio de Salud')
@@ -3252,27 +3285,28 @@ INSERT servicio_comuna (id, servicio_salud_id, servicio_salud, codigo_comuna, co
 INSERT servicio_comuna (id, servicio_salud_id, servicio_salud, codigo_comuna, comuna_nombre, perfil_id, perfil_nombre) VALUES (27, 6, N'Valparaíso San Antonio', 5101, N'Valparaiso', 1, N'Servicio de Salud')
 INSERT servicio_comuna (id, servicio_salud_id, servicio_salud, codigo_comuna, comuna_nombre, perfil_id, perfil_nombre) VALUES (28, 7, N'Viña del Mar Quillota', 5109, N'Viña del Mar', 1, N'Servicio de Salud')
 INSERT servicio_comuna (id, servicio_salud_id, servicio_salud, codigo_comuna, comuna_nombre, perfil_id, perfil_nombre) VALUES (29, 25, N'Aisén', 11101, N'Coihaique', 1, N'Servicio de Salud')
+SET IDENTITY_INSERT servicio_comuna OFF;
 
 /* Funcionarios Datos de Pruebas */
-INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at, enabled) VALUES('Exequiel Antonio', 'Guzmán', 'Fontecilla', 2, 1, '13433025-2', '1978-02-01', '2021-08-04', true);
-INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at, enabled) VALUES('Lorena Angélica', 'Concha', 'Hasember', 1, 1, '10970239-0', '1974-06-21', '2021-08-11', true);
-INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at, enabled) VALUES('Yennifer Edith', 'Rojas', 'Balboa', 1, 1, '16468009-6', '1986-11-13', '2021-08-05', true);
-INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at, enabled) VALUES('Javier', 'Carisaya', 'Leyton', 2, 1, '13639725-7', '1979-11-16', '2021-08-05', true);
-INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at, enabled) VALUES('Abigail', 'Yavi', 'Gutierrez', 1, 1, '25120537-K', '2015-09-11', '2021-08-18', true);
-INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at, enabled) VALUES('Luis Eduardo', 'Anacona', 'Jelvez', 2, 1, '7083130-9', '1958-02-14', '2021-08-18', true);
-INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at, enabled) VALUES('Jose Antonio', 'Triviño', 'Santibañez', 2, 2, '17511809-8', '1989-07-27', '2021-08-18', true);
-INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at, enabled) VALUES('Carolina Victoria', 'Romero', 'Paez', 1, 7, '13639694-3', '1979-11-07', '2021-08-18', true);
-INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at, enabled) VALUES('Clemencia Marisol', 'Rios', 'Aguilar', 1, 1, '24312189-2', '1974-01-07', '2021-08-18', true);
-INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at, enabled) VALUES('Elaine', 'Catalan', 'Gutierrez', 1, 10, '14561236-5', '1973-09-17', '2021-08-18', true);
-INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at, enabled) VALUES('Veronica', 'Gonzalez', 'Rodríguez', 1, 11, '13005046-8', '1972-11-21', '2021-08-18', true);
-INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at, enabled) VALUES('José', 'Cortez', 'Hernandez', 2, 15, '23173879-7', '2009-11-16', '2021-08-18', true);
+INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at, enabled) VALUES('Exequiel Antonio', 'Guzmán', 'Fontecilla', 2, 1, '13433025-2', '1978-02-01', '2021-08-04', 1);
+INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at, enabled) VALUES('Lorena Angélica', 'Concha', 'Hasember', 1, 1, '10970239-0', '1974-06-21', '2021-08-11', 1);
+INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at, enabled) VALUES('Yennifer Edith', 'Rojas', 'Balboa', 1, 1, '16468009-6', '1986-11-13', '2021-08-05', 1);
+INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at, enabled) VALUES('Javier', 'Carisaya', 'Leyton', 2, 1, '13639725-7', '1979-11-16', '2021-08-05', 1);
+INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at, enabled) VALUES('Abigail', 'Yavi', 'Gutierrez', 1, 1, '25120537-K', '2015-09-11', '2021-08-18', 1);
+INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at, enabled) VALUES('Luis Eduardo', 'Anacona', 'Jelvez', 2, 1, '7083130-9', '1958-02-14', '2021-08-18', 1);
+INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at, enabled) VALUES('Jose Antonio', 'Triviño', 'Santibañez', 2, 2, '17511809-8', '1989-07-27', '2021-08-18', 1);
+INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at, enabled) VALUES('Carolina Victoria', 'Romero', 'Paez', 1, 7, '13639694-3', '1979-11-07', '2021-08-18', 1);
+INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at, enabled) VALUES('Clemencia Marisol', 'Rios', 'Aguilar', 1, 1, '24312189-2', '1974-01-07', '2021-08-18', 1);
+INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at, enabled) VALUES('Elaine', 'Catalan', 'Gutierrez', 1, 10, '14561236-5', '1973-09-17', '2021-08-18', 1);
+INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at, enabled) VALUES('Veronica', 'Gonzalez', 'Rodríguez', 1, 11, '13005046-8', '1972-11-21', '2021-08-18', 1);
+INSERT INTO funcionarios (nombres, apellido_paterno, apellido_materno, sexo_id, nacionalidad_id, run, fecha_nacimiento, create_at, enabled) VALUES('José', 'Cortez', 'Hernandez', 2, 15, '23173879-7', '2009-11-16', '2021-08-18', 1);
 
 /* Contratos - 24 campos */
-INSERT INTO contratos (servicio_salud_id, codigo_comuna, establecimiento_id, admin_salud_id, ley_id, tipo_contrato_id, categoria_profesion_id, nivel_carrera_id, profesion_id, especialidad_id, cargo_id, asignacion_chofer_id, jornada_laboral, anios_servicio, fecha_ingreso, bienios_id, prevision_id, isapre_id, sueldo_base, total_haberes, validado, revisado, create_at, funcionario_id, enabled) VALUES(11, 13101, 704, 1, 1, 1, 2, 14, 8, 14, 10, 11, 44, 4, '2017-01-04', 2, 1, 2, 4540990, 5480790, true, true, '2021-08-20', 2, true);
-INSERT INTO contratos (servicio_salud_id, codigo_comuna, establecimiento_id, admin_salud_id, ley_id, tipo_contrato_id, categoria_profesion_id, nivel_carrera_id, profesion_id, especialidad_id, cargo_id, asignacion_chofer_id, jornada_laboral, anios_servicio, fecha_ingreso, bienios_id, prevision_id, isapre_id, sueldo_base, total_haberes, validado, revisado, create_at, funcionario_id, enabled) VALUES(7, 5103, 1, 1, 1, 2, 1, 7, 2, 4, 6, 7, 44, 8, '2013-08-20', 4, 2, 2, 5200000, 5857990, false, false, '2021-08-20', 3, true);
-INSERT INTO contratos (servicio_salud_id, codigo_comuna, establecimiento_id, admin_salud_id, ley_id, tipo_contrato_id, categoria_profesion_id, nivel_carrera_id, profesion_id, especialidad_id, cargo_id, asignacion_chofer_id, jornada_laboral, anios_servicio, fecha_ingreso, bienios_id, prevision_id, isapre_id, sueldo_base, total_haberes, validado, revisado, create_at, funcionario_id, enabled) VALUES(10, 13124, 7, 2, 2, 4, 2, 3, 10, 16, 2, 2, 22, 2, '2019-08-20', 10, 1, 1, 2400000, 2800000, false, false, '2021-08-20', 4, true);
-INSERT INTO contratos (servicio_salud_id, codigo_comuna, establecimiento_id, admin_salud_id, ley_id, tipo_contrato_id, categoria_profesion_id, nivel_carrera_id, profesion_id, especialidad_id, cargo_id, asignacion_chofer_id, jornada_laboral, anios_servicio, fecha_ingreso, bienios_id, prevision_id, isapre_id, sueldo_base, total_haberes, validado, revisado, create_at, funcionario_id, enabled) VALUES(12, 13120, 1788, 1, 3, 5, 3, 9, 16, 22, 2, 2, 11, 12, '2010-08-20', 7, 1, 4, 1700500, 2205000, false, false, '2021-08-20', 5, true);
-INSERT INTO contratos (servicio_salud_id, codigo_comuna, establecimiento_id, admin_salud_id, ley_id, tipo_contrato_id, categoria_profesion_id, nivel_carrera_id, profesion_id, especialidad_id, cargo_id, asignacion_chofer_id, jornada_laboral, anios_servicio, fecha_ingreso, bienios_id, prevision_id, isapre_id, sueldo_base, total_haberes, validado, revisado, create_at, funcionario_id, enabled) VALUES(12, 13114, 1783, 2, 1, 2, 3, 15, 16, 22, 2, 2, 33, 15, '2006-08-20', 5, 1, 4, 2300000, 2890000, false, true, '2021-08-20', 5, true);
+INSERT INTO contratos (servicio_salud_id, codigo_comuna, establecimiento_id, admin_salud_id, ley_id, tipo_contrato_id, categoria_profesion_id, nivel_carrera_id, profesion_id, especialidad_id, cargo_id, asignacion_chofer_id, jornada_laboral, anios_servicio, fecha_ingreso, bienios_id, prevision_id, isapre_id, sueldo_base, total_haberes, validado, revisado, create_at, funcionario_id, enabled) VALUES(11, 13101, 704, 1, 1, 1, 2, 14, 8, 14, 10, 11, 44, 4, '2017-01-04', 2, 1, 2, 4540990, 5480790, 1, 1, '2021-08-20', 2, 1);
+INSERT INTO contratos (servicio_salud_id, codigo_comuna, establecimiento_id, admin_salud_id, ley_id, tipo_contrato_id, categoria_profesion_id, nivel_carrera_id, profesion_id, especialidad_id, cargo_id, asignacion_chofer_id, jornada_laboral, anios_servicio, fecha_ingreso, bienios_id, prevision_id, isapre_id, sueldo_base, total_haberes, validado, revisado, create_at, funcionario_id, enabled) VALUES(7, 5103, 1, 1, 1, 2, 1, 7, 2, 4, 6, 7, 44, 8, '2013-08-20', 4, 2, 2, 5200000, 5857990, 0, 0, '2021-08-20', 3, 1);
+INSERT INTO contratos (servicio_salud_id, codigo_comuna, establecimiento_id, admin_salud_id, ley_id, tipo_contrato_id, categoria_profesion_id, nivel_carrera_id, profesion_id, especialidad_id, cargo_id, asignacion_chofer_id, jornada_laboral, anios_servicio, fecha_ingreso, bienios_id, prevision_id, isapre_id, sueldo_base, total_haberes, validado, revisado, create_at, funcionario_id, enabled) VALUES(10, 13124, 7, 2, 2, 4, 2, 3, 10, 16, 2, 2, 22, 2, '2019-08-20', 10, 1, 1, 2400000, 2800000, 0, 0, '2021-08-20', 4, 1);
+INSERT INTO contratos (servicio_salud_id, codigo_comuna, establecimiento_id, admin_salud_id, ley_id, tipo_contrato_id, categoria_profesion_id, nivel_carrera_id, profesion_id, especialidad_id, cargo_id, asignacion_chofer_id, jornada_laboral, anios_servicio, fecha_ingreso, bienios_id, prevision_id, isapre_id, sueldo_base, total_haberes, validado, revisado, create_at, funcionario_id, enabled) VALUES(12, 13120, 1788, 1, 3, 5, 3, 9, 16, 22, 2, 2, 11, 12, '2010-08-20', 7, 1, 4, 1700500, 2205000, 0, 0, '2021-08-20', 5, 1);
+INSERT INTO contratos (servicio_salud_id, codigo_comuna, establecimiento_id, admin_salud_id, ley_id, tipo_contrato_id, categoria_profesion_id, nivel_carrera_id, profesion_id, especialidad_id, cargo_id, asignacion_chofer_id, jornada_laboral, anios_servicio, fecha_ingreso, bienios_id, prevision_id, isapre_id, sueldo_base, total_haberes, validado, revisado, create_at, funcionario_id, enabled) VALUES(12, 13114, 1783, 2, 1, 2, 3, 15, 16, 22, 2, 2, 33, 15, '2006-08-20', 5, 1, 4, 2300000, 2890000, 0, 1, '2021-08-20', 5, 1);
 
 /* Roles Perfil */
 INSERT INTO roles_perfiles (role_perfil) VALUES('ROLE_ADMIN');
@@ -3282,12 +3316,28 @@ INSERT INTO roles_perfiles (role_perfil) VALUES('ROLE_COMUNA');
 INSERT INTO roles_perfiles (role_perfil) VALUES('ROLE_USUARIO');
 
 /* Usuarios */
-INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Exequiel Antonio', 'Guzmán', 'Fontecilla', 2, '13433025-2', 'guzman.exe@gmail.com', '981714236', '13433025-2', '$2a$10$sXK.bGjops74Ao.hEaoOxevMvFqZNKi44fYIeHMm.Ws.w.Vfu4Eh2', 1, 0, '2021-05-24 23:47:54', '2021-08-12 11:07:48', '1978-02-01', false, 13120, 1, 12, null, 1);
-INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Lorena Angélica', 'Concha', 'Hasember', 1, '10970239-0', 'lorehas@hotmail.com', '942342574', '10970239-0', '$2a$10$YW9LMcxWMAIca0SjHrjrB.6Z//fhm3T2EZVPT55y0QmvkACOjM5LW', 1, 0, null, '2021-08-12 11:08:55', '1974-06-21', false, 13114, 1, 12, '2021-08-27', 2);
-INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Macarena Ignacia', 'Sandoval', 'Sanhueza', 1, '16360051-k', 'macarena.sandoval@minsal.cl', '973766977', '16360051-k', '$2a$10$kY34LDOPm5lTH.dsE9wACexbx8lTuyOGkwj12XMQLQHG/SMfw0ccG', 1, 0, null, '2021-08-15 13:48:34', '1986-10-20', false, 13101, 1, 11, '2021-09-04', 2);
-INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Javier', 'Carisaya', 'Leyton', 2, '13639725-7', 'jcarisayal@gmail.com', '999113556', '13639725-7', '$2a$10$sGbOPefz4/7jXmB6.WGEVeotRXyY/XvTELoz/GshU4eh5yb/DD11.', 1, 0, null, '2021-09-06 11:49:58', '1979-11-16', false, 13202, 1, 14, null, 3);
-INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Yennifer Edith', 'Rojas', 'Balboa', 1, '16468009-6', 'yrojasb@gmail.com', '997788084', '16468009-6', '$2a$10$kOgO2cRk0nI7fsiznS/54OGy7lOMWQ/NnyHCHS8Jbmz0otXw9OanC', 1, 0, null, '2021-09-06 11:54:42', '1986-11-13', false, 8301, 1, 20, null, 4);
-INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Carolina Victoria', 'Romero', 'Paez', 1, '13639694-3', 'cromerop@hotmail.com', '948545485', '13639694-3', '$2a$10$vbxkUDa.ITC7dukU/CZeSeBQIqvHQ0g6gWZ2DHWoz.9LNk6VlmMaq', 1, 0, null, '2021-09-15 11:54:42', '1979-11-07', false, 11101, 1, 25, null, 5);
+INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Exequiel Antonio', 'Guzmán', 'Fontecilla', 2, '13433025-2', 'guzman.exe@gmail.com', '981714236', '13433025-2', '$2a$10$sXK.bGjops74Ao.hEaoOxevMvFqZNKi44fYIeHMm.Ws.w.Vfu4Eh2', 1, 0, '2021-05-24 23:47:54', '2021-08-12 11:07:48', '1978-02-01', 0, 13120, 1, 12, null, 1);
+INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Lorena Angélica', 'Concha', 'Hasember', 1, '10970239-0', 'lorehas@hotmail.com', '942342574', '10970239-0', '$2a$10$YW9LMcxWMAIca0SjHrjrB.6Z//fhm3T2EZVPT55y0QmvkACOjM5LW', 1, 0, null, '2021-08-12 11:08:55', '1974-06-21', 0, 13114, 1, 12, '2021-08-27', 2);
+INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Macarena Ignacia', 'Sandoval', 'Sanhueza', 1, '16360051-k', 'macarena.sandoval@minsal.cl', '973766977', '16360051-k', '$2a$10$kY34LDOPm5lTH.dsE9wACexbx8lTuyOGkwj12XMQLQHG/SMfw0ccG', 1, 0, null, '2021-08-15 13:48:34', '1986-10-20', 0, 13101, 1, 11, '2021-09-04', 2);
+INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Javier', 'Carisaya', 'Leyton', 2, '13639725-7', 'jcarisayal@gmail.com', '999113556', '13639725-7', '$2a$10$sGbOPefz4/7jXmB6.WGEVeotRXyY/XvTELoz/GshU4eh5yb/DD11.', 1, 0, null, '2021-09-06 11:49:58', '1979-11-16', 0, 13202, 1, 14, null, 3);
+INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Yennifer Edith', 'Rojas', 'Balboa', 1, '16468009-6', 'yrojasb@gmail.com', '997788084', '16468009-6', '$2a$10$kOgO2cRk0nI7fsiznS/54OGy7lOMWQ/NnyHCHS8Jbmz0otXw9OanC', 1, 0, null, '2021-09-06 11:54:42', '1986-11-13', 0, 8301, 1, 20, null, 4);
+INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Carolina Victoria', 'Romero', 'Paez', 1, '13639694-3', 'cromerop@hotmail.com', '948545485', '13639694-3', '$2a$10$vbxkUDa.ITC7dukU/CZeSeBQIqvHQ0g6gWZ2DHWoz.9LNk6VlmMaq', 1, 0, null, '2021-09-15 11:54:42', '1979-11-07', 0, 11101, 1, 25, null, 5);
+INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Wilson', 'Neira', 'Flores', 2, '17013386-2', 'mail1@hotmail.com', '911223344', '17013386-2', '$2a$10$vbxkUDa.ITC7dukU/CZeSeBQIqvHQ0g6gWZ2DHWoz.9LNk6VlmMaq', 1, 0, null, '2021-09-15 11:54:42', '1979-11-07', 0, 11101, 1, 25, null, 4);
+INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Corinne', 'Rodriguez', 'Perez', 1, '9894579-2', 'mail2@hotmail.com', '911223344', '9894579-2', '$2a$10$vbxkUDa.ITC7dukU/CZeSeBQIqvHQ0g6gWZ2DHWoz.9LNk6VlmMaq', 1, 0, null, '2021-09-15 11:54:42', '1979-11-07', 0, 11101, 1, 25, null, 4);
+INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Lucas', 'Cuevas', 'Aguilera', 2, '22076167-3', 'mail3@hotmail.com', '911223344', '22076167-3', '$2a$10$vbxkUDa.ITC7dukU/CZeSeBQIqvHQ0g6gWZ2DHWoz.9LNk6VlmMaq', 1, 0, null, '2021-09-15 11:54:42', '1979-11-07', 0, 11101, 1, 25, null, 4);
+INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Giselle', 'Espinoza', 'Aramay', 1, '19046317-6', 'mail4@gmail.com', '911223344', '19046317-6', '$2a$10$vbxkUDa.ITC7dukU/CZeSeBQIqvHQ0g6gWZ2DHWoz.9LNk6VlmMaq', 1, 0, null, '2021-09-15 11:54:42', '1979-11-07', 0, 11101, 1, 25, null, 4);
+INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Sara', 'Rivera', 'Vargas', 1, '12436683-6', 'mail5@gmail.com', '911223344', '12436683-6', '$2a$10$vbxkUDa.ITC7dukU/CZeSeBQIqvHQ0g6gWZ2DHWoz.9LNk6VlmMaq', 1, 0, null, '2021-09-15 11:54:42', '1979-11-07', 0, 11101, 1, 25, null, 4);
+INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Clemencia Marisol', 'Rios', 'Aguilar', 1, '24312189-2', 'mail6@gmail.com', '911223344', '24312189-2', '$2a$10$vbxkUDa.ITC7dukU/CZeSeBQIqvHQ0g6gWZ2DHWoz.9LNk6VlmMaq', 1, 0, null, '2021-09-15 11:54:42', '1979-11-07', 0, 11101, 1, 25, null, 4);
+INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Marcela', 'Navas', 'Rodriguez', 1, '15422039-9', 'mail7@gmail.com', '911223344', '15422039-9', '$2a$10$vbxkUDa.ITC7dukU/CZeSeBQIqvHQ0g6gWZ2DHWoz.9LNk6VlmMaq', 1, 0, null, '2021-09-15 11:54:42', '1979-11-07', 0, 11101, 1, 25, null, 4);
+INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Maribel', 'Lovera', 'Cruz', 1, '14741018-2', 'mail8@gmail.com', '911223344', '14741018-2', '$2a$10$vbxkUDa.ITC7dukU/CZeSeBQIqvHQ0g6gWZ2DHWoz.9LNk6VlmMaq', 1, 0, null, '2021-09-15 11:54:42', '1979-11-07', 0, 11101, 1, 25, null, 4);
+INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Danitza', 'Gomez', 'Viza', 1, '19010463-K', 'mail9@gmail.com', '911223344', '19010463-K', '$2a$10$vbxkUDa.ITC7dukU/CZeSeBQIqvHQ0g6gWZ2DHWoz.9LNk6VlmMaq', 1, 0, null, '2021-09-15 11:54:42', '1979-11-07', 0, 11101, 1, 25, null, 2);
+INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Maritza', 'Rivera', 'Vargas', 1, '15000503-5', 'mail10@gmail.com', '911223344', '15000503-5', '$2a$10$vbxkUDa.ITC7dukU/CZeSeBQIqvHQ0g6gWZ2DHWoz.9LNk6VlmMaq', 1, 0, null, '2021-09-15 11:54:42', '1979-11-07', 0, 11101, 1, 25, null, 2);
+INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Maximiliano', 'Luengo', 'Rivera', 2, '24362410-K', 'mail11@gmail.com', '911223344', '24362410-K', '$2a$10$vbxkUDa.ITC7dukU/CZeSeBQIqvHQ0g6gWZ2DHWoz.9LNk6VlmMaq', 1, 0, null, '2021-09-15 11:54:42', '1979-11-07', 0, 11101, 1, 25, null, 2);
+INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Eylin', 'Mallea', 'Fernadez', 1, '22227896-1', 'mail12@gmail.com', '911223344', '22227896-1', '$2a$10$vbxkUDa.ITC7dukU/CZeSeBQIqvHQ0g6gWZ2DHWoz.9LNk6VlmMaq', 1, 0, null, '2021-09-15 11:54:42', '1979-11-07', 0, 11101, 1, 25, null, 2);
+INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Ingrid', 'Tancara', 'Haylla', 1, '20547749-7', 'mail13@gmail.com', '911223344', '20547749-7', '$2a$10$vbxkUDa.ITC7dukU/CZeSeBQIqvHQ0g6gWZ2DHWoz.9LNk6VlmMaq', 1, 0, null, '2021-09-15 11:54:42', '1979-11-07', 0, 11101, 1, 25, null, 2);
+INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Marcos', 'lequepi', 'Chambe', 2, '10604332-9', 'mail14@gmail.com', '911223344', '10604332-9', '$2a$10$vbxkUDa.ITC7dukU/CZeSeBQIqvHQ0g6gWZ2DHWoz.9LNk6VlmMaq', 1, 0, null, '2021-09-15 11:54:42', '1979-11-07', 0, 11101, 1, 25, null, 2);
+INSERT INTO users (nombre, apellido_paterno, apellido_materno, sexo_id, run, email, telefono, username, password, enabled, intentos, lockout_end, create_at, fecha_nacimiento, is_online, codigo_comuna, nacionalidad_id, servicio_salud_id, last_visit_date, role_perfil_id) VALUES('Nancy', 'Prieto', 'Cortes', 1, '11813486-9', 'mail15@gmail.com', '911223344', '11813486-9', '$2a$10$vbxkUDa.ITC7dukU/CZeSeBQIqvHQ0g6gWZ2DHWoz.9LNk6VlmMaq', 1, 0, null, '2021-09-15 11:54:42', '1979-11-07', 0, 11101, 1, 25, null, 2);
+
 -- INSERT INTO users (username, password, enabled) VALUES('eguzman', '$2a$10$M.wKkNXKUR1QcFrdrihvg.0MwT7Ef1Y21v4JCVOmnKLJHOJK/PEHK', 1);
 -- INSERT INTO users (username, password, enabled) VALUES('admin', '$2a$10$jsIuQDksEw7ZGUyw28uEe.B0TiGrIy0DmzZr12IOdq099tkSIK2AO', 1);
 
@@ -3301,3 +3351,18 @@ INSERT INTO authorities (user_id, authority) VALUES(3, 'ROLE_MINSAL');
 INSERT INTO authorities (user_id, authority) VALUES(4, 'ROLE_SERVICIO');
 INSERT INTO authorities (user_id, authority) VALUES(5, 'ROLE_COMUNA');
 INSERT INTO authorities (user_id, authority) VALUES(6, 'ROLE_USUARIO');
+INSERT INTO authorities (user_id, authority) VALUES(7, 'ROLE_COMUNA');
+INSERT INTO authorities (user_id, authority) VALUES(8, 'ROLE_COMUNA');
+INSERT INTO authorities (user_id, authority) VALUES(9, 'ROLE_COMUNA');
+INSERT INTO authorities (user_id, authority) VALUES(10, 'ROLE_COMUNA');
+INSERT INTO authorities (user_id, authority) VALUES(11, 'ROLE_COMUNA');
+INSERT INTO authorities (user_id, authority) VALUES(12, 'ROLE_COMUNA');
+INSERT INTO authorities (user_id, authority) VALUES(13, 'ROLE_COMUNA');
+INSERT INTO authorities (user_id, authority) VALUES(14, 'ROLE_COMUNA');
+INSERT INTO authorities (user_id, authority) VALUES(15, 'ROLE_MINSAL');
+INSERT INTO authorities (user_id, authority) VALUES(16, 'ROLE_MINSAL');
+INSERT INTO authorities (user_id, authority) VALUES(17, 'ROLE_MINSAL');
+INSERT INTO authorities (user_id, authority) VALUES(18, 'ROLE_MINSAL');
+INSERT INTO authorities (user_id, authority) VALUES(19, 'ROLE_MINSAL');
+INSERT INTO authorities (user_id, authority) VALUES(20, 'ROLE_MINSAL');
+INSERT INTO authorities (user_id, authority) VALUES(21, 'ROLE_MINSAL');

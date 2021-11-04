@@ -21,7 +21,7 @@ public class Contrato implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Valid
+    // @Valid
     @ManyToOne(fetch = FetchType.LAZY)
     private ServicioSalud servicioSalud;
 
@@ -38,7 +38,7 @@ public class Contrato implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     private AdministracionSalud adminSalud;
 
-    @Valid
+    // @Valid
     @ManyToOne(fetch = FetchType.LAZY)
     private Ley ley;
 
@@ -46,7 +46,7 @@ public class Contrato implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     private TipoContrato tipoContrato;
 
-    @Valid
+    // @Valid
     @ManyToOne(fetch = FetchType.LAZY)
     private CategoriaProfesion categoriaProfesion;
 
@@ -54,7 +54,7 @@ public class Contrato implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     private NivelCarrera nivelCarrera;
 
-    @Valid
+    // @Valid
     @ManyToOne(fetch = FetchType.LAZY)
     private Profesion profesion;
 
@@ -62,7 +62,7 @@ public class Contrato implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     private Especialidad especialidad;
 
-    @Valid
+    // @Valid
     @ManyToOne(fetch = FetchType.LAZY)
     private Cargo cargo;
 
@@ -107,10 +107,10 @@ public class Contrato implements Serializable {
     @Column(nullable = false)
     private Long totalHaberes;
 
-    @Column(columnDefinition = "boolean default false", nullable=false)
+    @Column(nullable=false)
     private Boolean validado;
 
-    @Column(columnDefinition = "boolean default false", nullable=false)
+    @Column(nullable=false)
     private Boolean revisado;
 
     @Column(name = "create_at", nullable=false)
@@ -122,7 +122,7 @@ public class Contrato implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)	// se creará automaticamente la columna funcionario_id de manera explicita
     private Funcionario funcionario;
 
-    @Column(columnDefinition = "boolean default true", nullable=false)
+    @Column(nullable=false)
     private Boolean enabled;
 
     @PrePersist
@@ -138,6 +138,7 @@ public class Contrato implements Serializable {
         this.id = id;
     }
 
+    @Valid
     public ServicioSalud getServicioSalud() {
         return servicioSalud;
     }
@@ -170,6 +171,7 @@ public class Contrato implements Serializable {
         this.adminSalud = adminSalud;
     }
 
+    @Valid
     public Ley getLey() {
         return ley;
     }
@@ -186,6 +188,7 @@ public class Contrato implements Serializable {
         this.tipoContrato = tipoContrato;
     }
 
+    @Valid
     public CategoriaProfesion getCategoriaProfesion() {
         return categoriaProfesion;
     }
@@ -202,6 +205,7 @@ public class Contrato implements Serializable {
         this.nivelCarrera = nivelCarrera;
     }
 
+    @Valid
     public Profesion getProfesion() {
         return profesion;
     }
@@ -218,6 +222,7 @@ public class Contrato implements Serializable {
         this.especialidad = especialidad;
     }
 
+    @Valid
     public Cargo getCargo() {
         return cargo;
     }

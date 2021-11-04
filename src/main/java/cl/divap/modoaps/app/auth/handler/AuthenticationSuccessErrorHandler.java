@@ -12,6 +12,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -31,6 +33,17 @@ public class AuthenticationSuccessErrorHandler implements AuthenticationEventPub
         //
         Usuario usuario = usuarioService.findByUsername(authentication.getName());
 
+        String fechaNacimiento = usuario.getFechaNacimiento().toString();
+        logger.info("Fecha Nacimiento String (Success): " + fechaNacimiento);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date = sdf.parse(fechaNacimiento);
+            usuario.setFechaNacimiento(date);
+            logger.info("Fecha Nacimiento Date (Success): " + date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         if(usuario.getIntentos() != null && usuario.getIntentos() > 0) {
             //
             usuario.setLockoutEnd(null);
@@ -45,6 +58,17 @@ public class AuthenticationSuccessErrorHandler implements AuthenticationEventPub
         //
         Usuario usuario = usuarioService.findByUsername(authentication.getName());
 
+        String fechaNacimiento = usuario.getFechaNacimiento().toString();
+        logger.info("Fecha Nacimiento String (Failure): " + fechaNacimiento);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date = sdf.parse(fechaNacimiento);
+            usuario.setFechaNacimiento(date);
+            logger.info("Fecha Nacimiento Date (Failure): " + date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        
         if(usuario == null) {
             //
             logger.error("Error en el Login: No existe el usuario '" + authentication.getName() + "' en el sistema");

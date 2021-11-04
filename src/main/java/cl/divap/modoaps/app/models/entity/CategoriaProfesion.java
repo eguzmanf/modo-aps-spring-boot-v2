@@ -9,7 +9,7 @@ public class CategoriaProfesion implements Serializable {
 
     private static final long serialVersionUID = 3721589252739138098L;
 
-    @NotNull
+    // @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,6 +17,7 @@ public class CategoriaProfesion implements Serializable {
     @Column(nullable = false)
     private String categoriaProfesion;
 
+    @NotNull
     public Long getId() {
         return id;
     }

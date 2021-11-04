@@ -9,7 +9,7 @@
     <div class="container-fluid py-4">
 
         <div class="card bg-secondary text-white">
-            <div class="card-header" th:text="${titulo}"></div>
+            <div class="card-header" th:text="${titulo} + ${' - Total Registros: ' + funcionarios.getTotalElements()}"></div>
             <div class="card-body bg-light text-dark">
 
                 <h4 class="card-title">

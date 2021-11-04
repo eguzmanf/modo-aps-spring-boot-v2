@@ -9,7 +9,7 @@ public class Cargo implements Serializable {
 
     private static final long serialVersionUID = 7462507677502444671L;
 
-    @NotNull
+    // @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,6 +17,7 @@ public class Cargo implements Serializable {
     @Column(nullable = false)
     private String cargo;
 
+    @NotNull
     public Long getId() {
         return id;
     }

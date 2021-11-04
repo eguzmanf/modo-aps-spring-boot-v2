@@ -8,9 +8,17 @@
         <div class="card bg-secondary text-white panel-shadow-blue-2">
             <div class="card-header" th:text="${titulo}"></div>
             <div class="card-body bg-light text-dark">
+
                 <h4 class="card-title">
                     <a class="btn btn-dark btn-sm" th:href="@{/usuario/listar}" th:text="'&laquo; Volver Listado de Usuarios'"></a>
                 </h4>
+
+                <button type="button" class="btn btn-success mb-3" data-toggle="modal" data-target="#exampleModal" th:if="${!crear}">
+                    <i class="fas fa-key"></i> Cambiar Contraseña
+                </button>
+
+                <div th:replace="usuario/modal-password-change :: modalChangePassword"></div>
+
                 <form th:action="@{/usuario/form/}" th:object="${usuario}" method="post">
                     <!-- <input type="hidden" id="idUsuario" th:field="*{id}"> -->
                     <div class="form-row justify-content-center">
@@ -169,3 +177,72 @@
     <footer th:replace="layout/layout :: footer"></footer>
 </body>
 </html>
+
+<script type="text/javascript">
+
+    console.log('hola mundo modals password');
+
+    let formChangePasswordModal = document.getElementById('form_change_password_modal');
+    let passwordModal = document.getElementById('passwordModal');
+    let confirmPasswordModal = document.getElementById('confirmPasswordModal');
+
+    let mensajeErrorPasswordModal = document.getElementById('mensaje-error-password-modal');
+    let mensajeErrorConfirmPasswordModal = document.getElementById('mensaje-error-confirm-password-modal');
+
+    formChangePasswordModal.addEventListener('submit', (e) => {
+
+        mensajeErrorPasswordModal.innerHTML = '';
+        mensajeErrorConfirmPasswordModal.innerHTML = '';
+
+        let passwordModalRegex = checkPasswordRegex(passwordModal.value);
+        let confirmPasswordModalRegex = checkPasswordRegex(confirmPasswordModal.value);
+
+        if(passwordModal.value === '') {
+            e.preventDefault();
+            mensajeErrorPasswordModal.innerHTML = 'El campo Contraseña es requerido.';
+        }
+
+        if(confirmPasswordModal.value === '') {
+            e.preventDefault();
+            mensajeErrorConfirmPasswordModal.innerHTML = 'El campo Confirmar Contraseña es requerido.';
+        }
+
+        if(passwordModal.value !== confirmPasswordModal.value) {
+            e.preventDefault();
+            mensajeErrorConfirmPasswordModal.innerHTML = 'La Contraseña y Confirmar Contraseña deben ser iguales';
+        }
+
+        if(passwordModal.value.length < 8 || passwordModal.value.length > 20) {
+            e.preventDefault();
+            mensajeErrorPasswordModal.innerHTML = 'El tamaño del campo contraseña debe estar entre 8 y 20 caracteres';
+        }
+
+        if(confirmPasswordModal.value.length < 8 || confirmPasswordModal.value.length > 20) {
+            e.preventDefault();
+            mensajeErrorConfirmPasswordModal.innerHTML = 'El tamaño del campo confirmación de contraseña debe estar entre 8 y 20';
+        }
+
+        if(passwordModalRegex === false) {
+            e.preventDefault();
+            mensajeErrorPasswordModal.innerHTML = 'Solo se permiten letras y/o números';
+        }
+
+        if(confirmPasswordModalRegex === false) {
+            e.preventDefault();
+            mensajeErrorConfirmPasswordModal.innerHTML = 'Solo se permiten letras y/o números';
+        }
+
+    });
+
+    function checkPasswordRegex(password) {
+        //
+        if(password.length > 0) {
+            //
+            let regex = /^[a-zA-Z0-9]+$/;
+            return regex.test(password);
+        } else {
+            return false;
+        }
+    }
+
+</script>

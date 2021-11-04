@@ -166,6 +166,8 @@ public class ContratoController {
     @PostMapping("/form")
     public String guardar(@Valid Contrato contrato, BindingResult result, Model model, SessionStatus status, RedirectAttributes flash) {
         //
+        System.out.println("Dervicio salud: " + contrato.getServicioSalud().getId());
+
         if(result.hasErrors()) {
             //
             model.addAttribute("titulo", "Formulario Crear Contrato con errores");

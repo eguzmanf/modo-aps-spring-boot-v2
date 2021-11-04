@@ -12,14 +12,17 @@ public class ServicioSalud implements Serializable {
 
     // @NotNull
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    // @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Region region;
 
     @Column(name = "servicio_salud", nullable = false)
     private String servicioSalud;
 
+    @NotNull
     public Long getId() {
         return id;
     }
@@ -44,12 +47,4 @@ public class ServicioSalud implements Serializable {
         this.servicioSalud = servicioSalud;
     }
 
-    @Override
-    public String toString() {
-        return "ServicioSalud{" +
-                "id=" + id +
-                ", region=" + region +
-                ", servicioSalud='" + servicioSalud + '\'' +
-                '}';
-    }
 }

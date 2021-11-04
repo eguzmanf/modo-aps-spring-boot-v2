@@ -46,7 +46,16 @@ public class ExisteUsuarioServicio implements Validator {
                     errors.rejectValue("servicioSalud.id", "Custom.usuarioservicio.usuario.servicioSalud");
                 }
             } else if(usuario.getId() != null && usuario.getId() > 0) {    // Editar
+                //
+                Usuario ifExistUsuarioServicioEdit = funcionarioService.ifExistUsuarioServicioEdit(usuario);
 
+                logger.info("Existe Usuario Servicio en Editar ???: " + ifExistUsuarioServicioEdit);
+                logger.info("################################[ - ]####################################");
+
+                if (ifExistUsuarioServicioEdit != null) {
+                    //
+                    errors.rejectValue("servicioSalud.id", "Custom.usuarioservicio.usuario.servicioSalud");
+                }
             }
         }
     }

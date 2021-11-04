@@ -68,7 +68,7 @@ public class Funcionario implements Serializable {
     @OneToMany(mappedBy = "funcionario", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)	// mappedBy = "funcionario" ==> campo de la relación en tabla contrato, en la tabla contrato crea el campo funcionario
     private List<Contrato> contratos;
 
-    @Column(columnDefinition = "boolean default true", nullable=false)
+    @Column(nullable=false)
     private Boolean enabled;
 
     public Funcionario() {

@@ -47,7 +47,16 @@ public class ExisteUsuarioComunaValidator implements Validator {
                     errors.rejectValue("comuna.codigoComuna", "Custom.usuariocomuna.usuario.comuna");
                 }
             } else if(usuario.getId() != null && usuario.getId() > 0) {    // Editar
+                //
+                Usuario ifExistUsuarioComunaEdit = funcionarioService.ifExistUsuarioComunaEdit(usuario);
 
+                logger.info("Existe Usuario Comuna en Editar???: " + ifExistUsuarioComunaEdit);
+                logger.info("################################[ - ]####################################");
+
+                if (ifExistUsuarioComunaEdit != null) {
+                    //
+                    errors.rejectValue("comuna.codigoComuna", "Custom.usuariocomuna.usuario.comuna");
+                }
             }
         }
     }

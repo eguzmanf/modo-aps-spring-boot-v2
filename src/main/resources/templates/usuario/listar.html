@@ -8,8 +8,10 @@
 
     <div class="container-fluid py-4">
 
+        <div th:replace="usuario/listar-form-buscar :: listarFormBuscar"></div>
+
         <div class="card bg-secondary text-white">
-            <div class="card-header" th:text="${titulo}"></div>
+            <div class="card-header" th:text="${titulo} + ${' - Total Registros: ' + usuarios.getTotalElements()}"></div>
             <div class="card-body bg-light text-dark">
                 <h4 class="card-title">
                     <a sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MINSAL')" th:href="@{/usuario/form}" class="btn btn-dark btn-sm">Crear Usuario</a>
@@ -38,6 +40,7 @@
                             <th>Intentos login</th>
                             <th>Fin bloqueo login</th>
                             <th sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MINSAL')">Editar</th>
+                            <th sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,9 +75,13 @@
                             <td sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MINSAL')">
                                 <a class="btn btn-primary btn-sm" th:href="@{/usuario/form/} + ${usuario.id}" th:text="'Editar'"></a>
                             </td>
+                            <td sec:authorize="hasRole('ROLE_ADMIN')">
+                                <a class="btn btn-danger btn-sm" th:href="@{/usuario/eliminar/} + ${usuario.id}" th:text="'Eliminar'" onclick="return confirm('Estás seguro que quieres eliminar?')"></a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
+                <nav th:replace="paginator/paginator-nav :: paginator"></nav>
             </div>
         </div>
 

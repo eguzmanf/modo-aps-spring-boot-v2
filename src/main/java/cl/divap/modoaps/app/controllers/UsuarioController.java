@@ -8,10 +8,14 @@ import cl.divap.modoaps.app.models.dao.servicioSalud.IServicioSaludDao;
 import cl.divap.modoaps.app.models.dao.sexo.ISexoDao;
 import cl.divap.modoaps.app.models.entity.*;
 import cl.divap.modoaps.app.models.service.IFuncionarioService;
+import cl.divap.modoaps.app.util.paginator.PageRender;
 import cl.divap.modoaps.app.validation.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,10 +28,9 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Secured({"ROLE_ADMIN", "ROLE_MINSAL"})
 @Controller
@@ -91,25 +94,104 @@ public class UsuarioController {
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         //
-        // binder.setValidator(passwordValidator);
-        binder.addValidators(passwordValidator);
-        binder.addValidators(existeUsuario);
-        binder.addValidators(emailValidator);
-        binder.addValidators(usuarioServicio);
-        binder.addValidators(usuarioComunaValidator);
-        binder.addValidators(confirmPasswordNotBlankValidator);
-        binder.addValidators(confirmPasswordRegexValidator);
-        binder.addValidators(confirmPasswordSizeValidator);
-        binder.addValidators(passwordNotBlankValidator);
-        binder.addValidators(passwordSizeValidator);
+        //  binder.setValidator(passwordValidator);
+        /*
+            binder.addValidators(passwordValidator);
+            binder.addValidators(existeUsuario);
+            binder.addValidators(emailValidator);
+            binder.addValidators(usuarioServicio);
+            binder.addValidators(usuarioComunaValidator);
+            binder.addValidators(confirmPasswordNotBlankValidator);
+            binder.addValidators(confirmPasswordRegexValidator);
+            binder.addValidators(confirmPasswordSizeValidator);
+            binder.addValidators(passwordNotBlankValidator);
+            binder.addValidators(passwordSizeValidator);
+        */
     }
 
     @GetMapping("/listar")
-    public String listar(Model model, Authentication authentication, HttpServletRequest request) {
+    public String listar(@RequestParam(name = "page", defaultValue = "0") Integer page, Model model, Authentication authentication, HttpServletRequest request, HttpSession session) {
 
-        List<Usuario> usuarios = funcionarioService.findAllUsuarios();
+        if(!request.getParameterMap().containsKey("page")) {
+            //
+            if(session.getAttribute("params") != null) {
+                session.setAttribute("params", null);
+            }
+        }
 
-        model.addAttribute("titulo", "Listado de Usuarios");
+        // List<Usuario> usuarios = funcionarioService.findAllUsuarios();
+        // List<Usuario> usuarios = funcionarioService.findAllCriteriaApi();
+
+
+        Integer numeroRegistros=4;
+        Pageable pageRequest = PageRequest.of(page, numeroRegistros);
+
+        if(session.getAttribute("params") != null) {
+            model.addAttribute("titulo", "Encontrados: Listado de Usuarios");
+            Page<Usuario> usuarios = funcionarioService.findAllCriteriaApi(pageRequest, session);
+            PageRender<Usuario> pageRender = new PageRender<>("/usuario/listar", usuarios);
+            model.addAttribute("page", pageRender);
+            model.addAttribute("usuarios", usuarios);
+        } else {
+            model.addAttribute("titulo", "Listado de Usuarios");
+            Page<Usuario> usuarios = funcionarioService.findAllUsuario(pageRequest);
+            PageRender<Usuario> pageRender = new PageRender<>("/usuario/listar", usuarios);
+            model.addAttribute("page", pageRender);
+            model.addAttribute("usuarios", usuarios);
+        }
+
+        return "usuario/listar";
+    }
+
+    @PostMapping("/buscar")
+    public String buscar(@RequestParam(name = "page", defaultValue = "0") Integer page, Model model, HttpServletRequest request, HttpSession session) {
+
+        Map<String, String> params = new HashMap<>();
+
+        if (request.getParameterMap().containsKey("run") || request.getParameterMap().containsKey("nombres") || request.getParameterMap().containsKey("apellidoPaterno") || request.getParameterMap().containsKey("apellidoMaterno") ||
+            request.getParameterMap().containsKey("sexo") || request.getParameterMap().containsKey("nacionalidad")
+        ) {
+            //
+            String run = request.getParameter("run");
+            String nombres = request.getParameter("nombres");
+            String apellidoPaterno = request.getParameter("apellidoPaterno");
+            String apellidoMaterno = request.getParameter("apellidoMaterno");
+            String sexo = request.getParameter("sexo");
+            String nacionalidad = request.getParameter("nacionalidad");
+
+            if(sexo == "") {
+                sexo = null;
+            }
+
+            nacionalidad = nacionalidad == "" ? null : nacionalidad;
+
+            params.put("run", run);
+            params.put("nombres", nombres);
+            params.put("apellidoPaterno", apellidoPaterno);
+            params.put("apellidoMaterno", apellidoMaterno);
+            params.put("sexo", sexo);
+            params.put("nacionalidad", nacionalidad);
+
+            logger.info("Run Parameter from Controller: " + run);
+            logger.info("Nombres Parameter from Controller: " + nombres);
+            logger.info("Apellido Paterno Parameter from Controller: " + apellidoPaterno);
+            logger.info("Apellido Materno Parameter from Controller: " + apellidoMaterno);
+            logger.info("Sexo Parameter from Controller: " + sexo);
+            logger.info("Nacionalidad Parameter from Controller: " + nacionalidad);
+
+            logger.info("Map params from Controller: " + params);
+            
+            session.setAttribute("params", params);
+            logger.info("Session params from Controller: " + session.getAttribute("params"));
+        }
+
+        Integer numeroRegistros=4;
+        Pageable pageRequest = PageRequest.of(page, numeroRegistros);
+        Page<Usuario> usuarios = funcionarioService.findAllCriteriaApi(pageRequest, session);
+        PageRender<Usuario> pageRender = new PageRender<>("/usuario/listar", usuarios);
+        model.addAttribute("page", pageRender);
+
+        model.addAttribute("titulo", "Encontrados: Listado de Usuarios");
         model.addAttribute("usuarios", usuarios);
 
         return "usuario/listar";
@@ -161,7 +243,16 @@ public class UsuarioController {
     @PostMapping("/form")
     public String guardar(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult result, Model model, RedirectAttributes flash, SessionStatus status) {
         //
-        // passwordValidator.validate(usuario, result);
+        passwordValidator.validate(usuario, result);
+        existeUsuario.validate(usuario, result);
+        emailValidator.validate(usuario, result);
+        usuarioServicio.validate(usuario, result);
+        usuarioComunaValidator.validate(usuario, result);
+        confirmPasswordNotBlankValidator.validate(usuario, result);
+        confirmPasswordRegexValidator.validate(usuario, result);
+        confirmPasswordSizeValidator.validate(usuario, result);
+        passwordNotBlankValidator.validate(usuario, result);
+        passwordSizeValidator.validate(usuario, result);
 
         if(result.hasErrors()) {
             //
@@ -188,13 +279,15 @@ public class UsuarioController {
         Date currentDate = new Date();
         Calendar c = Calendar.getInstance();
         c.setTime(currentDate);
-        c.add(Calendar.YEAR, 10);   // 16
+        c.add(Calendar.YEAR, 4000);   // años
         Date futureDate = c.getTime();
 
         if(usuario.getEnabled()) {
             usuario.setLockoutEnd(null);
+            usuario.setIntentos(0);
         } else {
             usuario.setLockoutEnd(futureDate);
+            usuario.setIntentos(3);
         }
 
         usuario.setNombre(HelperString.toTitleCase(usuario.getNombre().trim().replaceAll(" +", " ")).toUpperCase());
@@ -240,6 +333,49 @@ public class UsuarioController {
         funcionarioService.saveUsuario(usuario);
         status.setComplete();
         flash.addFlashAttribute("success", mensajeFlash);
+        return "redirect:/usuario/listar";
+    }
+
+    @Secured({"ROLE_ADMIN"})
+    @GetMapping("/eliminar/{id}")
+    public String eliminar(@PathVariable("id") Long id, RedirectAttributes flash) {
+        //
+        if(id > 0) {
+            //
+            funcionarioService.deleteUsuario(id);
+            flash.addFlashAttribute("warning", "Usuario eliminado con éxito!");
+        }
+
+        return "redirect:/usuario/listar";
+    }
+
+    /* ######################################### MODAL CHANGE PASSWORD ######################################### */
+
+    @GetMapping("cambiar-password")
+    public String cambiarPasswordModal(Model model) {
+        //
+        Usuario usuario = new Usuario();
+        model.addAttribute("usuario", usuario);
+        return "usuario/modal-password-change";
+    }
+
+    @PostMapping("cambiar-password")
+    public String guardarCambiarPassword(@ModelAttribute("usuario") Usuario usuario, Model model, RedirectAttributes flash, SessionStatus status) {
+        //
+        // Usuario usuarioBd = funcionarioService.findUsuarioById(usuario.getId());
+        String bcryptPassword = passwordEncoder.encode(usuario.getPassword());
+        usuario.setPassword(bcryptPassword);
+
+        logger.info("Hola Mundo Modals");
+        logger.info("Id Usuario: " + usuario.getId());
+        logger.info("Password: " + usuario.getPassword());
+        logger.info("Confirmar Password: " + usuario.getConfirmPassword());
+
+        logger.info(usuario);
+        funcionarioService.updatePasswordByIdUsuario(usuario);
+        status.setComplete();
+        flash.addFlashAttribute("success", "Se ha cambiado la contraseña del Usuario " + usuario.getNombre() + " exitosamente!");
+
         return "redirect:/usuario/listar";
     }
 

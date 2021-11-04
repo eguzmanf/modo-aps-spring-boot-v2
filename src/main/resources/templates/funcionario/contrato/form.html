@@ -19,7 +19,7 @@
                     <a class="btn btn-dark btn-sm" th:href="@{/funcionario/listar}" th:text="'&laquo; Volver Listado de Funcionarios'"></a>
                 </h4>
 
-                <form th:action="@{/contrato/form/}" th:object="${contrato}" method="post">
+                <form th:action="@{/contrato/form}" th:object="${contrato}" method="post">
                     <input type="hidden" id="idContrato" th:field="*{id}">
                     <div class="form-group row">
                         <label for="funcionario" class="col-form-label col-sm-2">Funcionario: </label>

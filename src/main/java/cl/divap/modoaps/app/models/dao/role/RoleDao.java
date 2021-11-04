@@ -16,9 +16,9 @@ public class RoleDao implements IRoleDao {
     @Override
     public void updateRoleByIdUsuario(Usuario usuario) {
 
-        em.createNativeQuery("UPDATE authorities a"
-            + " SET a.authority = :auth"
-            + " WHERE a.user_id = :usuarioid"
+        em.createNativeQuery("UPDATE authorities"
+            + " SET authority = :auth"
+            + " WHERE user_id = :usuarioid"
         )
         .setParameter("auth", usuario.getRolePerfil().getRolePerfil())
         .setParameter("usuarioid", usuario.getId())

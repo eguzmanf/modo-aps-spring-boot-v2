@@ -101,21 +101,21 @@ public class Usuario implements Serializable {
     @Transient
     private String confirmPassword;
 
-    @Column(columnDefinition = "boolean default true", nullable=false)
+    @Column(nullable=false)
     private Boolean enabled;
 
-    @Column(columnDefinition = "boolean default true", nullable=true)
+    @Column(nullable=true)
     private Boolean isOnline;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private List<Role> roles;
 
-    @Column(columnDefinition = "integer default 0", nullable=false)
+    @Column(nullable=false)
     private Integer intentos;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "lockout_end", nullable=true, columnDefinition = "timestamp default null")
+    @Column(name = "lockout_end", nullable=true)
     private Date lockoutEnd;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -123,7 +123,7 @@ public class Usuario implements Serializable {
     private Date createAt;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "last_visit_date ", nullable=true, columnDefinition = "timestamp default null")
+    @Column(name = "last_visit_date ", nullable=true)
     private Date lastVisitDate;
 
     public Usuario() {
@@ -291,6 +291,7 @@ public class Usuario implements Serializable {
         this.nacionalidad = nacionalidad;
     }
 
+    @Valid
     public ServicioSalud getServicioSalud() {
         return servicioSalud;
     }

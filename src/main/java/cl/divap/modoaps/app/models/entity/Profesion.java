@@ -9,7 +9,7 @@ public class Profesion implements Serializable {
 
     private static final long serialVersionUID = -5480800233290075723L;
 
-    @NotNull
+    // @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,6 +20,7 @@ public class Profesion implements Serializable {
     @Column(nullable = false)
     private String profesion;
 
+    @NotNull
     public Long getId() {
         return id;
     }

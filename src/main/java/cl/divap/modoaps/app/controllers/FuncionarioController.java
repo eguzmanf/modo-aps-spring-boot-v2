@@ -188,7 +188,7 @@ public class FuncionarioController {
         return "redirect:/funcionario/listar";
     }
 
-    @Secured({"ROLE_ADMIN", "ROLE_MINSAL"})
+    @Secured({"ROLE_ADMIN"})
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable("id") Long id, RedirectAttributes flash) {
         //

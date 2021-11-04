@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service
@@ -120,6 +121,13 @@ public class FuncionarioService implements IFuncionarioService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Page<Usuario> findAllUsuario(Pageable pageable) {
+        //
+        return usuarioDao.findAll(pageable);
+    }
+
+    @Override
     @Transactional
     public void saveUsuario(Usuario usuario) {
         //
@@ -127,17 +135,20 @@ public class FuncionarioService implements IFuncionarioService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Usuario ifExistUsuarioServicio(Usuario usuario) {
         //
         return customUsuarioDao.ifExistUsuarioServicio(usuario);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Usuario ifExistUsuarioComuna(Usuario usuario) {
         //
         return customUsuarioDao.ifExistUsuarioComuna(usuario);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Usuario findUsuarioById(Long id) {
         //
@@ -149,5 +160,42 @@ public class FuncionarioService implements IFuncionarioService {
     public void updateRoleByIdUsuario(Usuario usuario) {
         //
         roleDao.updateRoleByIdUsuario(usuario);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Usuario ifExistUsuarioServicioEdit(Usuario usuario) {
+        return customUsuarioDao.ifExistUsuarioServicioEdit(usuario);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Usuario ifExistUsuarioComunaEdit(Usuario usuario) {
+        return customUsuarioDao.ifExistUsuarioComunaEdit(usuario);
+    }
+
+    @Override
+    @Transactional
+    public void deleteUsuario(Long id) {
+        //
+        usuarioDao.deleteById(id);
+    }
+
+    @Transactional
+    @Override
+    public void updatePasswordByIdUsuario(Usuario usuario) {
+        customUsuarioDao.updatePasswordByIdUsuario(usuario);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Usuario> findAllCriteriaApi() {
+        return customUsuarioDao.findAllCriteriaApi();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Usuario> findAllCriteriaApi(Pageable pageable, HttpSession session) {
+        return customUsuarioDao.findAllCriteriaApi(pageable, session);
     }
 }
