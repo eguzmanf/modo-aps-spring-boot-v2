@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <script type="module" th:fragment="javascript">
+
+        // import { FuncionesGenerales } from "../app/funciones-generales/funciones-generales.js";
+
+        import { AppUsuarioBuscar } from "../../app/usuario/buscar/app-usuario-buscar.js";
+        import { ApiUsuarioBuscar } from "../../app/usuario/buscar/api-usuario-buscar.js";
+        import { UiUsuarioBuscar } from "../../app/usuario/buscar/ui-usuario-buscar.js";
+
+        // ######################################## DEFINICION DE CONSTANTES #######################################
+
+        const urlGetComunas = "/usuario/cargar-comunas";
+
+        // ################################# INICIALIZAR CLASES - FUNCION DE INIT CAMPOS ###########################
+
+        // const metodos = new FuncionesGenerales();
+        const api = new ApiUsuarioBuscar(urlGetComunas);
+        const ui = new UiUsuarioBuscar(api);
+        const app = new AppUsuarioBuscar(ui, api);
+
+        function initDOM() {
+            app.initApp();
+        }
+
+        function domIsReady() {
+            app.domIsReadyApp();
+        }
+
+        // ##################################### INICIAR: CARGAR CONTENIDO DOM HTML #######################################
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initDOM();
+        });
+
+        document.onreadystatechange = () => {
+            domIsReady();
+        };
+
+        // ####################################### LLAMAR FUNCIONES #######################################################
+        app.getComunaByServicioChange();
+        // app.enabledOrDisableUser();
+
+    </script>
+</body>
+</html>

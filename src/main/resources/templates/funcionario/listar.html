@@ -13,13 +13,13 @@
             <div class="card-body bg-light text-dark">
 
                 <h4 class="card-title">
-                    <a sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MINSAL')" th:href="@{/funcionario/form}" class="btn btn-dark btn-sm">Crear Funcionario</a>
+                    <a sec:authorize="hasAnyRole('ROLE_MINSAL')" th:href="@{/funcionario/form}" class="btn btn-dark btn-sm">Crear Funcionario</a>
                 </h4>
 
                 <table class="table table-striped table-bordered table-hover table-sm mt-3">
                     <thead>
                         <tr>
-                            <th sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USUARIO', 'ROLE_MINSAL', 'ROLE_SERVICIO', 'ROLE_COMUNA')">Id</th>
+                            <th sec:authorize="hasAnyRole('ROLE_MINSAL', 'ROLE_SERVICIO', 'ROLE_COMUNA', 'ROLE_LA_GRANJA')">Id</th>
                             <th>Nombre</th>
                             <th>Apellido Paterno</th>
                             <th>Apellido Materno</th>
@@ -29,14 +29,14 @@
                             <th>Fecha Nacimiento</th>
                             <th>Habilitado</th>
                             <th>Fecha Creación</th>
-                            <th sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MINSAL')">Crear Contrato</th>
-                            <th sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MINSAL')">Editar</th>
-                            <th sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
+                            <th sec:authorize="hasAnyRole('ROLE_MINSAL')">Crear Contrato</th>
+                            <th sec:authorize="hasAnyRole('ROLE_MINSAL')">Editar</th>
+                            <th sec:authorize="hasRole('ROLE_MINSAL')">Eliminar</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr th:each="funcionario: ${funcionarios}">
-                            <td sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USUARIO', 'ROLE_MINSAL', 'ROLE_SERVICIO', 'ROLE_COMUNA')">
+                            <td sec:authorize="hasAnyRole('ROLE_MINSAL', 'ROLE_SERVICIO', 'ROLE_COMUNA', 'ROLE_LA_GRANJA')">
                                 <a class="btn btn-primary btn-sm" th:href="@{/funcionario/ver/} + ${funcionario.id}" th:text="${funcionario.id}"></a>
                             </td>
                             <td th:text="${#strings.toUpperCase(funcionario.nombres)}"></td>
@@ -48,13 +48,13 @@
                             <td th:text="${#dates.format(funcionario.fechaNacimiento, 'dd/MM/yyyy')}"></td>
                             <td th:text="${funcionario.enabled} ? 'Si' : 'No'"></td>
                             <td th:text="${#calendars.format(funcionario.createAt, 'dd/MM/yyyy')}"></td>
-                            <td sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MINSAL')">
+                            <td sec:authorize="hasAnyRole('ROLE_MINSAL')">
                                 <a class="btn btn-success btn-sm" th:href="@{/contrato/form/} + ${funcionario.id}" th:text="'Crear Contrato'"></a>
                             </td>
-                            <td sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MINSAL')">
+                            <td sec:authorize="hasAnyRole('ROLE_MINSAL')">
                                 <a class="btn btn-primary btn-sm" th:href="@{/funcionario/form/} + ${funcionario.id}" th:text="'Editar'"></a>
                             </td>
-                            <td sec:authorize="hasRole('ROLE_ADMIN')">
+                            <td sec:authorize="hasRole('ROLE_MINSAL')">
                                 <a class="btn btn-danger btn-sm" th:href="@{/funcionario/eliminar/} + ${funcionario.id}" th:text="'Eliminar'" onclick="return confirm('Estás seguro que quieres eliminar?')"></a>
                             </td>
                         </tr>

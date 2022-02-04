@@ -15,7 +15,11 @@
 
         <header th:fragment="header">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <a class="navbar-brand" th:href="@{/index}">Sistema Modo APS</a>
+                <a class="navbar-brand" th:href="@{/index}"></a>
+                <a class="navbar-brand" th:href="@{/}">
+                    <img th:src="@{/images/minsal-logo.jpg}" alt="Sistema HCM" height="36">
+                    Sistema Modo APS
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -27,8 +31,14 @@
                         <li class="nav-item" sec:authorize="isAuthenticated()">
                             <a class="nav-link" th:href="@{/funcionario/listar}">Funcionarios</a>
                         </li>
+                        <li class="nav-item" sec:authorize="isAuthenticated()">
+                            <a class="nav-link" th:href="@{/registro/listar}">Registros Contratos</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="isAuthenticated()">
+                            <a class="nav-link" th:href="@{/carga-masiva}">Carga Masiva</a>
+                        </li>
                         <li class="nav-item" sec:authorize="isAuthenticated()" >
-                            <a sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MINSAL')" class="nav-link" th:href="@{/usuario/listar}">Usuarios</a>
+                            <a sec:authorize="hasAnyRole('ROLE_MINSAL')" class="nav-link" th:href="@{/usuario/listar}">Usuarios</a>
                         </li>
                     </ul>
                     <ul class = "navbar-nav ml-auto">
@@ -36,7 +46,7 @@
                             <a class="btn btn-outline-primary" th:href="@{/login}">Iniciar Sesión</a>
                         </li>
                         <li class="dropdown" sec:authorize="isAuthenticated()">
-                            <a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="btn btn-outline-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span sec:authentication="name"></span>&nbsp;&nbsp;<span sec:authentication="principal.authorities"></span>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -55,13 +65,12 @@
             <div class="alert alert-danger" th:if="${error != null}" th:text="${error}"></div>
         </header>
 
-        <div class="container"></div>
+        <!-- <div class="container"></div> -->
 
-        <footer class="container" th:fragment="footer">
-            <hr />
-            <img th:src="@{/images/minsal-logo.jpg}" alt="Spring logo" />
+        <footer class="container text-light" th:fragment="footer">
+            <hr style="background-color: #6C757D;" class="panel-shadow-blue-2" />
             <p sec:authorize="isAuthenticated()">
-                Usuario Logueado: <span sec:authentication="name"></span> | Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
+                Usuario Logueado: <span sec:authentication="name"></span> | Roles: <span sec:authentication="principal.authorities">[ROLE_MINSAL, ROLE_LA_GRANJA]</span>
             </p>
             <p>
                 Todos los derechos Reservados &copy; 2021 División de Atención Primaria - Subsecretaría de Redes Asistenciales, Ministerio de Salud, Gobierno de Chile.<br />

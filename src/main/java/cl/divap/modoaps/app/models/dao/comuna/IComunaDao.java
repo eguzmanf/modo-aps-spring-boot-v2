@@ -9,4 +9,6 @@ public interface IComunaDao {
     public List<Comuna> findAll();
 
     public Comuna findByCodigoComuna(Long codigoComuna);
+
+    public List<Comuna> findComunaByIdServicioSalud(Long id);
 }

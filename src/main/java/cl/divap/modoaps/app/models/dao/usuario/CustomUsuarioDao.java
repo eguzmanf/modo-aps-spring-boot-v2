@@ -105,6 +105,10 @@ public class CustomUsuarioDao implements ICustomUsuarioDao {
         logger.info("Map param apellidoMaterno from Dao: " + params.get("apellidoMaterno"));
         logger.info("Map param sexo from Dao: " + params.get("sexo"));
         logger.info("Map param nacionalidad from Dao: " + params.get("nacionalidad"));
+        logger.info("Map param Servicio de Salud from Dao: " + params.get("servicioSalud"));
+        logger.info("Map param Comuna from Dao: " + params.get("comuna"));
+        logger.info("Map param Role Perfil from Dao: " + params.get("rolePerfil"));
+        logger.info("Map param Habilitado from Dao: " + params.get("enabled"));
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Usuario> cq = cb.createQuery(Usuario.class);
@@ -136,6 +140,24 @@ public class CustomUsuarioDao implements ICustomUsuarioDao {
 
         if(params.get("nacionalidad") != null) {
             predicates.add(cb.equal(user.get("nacionalidad").get("id"), params.get("nacionalidad")));
+        }
+
+        if(params.get("servicioSalud") != null) {
+            predicates.add(cb.equal(user.get("servicioSalud").get("id"), params.get("servicioSalud")));
+        }
+
+        if(params.get("comuna") != null) {
+            predicates.add(cb.equal(user.get("comuna").get("codigoComuna"), params.get("comuna")));
+        }
+
+        if(params.get("rolePerfil") != null) {
+            predicates.add(cb.equal(user.get("rolePerfil").get("id"), params.get("rolePerfil")));
+        }
+
+        if(params.get("enabled").equals("1")) {
+            predicates.add(cb.equal(user.get("enabled"), true));
+        } else if(params.get("enabled").equals("2")) {
+            predicates.add(cb.equal(user.get("enabled"), false));
         }
 
         cq.where(predicates.toArray(new Predicate[0]));

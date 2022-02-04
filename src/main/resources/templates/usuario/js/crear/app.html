@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <script type="module" th:fragment="javascript-crear">
+
+        import { FuncionesGenerales } from "../../app/funciones/generales/funciones-generales.js";
+        import { AppUsuarioCrear } from "../../app/usuario/crear/app-usuario-crear.js";
+        import { ApiUsuarioCrear } from "../../app/usuario/crear/api-usuario-crear.js";
+        import { UiUsuarioCrear } from "../../app/usuario/crear/ui-usuario-crear.js";
+
+        // ######################################## DEFINICION DE CONSTANTES #######################################
+
+        const urlGetComunaDelServicio = "/usuario/cargar-comuna-del-servicio";
+        const urlGetComunas = "/usuario/cargar-comunas";
+        const urlGetServiciosLaGranja = "/usuario/cargar-servicios-la-granja";
+        const urlGetComunasLaGranja = "/usuario/cargar-comunas-la-granja"
+        const urlGetServicios = "/usuario/cargar-servicios";
+
+        // ################################# INICIALIZAR CLASES - FUNCION DE INIT CAMPOS ###########################
+
+        const metodosCrear = new FuncionesGenerales();
+        const apiCrear = new ApiUsuarioCrear(urlGetComunaDelServicio, urlGetComunas, urlGetServiciosLaGranja, urlGetComunasLaGranja, urlGetServicios);
+        const uiCrear = new UiUsuarioCrear(apiCrear);
+        const appCrear = new AppUsuarioCrear(uiCrear, apiCrear);
+
+        function initDOMCrear() {
+            appCrear.initAppCrear();
+        }
+
+        function domIsReadyCrear() {
+            appCrear.domIsReadyAppCrear();
+        }
+
+        // ##################################### INICIAR: CARGAR CONTENIDO DOM HTML #######################################
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initDOMCrear();
+        });
+
+        document.onreadystatechange = () => {
+            domIsReadyCrear();
+        };
+
+        // ####################################### LLAMAR FUNCIONES #######################################################
+        appCrear.getRoleIdChange();
+        appCrear.getServicioChange();
+        appCrear.getComunaChange();
+        appCrear.enabledOrDisableUser();
+        appCrear.isEnabled();
+
+    </script>
+</body>
+</html>

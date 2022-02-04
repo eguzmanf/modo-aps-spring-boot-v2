@@ -2,6 +2,7 @@ package cl.divap.modoaps.app.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -32,6 +33,7 @@ public class Contrato implements Serializable {
 
     @Valid
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "codigo_nuevo_establecimiento", referencedColumnName = "codigo_nuevo")
     private Establecimiento establecimiento;
 
     @Valid
@@ -107,10 +109,10 @@ public class Contrato implements Serializable {
     @Column(nullable = false)
     private Long totalHaberes;
 
-    @Column(nullable=false)
+    @Column(nullable=true)
     private Boolean validado;
 
-    @Column(nullable=false)
+    @Column(nullable=true)
     private Boolean revisado;
 
     @Column(name = "create_at", nullable=false)
@@ -124,6 +126,93 @@ public class Contrato implements Serializable {
 
     @Column(nullable=false)
     private Boolean enabled;
+
+    @Column(name = "fecha_disabled", nullable=true)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaDisabled;
+
+    @Column(name = "fecha_edicion", nullable=true)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaEdicion;
+
+    @Column(name = "usuario_creador", length = 12, nullable=true)
+    private String usuarioCreador;
+
+    @Column(name = "usuario_editor", length = 12, nullable=true)
+    private String usuarioEditor;
+
+    @Column(name = "fecha_carga", nullable=true)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaCarga;
+
+    @Column(name = "tipo_ingreso_registro", nullable=true)
+    private String tipoIngresoRegistro;
+
+    @Column(name = "fecha_validacion", nullable=true)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaValidacion;
+
+    @Column(name = "usuario_validador", length = 12, nullable=true)
+    private String usuarioValidador;
+
+    @Column(name = "fecha_revision", nullable=true)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaRevision;
+
+    @Column(name = "usuario_revisor", length = 12, nullable=true)
+    private String usuarioRevisor;
+
+    @Transient
+    private MultipartFile cargaMasiva;
+
+    @Transient
+    private String rutFuncionario;
+
+    public Contrato() {}
+
+    public Contrato(ServicioSalud servicioSalud, Comuna comuna, Establecimiento establecimiento, AdministracionSalud adminSalud, Ley ley, TipoContrato tipoContrato, CategoriaProfesion categoriaProfesion,
+                    NivelCarrera nivelCarrera, Profesion profesion, Especialidad especialidad, Cargo cargo, AsignacionChofer asignacionChofer, Integer jornadaLaboral, Integer aniosServicio, Date fechaIngreso,
+                    Bienios bienios, Prevision prevision, Isapre isapre, Long sueldoBase, Long totalHaberes, Boolean validado, Boolean revisado, Date createAt, Funcionario funcionario, Boolean enabled,
+                    Date fechaDisabled, Date fechaEdicion, String usuarioCreador, String usuarioEditor, Date fechaCarga, String tipoIngresoRegistro, Date fechaValidacion, String usuarioValidador, Date fechaRevision,
+                    String usuarioRevisor, String rutFuncionario)
+    {
+        this.servicioSalud = servicioSalud;
+        this.comuna = comuna;
+        this.establecimiento = establecimiento;
+        this.adminSalud = adminSalud;
+        this.ley = ley;
+        this.tipoContrato = tipoContrato;
+        this.categoriaProfesion = categoriaProfesion;
+        this.nivelCarrera = nivelCarrera;
+        this.profesion = profesion;
+        this.especialidad = especialidad;
+        this.cargo = cargo;
+        this.asignacionChofer = asignacionChofer;
+        this.jornadaLaboral = jornadaLaboral;
+        this.aniosServicio = aniosServicio;
+        this.fechaIngreso = fechaIngreso;
+        this.bienios = bienios;
+        this.prevision = prevision;
+        this.isapre = isapre;
+        this.sueldoBase = sueldoBase;
+        this.totalHaberes = totalHaberes;
+        this.validado = validado;
+        this.revisado = revisado;
+        this.createAt = createAt;
+        this.funcionario = funcionario;
+        this.enabled = enabled;
+        this.fechaDisabled = fechaDisabled;
+        this.fechaEdicion = fechaEdicion;
+        this.usuarioCreador = usuarioCreador;
+        this.usuarioEditor = usuarioEditor;
+        this.fechaCarga = fechaCarga;
+        this.tipoIngresoRegistro = tipoIngresoRegistro;
+        this.fechaValidacion = fechaValidacion;
+        this.usuarioValidador = usuarioValidador;
+        this.fechaRevision = fechaRevision;
+        this.usuarioRevisor = usuarioRevisor;
+        this.rutFuncionario = rutFuncionario;
+    }
 
     @PrePersist
     public void prePersist() {
@@ -343,6 +432,102 @@ public class Contrato implements Serializable {
         this.enabled = enabled;
     }
 
+    public Date getFechaDisabled() {
+        return fechaDisabled;
+    }
+
+    public void setFechaDisabled(Date fechaDisabled) {
+        this.fechaDisabled = fechaDisabled;
+    }
+
+    public Date getFechaEdicion() {
+        return fechaEdicion;
+    }
+
+    public void setFechaEdicion(Date fechaEdicion) {
+        this.fechaEdicion = fechaEdicion;
+    }
+
+    public String getUsuarioCreador() {
+        return usuarioCreador;
+    }
+
+    public void setUsuarioCreador(String usuarioCreador) {
+        this.usuarioCreador = usuarioCreador;
+    }
+
+    public String getUsuarioEditor() {
+        return usuarioEditor;
+    }
+
+    public void setUsuarioEditor(String usuarioEditor) {
+        this.usuarioEditor = usuarioEditor;
+    }
+
+    public Date getFechaCarga() {
+        return fechaCarga;
+    }
+
+    public void setFechaCarga(Date fechaCarga) {
+        this.fechaCarga = fechaCarga;
+    }
+
+    public String getTipoIngresoRegistro() {
+        return tipoIngresoRegistro;
+    }
+
+    public void setTipoIngresoRegistro(String tipoIngresoRegistro) {
+        this.tipoIngresoRegistro = tipoIngresoRegistro;
+    }
+
+    public Date getFechaValidacion() {
+        return fechaValidacion;
+    }
+
+    public void setFechaValidacion(Date fechaValidacion) {
+        this.fechaValidacion = fechaValidacion;
+    }
+
+    public String getUsuarioValidador() {
+        return usuarioValidador;
+    }
+
+    public void setUsuarioValidador(String usuarioValidador) {
+        this.usuarioValidador = usuarioValidador;
+    }
+
+    public Date getFechaRevision() {
+        return fechaRevision;
+    }
+
+    public void setFechaRevision(Date fechaRevision) {
+        this.fechaRevision = fechaRevision;
+    }
+
+    public String getUsuarioRevisor() {
+        return usuarioRevisor;
+    }
+
+    public void setUsuarioRevisor(String usuarioRevisor) {
+        this.usuarioRevisor = usuarioRevisor;
+    }
+
+    public MultipartFile getCargaMasiva() {
+        return cargaMasiva;
+    }
+
+    public void setCargaMasiva(MultipartFile cargaMasiva) {
+        this.cargaMasiva = cargaMasiva;
+    }
+
+    public String getRutFuncionario() {
+        return rutFuncionario;
+    }
+
+    public void setRutFuncionario(String rutFuncionario) {
+        this.rutFuncionario = rutFuncionario;
+    }
+
     @Override
     public String toString() {
         return "Contrato{" +
@@ -371,6 +556,19 @@ public class Contrato implements Serializable {
                 ", revisado=" + revisado +
                 ", createAt=" + createAt +
                 ", funcionario=" + funcionario +
+                ", enabled=" + enabled +
+                ", fechaDisabled=" + fechaDisabled +
+                ", fechaEdicion=" + fechaEdicion +
+                ", usuarioCreador='" + usuarioCreador + '\'' +
+                ", usuarioEditor='" + usuarioEditor + '\'' +
+                ", fechaCarga=" + fechaCarga +
+                ", tipoIngresoRegistro='" + tipoIngresoRegistro + '\'' +
+                ", fechaValidacion=" + fechaValidacion +
+                ", usuarioValidador='" + usuarioValidador + '\'' +
+                ", fechaRevision=" + fechaRevision +
+                ", usuarioRevisor='" + usuarioRevisor + '\'' +
+                ", cargaMasiva=" + cargaMasiva +
+                ", rutFuncionario='" + rutFuncionario + '\'' +
                 '}';
     }
 }

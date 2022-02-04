@@ -7,4 +7,6 @@ import java.util.List;
 public interface IServicioSaludDao {
 
     public List<ServicioSalud> findAll();
+
+    public List<ServicioSalud> findServiciosLaGranja();
 }

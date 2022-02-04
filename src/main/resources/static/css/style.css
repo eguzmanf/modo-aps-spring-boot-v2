@@ -1,5 +1,15 @@
 /* ################################################## CUSTOM CSS ################################################## */
 
+body {
+    background-color: #46474e;
+}
+
+hr{
+    height: 1px;
+    background-color: #ccc;
+    border: none;
+}
+
 .panel-shadow-blue-1 {
     box-shadow: 1px 2px 27px -1px rgba(54,158,214,1)
 }

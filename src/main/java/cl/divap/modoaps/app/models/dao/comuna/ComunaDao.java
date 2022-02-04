@@ -28,4 +28,12 @@ public class ComunaDao implements IComunaDao {
                 .setParameter(1, codigoComuna)
                 .getSingleResult();
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Comuna> findComunaByIdServicioSalud(Long id) {
+        return em.createQuery("SELECT c FROM Comuna c WHERE c.servicioSalud.id = ?1 ORDER BY c.comuna", Comuna.class)
+                .setParameter(1, id)
+                .getResultList();
+    }
 }

@@ -19,4 +19,12 @@ public class EstablecimientoDao implements IEstablecimientoDao {
     public List<Establecimiento> findAll() {
         return em.createQuery("from Establecimiento order by establecimientoNombre").getResultList();
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Establecimiento findByCodigoNuevo(Integer codigoNuevo) {
+        return em.createQuery("from Establecimiento e where e.codigoNuevo = ?1", Establecimiento.class)
+                .setParameter(1, codigoNuevo)
+                .getSingleResult();
+    }
 }

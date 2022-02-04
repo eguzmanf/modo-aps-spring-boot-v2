@@ -71,6 +71,18 @@ public class Funcionario implements Serializable {
     @Column(nullable=false)
     private Boolean enabled;
 
+    public Funcionario(String nombres, String apellidoPaterno, String apellidoMaterno, String run, Sexo sexo, Nacionalidad nacionalidad, Date fechaNacimiento, Date createAt, Boolean enabled) {
+        this.nombres = nombres;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.run = run;
+        this.sexo = sexo;
+        this.nacionalidad = nacionalidad;
+        this.fechaNacimiento = fechaNacimiento;
+        this.createAt = createAt;
+        this.enabled = enabled;
+    }
+
     public Funcionario() {
         this.contratos = new ArrayList<Contrato>();
     }
@@ -189,8 +201,10 @@ public class Funcionario implements Serializable {
     }
      */
 
+    /*
     @Override
     public String toString() {
         return  nombres  + " " + apellidoPaterno + " " + apellidoMaterno;
     }
+    */
 }

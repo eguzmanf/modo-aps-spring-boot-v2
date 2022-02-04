@@ -4,10 +4,13 @@ import cl.divap.modoaps.app.models.dao.contrato.IContratoDao;
 import cl.divap.modoaps.app.models.dao.funcionario.ICustomContratoDao;
 import cl.divap.modoaps.app.models.dao.funcionario.IFuncionarioDao;
 import cl.divap.modoaps.app.models.dao.role.IRoleDao;
+import cl.divap.modoaps.app.models.dao.servicioSaludComuna.ICustomServicioComunaDao;
+import cl.divap.modoaps.app.models.dao.servicioSaludComuna.IServicioComunaDao;
 import cl.divap.modoaps.app.models.dao.usuario.ICustomUsuarioDao;
 import cl.divap.modoaps.app.models.dao.usuario.IUsuarioDao;
 import cl.divap.modoaps.app.models.entity.Contrato;
 import cl.divap.modoaps.app.models.entity.Funcionario;
+import cl.divap.modoaps.app.models.entity.ServicioComuna;
 import cl.divap.modoaps.app.models.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,6 +41,9 @@ public class FuncionarioService implements IFuncionarioService {
 
     @Autowired
     private IRoleDao roleDao;
+
+    @Autowired
+    private ICustomServicioComunaDao customServicioComunaDao;
 
     @Override
     @Transactional(readOnly = true)
@@ -198,4 +204,156 @@ public class FuncionarioService implements IFuncionarioService {
     public Page<Usuario> findAllCriteriaApi(Pageable pageable, HttpSession session) {
         return customUsuarioDao.findAllCriteriaApi(pageable, session);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Contrato> findAllContratos() {
+        //
+        return customContratoDao.findAllContratos();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List getIdServicioByServicioName(String servicioName) {
+        return customContratoDao.getIdServicioByServicioName(servicioName);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List getIdComunaByComunaName(String comunaName) {
+        return customContratoDao.getIdComunaByComunaName(comunaName);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Object getIdEstablecimientoByEstablecimientoName(String establecimientoName) {
+        return customContratoDao.getIdEstablecimientoByEstablecimientoName(establecimientoName);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Object getIdAdminSaludByAdminSaludName(String adminSalud) {
+        return customContratoDao.getIdAdminSaludByAdminSaludName(adminSalud);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Object getIdSexoBySexoName(String sexo) {
+        return customContratoDao.getIdSexoBySexoName(sexo);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Object getIdNacionalidadByNacionalidadName(String nacionalidad) {
+        return customContratoDao.getIdNacionalidadByNacionalidadName(nacionalidad);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean ifExistFuncionarioRut(String rutCompleto) {
+        return customContratoDao.ifExistFuncionarioRut(rutCompleto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Object getIdLeyByLeyName(String ley) {
+        return customContratoDao.getIdLeyByLeyName(ley);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Object getIdTipoContratoByTipoContratoNameAndIdLeyLong(String tipoContrato, Long idLeyLong) {
+        return customContratoDao.getIdTipoContratoByTipoContratoNameAndIdLeyLong(tipoContrato, idLeyLong);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Object getIdCategoriaProfesionByCategoriaProfesionName(String categoriaProfesion) {
+        return customContratoDao.getIdCategoriaProfesionByCategoriaProfesionName(categoriaProfesion);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Object getIdCategoriaProfesionByCategoriaProfesionNameLeyHonorarioAndCodigoTrabajo(String categoriaProfesion) {
+        return customContratoDao.getIdCategoriaProfesionByCategoriaProfesionNameLeyHonorarioAndCodigoTrabajo(categoriaProfesion);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Object getIdNivelCarreraByNivelCarreraNameLey19378(String nivelCarrera) {
+        return customContratoDao.getIdNivelCarreraByNivelCarreraNameLey19378(nivelCarrera);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Object getIdNivelCarreraByNivelCarreraNameLeyHonorarioAndCodigoTrabajo(String nivelCarrera) {
+        return customContratoDao.getIdNivelCarreraByNivelCarreraNameLeyHonorarioAndCodigoTrabajo(nivelCarrera);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Object getIdProfesionByProfesionNameAndIdCategoriaProfesionLong(String profesion, Long idCategoriaProfesionLong) {
+        return customContratoDao.getIdProfesionByProfesionNameAndIdCategoriaProfesionLong(profesion, idCategoriaProfesionLong);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Object getIdProfesionByProfesionNameAndIdCategoriaProfesionLongLeyHonorarioAndCodigoTrabajo(String profesion, Long idCategoriaProfesionLong) {
+        return customContratoDao.getIdProfesionByProfesionNameAndIdCategoriaProfesionLongLeyHonorarioAndCodigoTrabajo(profesion, idCategoriaProfesionLong);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Object getIdEspecialidadByEspecialidadNameAndIdProfesionLong(String especialidad, Long idProfesionLong) {
+        return customContratoDao.getIdEspecialidadByEspecialidadNameAndIdProfesionLong(especialidad, idProfesionLong);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Object getIdCargoByCargoName(String cargo) {
+        return customContratoDao.getIdCargoByCargoName(cargo);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Object getIdAsignacionChoferByAsignacionChoferNameAndIdCargoLong(String asignacionChofer, Long idCargoLong) {
+        return customContratoDao.getIdAsignacionChoferByAsignacionChoferNameAndIdCargoLong(asignacionChofer, idCargoLong);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Object getCountJornadaLaboralByRutFuncionario(String rut) {
+        return customContratoDao.getCountJornadaLaboralByRutFuncionario(rut);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Object getIdBieniosByBieniosName(String bienios) {
+        return customContratoDao.getIdBieniosByBieniosName(bienios);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Object getIdPrevisionByPrevisionName(String prevision) {
+        return customContratoDao.getIdPrevisionByPrevisionName(prevision);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Object getIdIsapreByIsapreName(String isapre) {
+        return customContratoDao.getIdIsapreByIsapreName(isapre);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Object getIdFuncionarioByRutFuncionario(String rut) {
+        return customContratoDao.getIdFuncionarioByRutFuncionario(rut);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Contrato> getContratosByRutFuncionarioWithFuncionario(String rut) {
+        return customContratoDao.getContratosByRutFuncionarioWithFuncionario(rut);
+    }
+
 }

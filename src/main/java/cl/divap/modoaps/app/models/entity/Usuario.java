@@ -52,7 +52,8 @@ public class Usuario implements Serializable {
     private String email;
 
     @NotBlank
-    @Size(min = 9, max = 9)
+    @Pattern(regexp = "^\\d{9}$", message = "Debe ingresar 9 caracteres numéricos")
+    // @Size(min = 9, max = 9)
     @Column(length = 9, nullable=false)
     private String telefono;
 

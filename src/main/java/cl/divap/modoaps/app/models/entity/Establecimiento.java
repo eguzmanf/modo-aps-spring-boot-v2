@@ -48,6 +48,8 @@ public class Establecimiento implements Serializable {
     private Integer idDependencia;
     private String dependencia;
     private String codigoAntiguo;
+
+    @Column(name = "codigo_nuevo")
     private Integer codigoNuevo;
 
     private String establecimientoNombre;

@@ -50,8 +50,8 @@ public class FuncionarioController {
     @Autowired
     private INacionalidadDao nacionalidadDao;
 
-    // @Secured({"ROLE_USUARIO", "ROLE_COMUNA", "ROLE_SERVICIO", "ROLE_ADMIN", "ROLE_MINSAL"})
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO', 'ROLE_COMUNA', 'ROLE_SERVICIO', 'ROLE_ADMIN', 'ROLE_MINSAL')")
+    // @Secured({"ROLE_LA_GRANJA", "ROLE_COMUNA", "ROLE_SERVICIO", "ROLE_MINSAL"})
+    @PreAuthorize("hasAnyRole('ROLE_LA_GRANJA', 'ROLE_COMUNA', 'ROLE_SERVICIO', 'ROLE_MINSAL')")
     @GetMapping(value = "/ver/{id}")
     public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
         //
@@ -70,7 +70,7 @@ public class FuncionarioController {
         return "funcionario/contrato/ver";
     }
 
-    @Secured({"ROLE_USUARIO", "ROLE_COMUNA", "ROLE_SERVICIO", "ROLE_ADMIN", "ROLE_MINSAL"})
+    @Secured({"ROLE_LA_GRANJA", "ROLE_COMUNA", "ROLE_SERVICIO", "ROLE_MINSAL"})
     @RequestMapping(value= "/listar", method= RequestMethod.GET)
     public String listar(@RequestParam(name = "page", defaultValue = "0") Integer page, Model model, Authentication authentication, HttpServletRequest request) {
         //
@@ -127,7 +127,7 @@ public class FuncionarioController {
         return "funcionario/listar";
     }
 
-    @Secured({"ROLE_ADMIN", "ROLE_MINSAL"})
+    @Secured({"ROLE_MINSAL"})
     @RequestMapping(value="/form")
     public String crear(Map<String, Object> model) {
         //
@@ -139,8 +139,8 @@ public class FuncionarioController {
         return "funcionario/form";
     }
 
-    // @Secured({"ROLE_ADMIN", "ROLE_MINSAL"})
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MINSAL')")
+    // @Secured({"ROLE_MINSAL"})
+    @PreAuthorize("hasAnyRole('ROLE_MINSAL')")
     @GetMapping("/form/{id}")
     public String editar(@PathVariable("id") Long id, Model model, RedirectAttributes flash) {
         //
@@ -164,7 +164,7 @@ public class FuncionarioController {
         return "funcionario/form";
     }
 
-    @Secured({"ROLE_ADMIN", "ROLE_MINSAL"})
+    @Secured({"ROLE_MINSAL"})
     @RequestMapping(value="/form", method=RequestMethod.POST)
     public String guardar(@Valid @ModelAttribute("funcionario") Funcionario funcionario, BindingResult result, Model model, RedirectAttributes flash, SessionStatus status) {
         //
@@ -180,6 +180,11 @@ public class FuncionarioController {
             funcionario.setCreateAt(funcionarioDB.getCreateAt());
         }
 
+        funcionario.setNombres(funcionario.getNombres().toUpperCase());
+        funcionario.setApellidoPaterno(funcionario.getApellidoPaterno().toUpperCase());
+        funcionario.setApellidoMaterno(funcionario.getApellidoMaterno().toUpperCase());
+        funcionario.setRun(funcionario.getRun().toUpperCase());
+
         String mensajeFlash = (funcionario.getId() != null) ? "Funcionario editado con éxito!" : "Funcionario creado con éxito!";
 
         funcionarioService.save(funcionario);
@@ -188,7 +193,7 @@ public class FuncionarioController {
         return "redirect:/funcionario/listar";
     }
 
-    @Secured({"ROLE_ADMIN"})
+    @Secured({"ROLE_MINSAL"})
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable("id") Long id, RedirectAttributes flash) {
         //

@@ -18,7 +18,7 @@
                 <a sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MINSAL')" class="btn btn-secondary btn-sm" th:href="@{/contrato/form/} + ${funcionario.id}" th:text="'Crear Contrato'"></a>
             </h4>
 
-            <img class="img-thumbnail rounded float-left" style="max-width:25%;" th:alt="${'ministerio-de-salud.jpg'}" th:src="@{'/images/ministerio-de-salud.jpg'}" th:if="${#strings.length('ministerio-de-salud.jpg') > 0}">
+            <!-- <img class="img-thumbnail rounded float-left" style="max-width:25%;" th:alt="${'ministerio-de-salud.jpg'}" th:src="@{'/images/ministerio-de-salud.jpg'}" th:if="${#strings.length('ministerio-de-salud.jpg') > 0}">-->
 
             <ul class="list-group">
                 <li class="list-group-item" th:text="'Id: ' + ${funcionario.id}"></li>
@@ -35,7 +35,7 @@
 
             <table class="table table-striped table-bordered table-hover table-sm my-4" th:if="${not #lists.isEmpty(funcionario.contratos)}">
                 <thead class="thead-dark">
-                    <tr style="font-size:12px;">
+                    <tr style="font-size:10px;">
                         <th>Id</th>
                         <th>Servicio de Salud</th>
                         <th>Comuna</th>
@@ -60,6 +60,8 @@
                         <th>Validado</th>
                         <th>Revisado</th>
                         <th>Habilitado</th>
+                        <th>Fecha Deshabilitado</th>
+                        <th>Fecha Edición</th>
                         <th>Fecha Creación</th>
                         <th>Funcionario</th>
                         <th sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MINSAL')" >Ver</th>
@@ -68,7 +70,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="item: ${funcionario.contratos}" style="font-size:12px;">
+                    <tr th:each="item: ${funcionario.contratos}" style="font-size:10px;">
                         <td th:text="${item.id}"></td>
                         <td th:text="${item.servicioSalud.servicioSalud}"></td>
                         <td th:text="${item.comuna.comuna}"></td>
@@ -93,6 +95,8 @@
                         <td th:text="${item.validado} ? 'Si' : 'No'"></td>
                         <td th:text="${item.revisado} ? 'Si' : 'No'"></td>
                         <td th:text="${item.enabled} ? 'Si' : 'No'"></td>
+                        <td th:text="${item.fechaDisabled != null} ? ${#dates.format(item.fechaDisabled, 'dd/MM/yyyy HH:mm:ss')} : 'N/A'"></td>
+                        <td th:text="${item.fechaEdicion != null} ? ${#dates.format(item.fechaEdicion, 'dd/MM/yyyy HH:mm:ss')} : 'N/A'"></td>
                         <td th:text="${#dates.format(item.createAt, 'dd/MM/yyyy HH:mm:ss')}"></td>
                         <td th:text="${item.funcionario.nombres} + ' ' + ${item.funcionario.apellidoPaterno} + ' ' + ${item.funcionario.apellidoMaterno}"></td>
                         <td sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MINSAL')">

@@ -19,6 +19,7 @@ import cl.divap.modoaps.app.models.entity.*;
 import cl.divap.modoaps.app.models.service.IFuncionarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -164,7 +166,7 @@ public class ContratoController {
     }
 
     @PostMapping("/form")
-    public String guardar(@Valid Contrato contrato, BindingResult result, Model model, SessionStatus status, RedirectAttributes flash) {
+    public String guardar(@Valid Contrato contrato, BindingResult result, Model model, SessionStatus status, RedirectAttributes flash, Authentication auth) {
         //
         System.out.println("Dervicio salud: " + contrato.getServicioSalud().getId());
 
@@ -186,6 +188,17 @@ public class ContratoController {
         contrato.setEnabled(true);
         contrato.setRevisado(false);
         contrato.setValidado(false);
+
+        if(contrato.getId() != null && contrato.getId() > 0) {
+            // Editar
+            contrato.setUsuarioEditor(auth.getName());
+            contrato.setFechaEdicion(new Date());
+        } else {
+            // Crear
+            contrato.setUsuarioCreador(auth.getName());
+            contrato.setFechaCarga(new Date());
+            contrato.setTipoIngresoRegistro("Carga Simple");
+        }
 
         funcionarioService.saveContratoCustom(contrato);
 

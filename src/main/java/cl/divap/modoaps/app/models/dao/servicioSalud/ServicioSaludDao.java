@@ -20,4 +20,10 @@ public class ServicioSaludDao implements IServicioSaludDao {
         //
         return em.createQuery("from ServicioSalud order by servicioSalud").getResultList();
     }
+
+    @Override
+    public List<ServicioSalud> findServiciosLaGranja() {
+        //
+        return em.createQuery("SELECT s FROM ServicioSalud s WHERE s.id IN (13, 14)", ServicioSalud.class).getResultList();
+    }
 }
