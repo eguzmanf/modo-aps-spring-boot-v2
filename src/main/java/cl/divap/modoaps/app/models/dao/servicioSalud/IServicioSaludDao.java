@@ -9,4 +9,6 @@ public interface IServicioSaludDao {
     public List<ServicioSalud> findAll();
 
     public List<ServicioSalud> findServiciosLaGranja();
+
+    public ServicioSalud findServicioByServicioId(Long servicioId);
 }

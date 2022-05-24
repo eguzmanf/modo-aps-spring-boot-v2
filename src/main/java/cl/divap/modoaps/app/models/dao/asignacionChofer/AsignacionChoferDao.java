@@ -20,4 +20,12 @@ public class AsignacionChoferDao implements IAsignacionChoferDao {
         //
         return em.createQuery("from AsignacionChofer order by asignacionChofer").getResultList();
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<AsignacionChofer> findAsignacionChoferByCargoId(Long cargoId) {
+        return em.createQuery("FROM AsignacionChofer ac WHERE ac.cargo.id = ?1", AsignacionChofer.class)
+                .setParameter(1, cargoId)
+                .getResultList();
+    }
 }

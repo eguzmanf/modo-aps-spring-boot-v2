@@ -6,34 +6,34 @@
 <header th:replace="layout/layout :: header"></header>
 
 <div class="container-fluid py-4">
-    <div class="card bg-secondary text-white">
+    <div class="card bg-dark text-white">
         <div class="card-header" th:text="${titulo}"></div>
-        <div class="card-body bg-light text-dark">
+        <div class="card-body color-metal text-white">
 
             <h4 class="card-title">
                 <a class="btn btn-dark btn-sm" th:href="@{/funcionario/listar}" th:text="'&laquo; Volver Listado de Funcionarios'"></a>
             </h4>
 
             <h4 class="card-title">
-                <a sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MINSAL')" class="btn btn-secondary btn-sm" th:href="@{/contrato/form/} + ${funcionario.id}" th:text="'Crear Contrato'"></a>
+                <a sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MINSAL', 'ROLE_SERVICIO', 'ROLE_COMUNA', 'ROLE_LA_GRANJA')" class="btn btn-secondary btn-sm" th:href="@{/contrato/form/} + ${funcionario.id}" th:text="'Crear Contrato'"></a>
             </h4>
 
             <!-- <img class="img-thumbnail rounded float-left" style="max-width:25%;" th:alt="${'ministerio-de-salud.jpg'}" th:src="@{'/images/ministerio-de-salud.jpg'}" th:if="${#strings.length('ministerio-de-salud.jpg') > 0}">-->
 
             <ul class="list-group">
-                <li class="list-group-item" th:text="'Id: ' + ${funcionario.id}"></li>
-                <li class="list-group-item" th:text="'Nombres: ' + ${funcionario.nombres}"></li>
-                <li class="list-group-item" th:text="'Apellidos: ' + ${funcionario.apellidoPaterno} + ' ' + ${funcionario.apellidoMaterno}"></li>
-                <li class="list-group-item" th:text="'Run: ' + ${funcionario.run}"></li>
-                <li class="list-group-item" th:text="'Sexo: ' + ${funcionario.sexo.sexo}"></li>
-                <li class="list-group-item" th:text="'Nacionalidad: ' + ${funcionario.nacionalidad.nacionalidad}"></li>
-                <li class="list-group-item" th:text="'Fecha Nacimiento: ' + ${#dates.format(funcionario.fechaNacimiento, 'dd/MM/yyyy')}"></li>
-                <li class="list-group-item" th:text="'Fecha Creación: ' + ${#calendars.format(funcionario.createAt, 'dd/MM/yyyy')}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Id: ' + ${funcionario.id}"></li>
+                <li class="list-group-item bg-secondary text-white" th:text="'Nombres: ' + ${funcionario.nombres}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Apellidos: ' + ${funcionario.apellidoPaterno} + ' ' + ${funcionario.apellidoMaterno}"></li>
+                <li class="list-group-item bg-secondary text-white" th:text="'Run: ' + ${funcionario.run}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Sexo: ' + ${funcionario.sexo.sexo}"></li>
+                <li class="list-group-item bg-secondary text-white" th:text="'Nacionalidad: ' + ${funcionario.nacionalidad.nacionalidad}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Fecha Nacimiento: ' + ${#dates.format(funcionario.fechaNacimiento, 'dd/MM/yyyy')}"></li>
+                <li class="list-group-item bg-secondary text-white" th:text="'Fecha Creación: ' + ${#calendars.format(funcionario.createAt, 'dd/MM/yyyy')}"></li>
             </ul>
 
             <div th:if="${#lists.isEmpty(funcionario.contratos)}" class="alert alert-info my-4" th:text="'No hay historial de contratos asignados al funcionario ' + ${funcionario.nombres} + ' ' + ${funcionario.apellidoPaterno} + ' ' + ${funcionario.apellidoMaterno}"></div>
 
-            <table class="table table-striped table-bordered table-hover table-sm my-4" th:if="${not #lists.isEmpty(funcionario.contratos)}">
+            <table class="table table-striped table-bordered table-hover table-dark table-sm my-4" th:if="${not #lists.isEmpty(funcionario.contratos)}">
                 <thead class="thead-dark">
                     <tr style="font-size:10px;">
                         <th>Id</th>
@@ -64,8 +64,8 @@
                         <th>Fecha Edición</th>
                         <th>Fecha Creación</th>
                         <th>Funcionario</th>
-                        <th sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MINSAL')" >Ver</th>
-                        <th sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MINSAL')">Editar</th>
+                        <th sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MINSAL', 'ROLE_SERVICIO', 'ROLE_COMUNA', 'ROLE_LA_GRANJA')" >Ver</th>
+                        <th sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MINSAL', 'ROLE_SERVICIO', 'ROLE_COMUNA', 'ROLE_LA_GRANJA')">Editar</th>
                         <th sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
                     </tr>
                 </thead>
@@ -79,7 +79,7 @@
                         <td th:text="${item.ley.ley}"></td>
                         <td th:text="${item.tipoContrato.tipoContrato}"></td>
                         <td th:text="${item.categoriaProfesion.categoriaProfesion}"></td>
-                        <td th:text="${item.nivelCarrera.nivelCarrera}"></td>
+                        <td th:text="${item.nivelCarrera.nivelCarrera == '0'} ? 'N/A' : ${item.nivelCarrera.nivelCarrera}"></td>
                         <td th:text="${item.profesion.profesion}"></td>
                         <td th:text="${item.especialidad.especialidad}"></td>
                         <td th:text="${item.cargo.cargo}"></td>
@@ -99,14 +99,14 @@
                         <td th:text="${item.fechaEdicion != null} ? ${#dates.format(item.fechaEdicion, 'dd/MM/yyyy HH:mm:ss')} : 'N/A'"></td>
                         <td th:text="${#dates.format(item.createAt, 'dd/MM/yyyy HH:mm:ss')}"></td>
                         <td th:text="${item.funcionario.nombres} + ' ' + ${item.funcionario.apellidoPaterno} + ' ' + ${item.funcionario.apellidoMaterno}"></td>
-                        <td sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MINSAL')">
-                            <a class="btn btn-success btn-sm" th:href="@{/contrato/ver/} + ${item.id}" th:text="'Ver'"></a>
+                        <td sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MINSAL', 'ROLE_SERVICIO', 'ROLE_COMUNA', 'ROLE_LA_GRANJA')">
+                            <a class="btn btn-light btn-sm" th:href="@{/contrato/ver/} + ${item.id}" th:text="'Ver'"></a>
                         </td>
-                        <td sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MINSAL')">
-                            <a class="btn btn-primary btn-sm" th:href="@{/contrato/form-editar/} + ${item.id}" th:text="'Editar'"></a>
+                        <td sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MINSAL', 'ROLE_SERVICIO', 'ROLE_COMUNA', 'ROLE_LA_GRANJA')">
+                            <a class="btn btn-secondary btn-sm" th:href="@{/contrato/form-editar/} + ${item.id}" th:text="'Editar'"></a>
                         </td>
                         <td sec:authorize="hasRole('ROLE_ADMIN')">
-                            <a class="btn btn-danger btn-sm" th:href="@{/contrato/eliminar/} + ${item.id}" th:text="'Eliminar'" onclick="return confirm('Estás seguro que quieres eliminar el contrato?')"></a>
+                            <a class="btn btn-dark btn-sm" th:href="@{/contrato/eliminar/} + ${item.id}" th:text="'Eliminar'" onclick="return confirm('Estás seguro que quieres eliminar el contrato?')"></a>
                         </td>
                     </tr>
                 </tbody>

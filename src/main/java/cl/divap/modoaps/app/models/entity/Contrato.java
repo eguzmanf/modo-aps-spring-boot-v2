@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import java.io.Serializable;
@@ -53,7 +54,7 @@ public class Contrato implements Serializable {
     private CategoriaProfesion categoriaProfesion;
 
     @Valid
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private NivelCarrera nivelCarrera;
 
     // @Valid
@@ -74,6 +75,7 @@ public class Contrato implements Serializable {
 
     @NotNull
     @Max(44)
+    @Min(1)
     @Column(length = 2, nullable = false)
     private Integer jornadaLaboral;
 

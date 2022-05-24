@@ -6,12 +6,12 @@
 <header th:replace="layout/layout :: header"></header>
 
 <div class="container py-4">
-    <div class="card bg-secondary text-white">
+    <div class="card bg-dark text-white">
         <div class="card-header" th:text="${titulo}"></div>
-        <div class="card-body bg-light text-dark">
+        <div class="card-body color-metal">
 
             <h4 class="card-title">
-                <a class="btn btn-dark btn-sm" th:href="@{/funcionario/listar}" th:text="'&laquo; Volver Listado de Funcionarios'"></a>
+                <a class="btn btn-secondary btn-sm" th:href="@{/funcionario/listar}" th:text="'&laquo; Volver Listado de Funcionarios'"></a>
             </h4>
 
             <h4 class="card-title">
@@ -19,53 +19,53 @@
             </h4>
 
             <ul class="list-group my-2">
-                <li class="list-group-item list-group-item-primary" th:text="'Datos del Funcionario'"></li>
-                <li class="list-group-item" th:text="'Id Funcionario: ' + ${contrato.funcionario.id}"></li>
-                <li class="list-group-item" th:text="'Nombre Completo: ' + ${contrato.funcionario.nombres} + ' ' + ${contrato.funcionario.apellidoPaterno} + ' ' + ${contrato.funcionario.apellidoMaterno}"></li>
-                <li class="list-group-item" th:text="'Run: ' + ${contrato.funcionario.run}"></li>
-                <li class="list-group-item" th:text="'Sexo: ' + ${contrato.funcionario.sexo.sexo}"></li>
-                <li class="list-group-item" th:text="'Nacionalidad: ' + ${contrato.funcionario.nacionalidad.nacionalidad}"></li>
-                <li class="list-group-item" th:text="'Fecha Nacimiento: ' + ${#dates.format(contrato.funcionario.fechaNacimiento, 'dd/MM/yyyy')}"></li>
-                <li class="list-group-item">Habilitado: <span th:text="${contrato.funcionario.enabled} ? 'Si' : 'No'"></span></li>
+                <li class="list-group-item list-group-item-dark" th:text="'Datos del Funcionario'"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Id Funcionario: ' + ${contrato.funcionario.id}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Nombre Completo: ' + ${contrato.funcionario.nombres} + ' ' + ${contrato.funcionario.apellidoPaterno} + ' ' + ${contrato.funcionario.apellidoMaterno}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Run: ' + ${contrato.funcionario.run}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Sexo: ' + ${contrato.funcionario.sexo.sexo}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Nacionalidad: ' + ${contrato.funcionario.nacionalidad.nacionalidad}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Fecha Nacimiento: ' + ${#dates.format(contrato.funcionario.fechaNacimiento, 'dd/MM/yyyy')}"></li>
+                <li class="list-group-item bg-dark text-white">Habilitado: <span th:text="${contrato.funcionario.enabled} ? 'Si' : 'No'"></span></li>
             </ul>
 
             <ul class="list-group mb-2">
-                <li class="list-group-item list-group-item-success" th:text="'Datos del Establecimiento: ' + ${contrato.funcionario.nombres} + ' ' + ${contrato.funcionario.apellidoPaterno} + ' ' + ${contrato.funcionario.apellidoMaterno}"></li>
-                <li class="list-group-item" th:text="'Id Contrato: ' + ${contrato.id}"></li>
-                <li class="list-group-item" th:text="'Servicio de Salud: ' + ${contrato.servicioSalud.servicioSalud}"></li>
-                <li class="list-group-item" th:text="'Comuna: ' + ${contrato.comuna.comuna}"></li>
-                <li class="list-group-item" th:text="'Establecimiento: ' + ${contrato.establecimiento.establecimientoNombre}"></li>
-                <li class="list-group-item" th:text="'Administración Salud: ' + ${contrato.adminSalud.adminSalud}"></li>
+                <li class="list-group-item list-group-item-dark" th:text="'Datos del Establecimiento: ' + ${contrato.funcionario.nombres} + ' ' + ${contrato.funcionario.apellidoPaterno} + ' ' + ${contrato.funcionario.apellidoMaterno}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Id Contrato: ' + ${contrato.id}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Servicio de Salud: ' + ${contrato.servicioSalud.servicioSalud}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Comuna: ' + ${contrato.comuna.comuna}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Establecimiento: ' + ${contrato.establecimiento.establecimientoNombre}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Administración Salud: ' + ${contrato.adminSalud.adminSalud}"></li>
             </ul>
 
             <ul class="list-group">
-                <li class="list-group-item list-group-item-info" th:text="'Datos del Contrato: ' + ${contrato.funcionario.nombres} + ' ' + ${contrato.funcionario.apellidoPaterno} + ' ' + ${contrato.funcionario.apellidoMaterno}"></li>
-                <li class="list-group-item" th:text="'Ley: ' + ${contrato.ley.ley}"></li>
-                <li class="list-group-item" th:text="'Tipo Contrato: ' + ${contrato.tipoContrato.tipoContrato}"></li>
-                <li class="list-group-item" th:text="'Categoría: ' + ${contrato.categoriaProfesion.categoriaProfesion}"></li>
-                <li class="list-group-item" th:text="'Nivel Carrera: ' + ${contrato.nivelCarrera.nivelCarrera}"></li>
-                <li class="list-group-item" th:text="'Profesión: ' + ${contrato.profesion.profesion}"></li>
-                <li class="list-group-item" th:text="'Especialidad: ' + ${contrato.especialidad.especialidad}"></li>
-                <li class="list-group-item" th:text="'Cargo: ' + ${contrato.cargo.cargo}"></li>
-                <li class="list-group-item" th:text="'Asignación Chofer: ' + ${contrato.asignacionChofer.asignacionChofer}"></li>
-                <li class="list-group-item" th:text="'Jornada Laboral: ' + ${contrato.jornadaLaboral}"></li>
-                <li class="list-group-item" th:text="'Años de servicio: ' + ${contrato.aniosServicio}"></li>
-                <li class="list-group-item" th:text="'Fecha Ingreso: ' + ${#dates.format(contrato.fechaIngreso, 'dd/MM/yyyy')}"></li>
-                <li class="list-group-item" th:text="'Bienios: ' + ${contrato.bienios.bienios}"></li>
-                <li class="list-group-item" th:text="'Previsión: ' + ${contrato.prevision.prevision}"></li>
-                <li class="list-group-item" th:text="'Isapre: ' + ${contrato.isapre.isapre}"></li>
-                <li class="list-group-item" th:text="'Sueldo Base: ' + ${#numbers.formatInteger(contrato.sueldoBase,3,'POINT')}"></li>
-                <li class="list-group-item" th:text="'Total Haberes: ' + ${#numbers.formatInteger(contrato.totalHaberes,3,'POINT')}"></li>
-                <li class="list-group-item">Habilitado: <span th:text="${contrato.enabled} ? 'Si' : 'No'"></span></li>
-                <li class="list-group-item">Validado: <span th:text="${contrato.validado} ? 'Si' : 'No'"></span></li>
-                <li class="list-group-item">Revisado: <span th:text="${contrato.revisado} ? 'Si' : 'No'"></span></li>
+                <li class="list-group-item list-group-item-dark" th:text="'Datos del Contrato: ' + ${contrato.funcionario.nombres} + ' ' + ${contrato.funcionario.apellidoPaterno} + ' ' + ${contrato.funcionario.apellidoMaterno}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Ley: ' + ${contrato.ley.ley}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Tipo Contrato: ' + ${contrato.tipoContrato.tipoContrato}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Categoría: ' + ${contrato.categoriaProfesion.categoriaProfesion}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Nivel Carrera: ' + ${contrato.nivelCarrera.nivelCarrera}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Profesión: ' + ${contrato.profesion.profesion}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Especialidad: ' + ${contrato.especialidad.especialidad}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Cargo: ' + ${contrato.cargo.cargo}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Asignación Chofer: ' + ${contrato.asignacionChofer.asignacionChofer}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Jornada Laboral: ' + ${contrato.jornadaLaboral}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Años de servicio: ' + ${contrato.aniosServicio}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Fecha Ingreso: ' + ${#dates.format(contrato.fechaIngreso, 'dd/MM/yyyy')}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Bienios: ' + ${contrato.bienios.bienios}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Previsión: ' + ${contrato.prevision.prevision}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Isapre: ' + ${contrato.isapre.isapre}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Sueldo Base: ' + ${#numbers.formatInteger(contrato.sueldoBase,3,'POINT')}"></li>
+                <li class="list-group-item bg-dark text-white" th:text="'Total Haberes: ' + ${#numbers.formatInteger(contrato.totalHaberes,3,'POINT')}"></li>
+                <li class="list-group-item bg-dark text-white">Habilitado: <span th:text="${contrato.enabled} ? 'Si' : 'No'"></span></li>
+                <li class="list-group-item bg-dark text-white">Validado: <span th:text="${contrato.validado} ? 'Si' : 'No'"></span></li>
+                <li class="list-group-item bg-dark text-white">Revisado: <span th:text="${contrato.revisado} ? 'Si' : 'No'"></span></li>
             </ul>
 
-            <div class="card border-info mb-4 mt-2 bg-secondary text-white panel-shadow-gray-2" style="max-width:20rem;">
+            <div class="card mb-4 mt-2 bg-secondary text-white" style="max-width:20rem;">
                 <div class="card-header">Descargar Documento</div>
-                <div class="card-body bg-light text-dark">
+                <div class="card-body bg-dark">
                     <p class="card-text">
-                        <a href="#" class="btn btn-success btn-sm">Exportar</a>
+                        <a href="#" class="btn btn-secondary btn-sm">Exportar</a>
                     </p>
                 </div>
             </div>

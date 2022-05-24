@@ -7,4 +7,8 @@ import java.util.List;
 public interface IProfesionDao {
 
     public List<Profesion> findAll();
+
+    public List<Profesion> findProfesionLey19378(Long idCategoriaProfesion);
+
+    public List<Profesion> findProfesionLeyHonorariosCodigo();
 }

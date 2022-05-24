@@ -843,6 +843,7 @@ public class CargaMasivaController {
             }
 
             /* ########################################################### [ COMIENZO: BUCLE ANIDADO: VALIDACIÓN JORNADA LABORA Y REGISTROS DUPLICADOS] ########################################################### */
+            /*
             Iterator<Row> rowsFirst = sheet.iterator();
             rowsFirst.next();
             while (rowsFirst.hasNext()) {
@@ -1473,13 +1474,13 @@ public class CargaMasivaController {
                 }
 
             }   // while --> rowsFirst
+            */
             /* ########################################################### [ FIN: BUCLE ANIDADO: VALIDACIÓN JORNADA LABORA Y REGISTROS DUPLICADOS] ########################################################### */
 
             if (errorFlag) {
                 flash.addFlashAttribute("errorMessages", errorMessages);
                 return "redirect:/carga-masiva/index";
             } else {
-                /*
                 // System.out.println(funcionarioArrayList);
                 boolean ifExistFuncionarioRut = true;
                 for(Funcionario fun : funcionarioArrayList) {
@@ -1499,7 +1500,8 @@ public class CargaMasivaController {
                     con.setFuncionario(funcionarioEntity);
                     funcionarioService.saveContratoCustom(con);
                 }
-                */
+
+                flash.addFlashAttribute("success", "Archivo cargado correctamente");
             }
 
             logger.info("Nombre del Archivo: " + file.getOriginalFilename());

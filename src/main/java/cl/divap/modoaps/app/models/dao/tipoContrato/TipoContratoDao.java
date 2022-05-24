@@ -20,4 +20,12 @@ public class TipoContratoDao  implements ITipoContratoDao {
         //
         return em.createQuery("from TipoContrato order by tipoContrato").getResultList();
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<TipoContrato> findTipoContratoByLeyId(Long LeyId) {
+        return em.createQuery("FROM TipoContrato tc WHERE tc.ley.id=?1", TipoContrato.class)
+                .setParameter(1, LeyId)
+                .getResultList();
+    }
 }

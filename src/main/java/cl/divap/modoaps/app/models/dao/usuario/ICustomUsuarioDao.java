@@ -23,4 +23,8 @@ public interface ICustomUsuarioDao {
     public List<Usuario> findAllCriteriaApi();
 
     public Page<Usuario> findAllCriteriaApi(Pageable pageable, HttpSession session);
+
+    public Object findServicioIdByUserName(String username);
+
+    public Object findComunaIdByUserName(String username);
 }

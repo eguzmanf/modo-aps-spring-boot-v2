@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -354,6 +355,84 @@ public class FuncionarioService implements IFuncionarioService {
     @Transactional(readOnly = true)
     public List<Contrato> getContratosByRutFuncionarioWithFuncionario(String rut) {
         return customContratoDao.getContratosByRutFuncionarioWithFuncionario(rut);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Funcionario fetchByIdByIdServicioWithContratosRoleServicio(Long id, Long idServicio) {
+        return funcionarioDao.fetchByIdByIdServicioWithContratosRoleServicio(id, idServicio);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Funcionario fetchByIdByIdComunaByIdServicioWithContratosRoleComuna(Long id, Long idServicio, Long idComuna) {
+        return funcionarioDao.fetchByIdByIdComunaByIdServicioWithContratosRoleComuna(id, idServicio, idComuna);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Funcionario fetchByIdWithContratosRoleLaGranja(Long id) {
+        return funcionarioDao.fetchByIdWithContratosRoleLaGranja(id);
+    }
+
+    @Override
+    @Transactional
+    public void updateTrueRevisadoByIdContrato(Long id, String usuario, Date fecha) {
+        customContratoDao.updateTrueRevisadoByIdContrato(id, usuario, fecha);
+    }
+
+    @Override
+    @Transactional
+    public void updateFalseEnabledByIdContrato(Long id, String usuario, Date fecha) {
+        customContratoDao.updateFalseEnabledByIdContrato(id, usuario, fecha);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Contrato> findAllContratosNotDisabled() {
+        return customContratoDao.findAllContratosNotDisabled();
+    }
+
+    @Override
+    @Transactional
+    public void updateTrueValidadoByIdContrato(Long id, String usuario, Date fecha) {
+        customContratoDao.updateTrueValidadoByIdContrato(id, usuario, fecha);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Contrato> findContratosNotDisabledRoleServicio(Long idServicio) {
+        return customContratoDao.findContratosNotDisabledRoleServicio(idServicio);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Contrato> findContratosNotDisabledRoleComuna(Long idServicio, Long idComuna) {
+        return customContratoDao.findContratosNotDisabledRoleComuna(idServicio, idComuna);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Contrato> findContratosNotDisabledRoleLaGranja() {
+        return customContratoDao.findContratosNotDisabledRoleLaGranja();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Contrato> searchContratosCriteriaApi(HttpSession session) {
+        return customContratoDao.searchContratosCriteriaApi(session);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Object getJornadaLaboralByIdContrato(Long id) {
+        return customContratoDao.getJornadaLaboralByIdContrato(id);
+    }
+
+    @Override
+    @Transactional
+    public void updateJornadaLaboralByIdContrato(Long id, Integer jornada) {
+        customContratoDao.updateJornadaLaboralByIdContrato(id, jornada);
     }
 
 }

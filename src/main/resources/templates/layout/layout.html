@@ -43,7 +43,7 @@
                     </ul>
                     <ul class = "navbar-nav ml-auto">
                         <li sec:authorize="!isAuthenticated()">
-                            <a class="btn btn-outline-primary" th:href="@{/login}">Iniciar Sesión</a>
+                            <a class="btn btn-outline-light" th:href="@{/login}">Iniciar Sesión</a>
                         </li>
                         <li class="dropdown" sec:authorize="isAuthenticated()">
                             <a class="btn btn-outline-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -70,7 +70,7 @@
         <footer class="container text-light" th:fragment="footer">
             <hr style="background-color: #6C757D;" class="panel-shadow-blue-2" />
             <p sec:authorize="isAuthenticated()">
-                Usuario Logueado: <span sec:authentication="name"></span> | Roles: <span sec:authentication="principal.authorities">[ROLE_MINSAL, ROLE_LA_GRANJA]</span>
+                Usuario Logueado: <span sec:authentication="name"></span> | Rol: <span sec:authentication="principal.authorities">[ROLE_MINSAL, ROLE_LA_GRANJA]</span>
             </p>
             <p>
                 Todos los derechos Reservados &copy; 2021 División de Atención Primaria - Subsecretaría de Redes Asistenciales, Ministerio de Salud, Gobierno de Chile.<br />

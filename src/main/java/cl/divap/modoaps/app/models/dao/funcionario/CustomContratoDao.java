@@ -8,7 +8,13 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import javax.servlet.http.HttpSession;
+import java.util.*;
 
 @Repository
 public class CustomContratoDao implements ICustomContratoDao {
@@ -178,7 +184,7 @@ public class CustomContratoDao implements ICustomContratoDao {
 
     @Override
     public Object getCountJornadaLaboralByRutFuncionario(String rut) {
-        return em.createQuery("SELECT SUM(c.jornadaLaboral) FROM Contrato c LEFT JOIN Funcionario f on f.id = c.funcionario.id WHERE c.ley.id IN (1, 3) AND f.run = :rut")
+        return em.createQuery("SELECT SUM(c.jornadaLaboral) FROM Contrato c LEFT JOIN Funcionario f on f.id = c.funcionario.id WHERE c.ley.id IN (1, 3) AND c.enabled = true AND f.run = :rut")
                 .setParameter("rut", rut)
                 .getSingleResult();
     }
@@ -217,5 +223,125 @@ public class CustomContratoDao implements ICustomContratoDao {
         return em.createQuery("SELECT c FROM Contrato c WHERE TRIM(UPPER(c.funcionario.run)) = ?1", Contrato.class)
                 .setParameter(1, rut.trim().toUpperCase())
                 .getResultList();
+    }
+
+    @Override
+    public void updateTrueRevisadoByIdContrato(Long id, String usuario, Date fecha) {
+        em.createNativeQuery("UPDATE contratos SET revisado = :rev, fecha_revision = :fecha, usuario_revisor = :usuario WHERE id = :contratoId")
+                .setParameter("rev", true)
+                .setParameter("fecha", fecha)
+                .setParameter("usuario", usuario)
+                .setParameter("contratoId", id)
+                .executeUpdate();
+    }
+
+    @Override
+    public void updateFalseEnabledByIdContrato(Long id, String usuario, Date fecha) {
+        em.createNativeQuery("UPDATE contratos SET enabled = :enabled, fecha_disabled = :fecha WHERE id = :contratoId")
+                .setParameter("enabled", false)
+                .setParameter("fecha", fecha)
+                .setParameter("contratoId", id)
+                .executeUpdate();
+    }
+
+    @Override
+    public List<Contrato> findAllContratosNotDisabled() {
+        return em.createQuery("SELECT c from Contrato c WHERE c.enabled = true ORDER BY c.funcionario.run, c.comuna.id, c.establecimiento.id, c.ley.id, c.tipoContrato.id ASC").getResultList();
+    }
+
+    @Override
+    public void updateTrueValidadoByIdContrato(Long id, String usuario, Date fecha) {
+        em.createNativeQuery("UPDATE contratos SET validado = :validado, fecha_validacion = :fecha, usuario_validador = :usuario WHERE id = :contratoId")
+                .setParameter("validado", true)
+                .setParameter("fecha", fecha)
+                .setParameter("usuario", usuario)
+                .setParameter("contratoId", id)
+                .executeUpdate();
+    }
+
+    @Override
+    public List<Contrato> findContratosNotDisabledRoleServicio(Long idServicio) {
+        return em.createQuery("SELECT c from Contrato c WHERE c.enabled = true AND c.servicioSalud.id = ?1 ORDER BY c.funcionario.run, c.comuna.id, c.establecimiento.id, c.ley.id, c.tipoContrato.id ASC")
+                .setParameter(1, idServicio)
+                .getResultList();
+    }
+
+    @Override
+    public List<Contrato> findContratosNotDisabledRoleComuna(Long idServicio, Long idComuna) {
+        return em.createQuery("SELECT c from Contrato c WHERE c.enabled = true AND c.servicioSalud.id = ?1 AND c.comuna.codigoComuna = ?2 ORDER BY c.funcionario.run, c.comuna.id, c.establecimiento.id, c.ley.id, c.tipoContrato.id ASC")
+                .setParameter(1, idServicio)
+                .setParameter(2, idComuna)
+                .getResultList();
+    }
+
+    @Override
+    public List<Contrato> findContratosNotDisabledRoleLaGranja() {
+        return em.createQuery("SELECT c from Contrato c WHERE c.enabled = true AND c.servicioSalud.id IN (13, 14) ORDER BY c.funcionario.run, c.comuna.id, c.establecimiento.id, c.ley.id, c.tipoContrato.id ASC").getResultList();
+    }
+
+    @Override
+    public List<Contrato> searchContratosCriteriaApi(HttpSession session) {
+        //
+        Map params = (Map) session.getAttribute("params");
+        logger.info("Map params from Dao: " + params);
+        logger.info("Map param userLoggedIn from Dao: " + params.get("userLoggedIn"));
+        logger.info("Map param roleString from Dao: " + params.get("roleString"));
+        logger.info("Map param servicioString from Dao: " + params.get("servicioString"));
+        logger.info("Map param comunaString from Dao: " + params.get("comunaString"));
+        logger.info("Map param run from Dao: " + params.get("run"));
+
+        Long servicioLong = Long.parseLong(params.get("servicioString").toString());
+        Long comunaLong = Long.parseLong(params.get("comunaString").toString());
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Contrato> cq = cb.createQuery(Contrato.class);
+
+        Root<Contrato> contrato = cq.from(Contrato.class);
+        cq.select(contrato);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        List<Long> parentList = Arrays.asList(13L, 14L);
+
+        if(params.get("run") != "" || params.get("run") != null) {
+            predicates.add(cb.like(contrato.get("funcionario").get("run"),params.get("run") + "%"));
+        }
+
+        if(params.get("roleString").equals("[ROLE_MINSAL]")) {
+            // nothing to do!!!
+        } else if(params.get("roleString").equals("[ROLE_SERVICIO]")) {
+            predicates.add(cb.equal(contrato.get("servicioSalud").get("id"), servicioLong));
+
+        } else if(params.get("roleString").equals("[ROLE_COMUNA]")) {
+            predicates.add(cb.equal(contrato.get("servicioSalud").get("id"), servicioLong));
+            predicates.add(cb.equal(contrato.get("comuna").get("codigoComuna"), comunaLong));
+
+        } else if(params.get("roleString").equals("[ROLE_LA_GRANJA]")) {
+            predicates.add(contrato.get("servicioSalud").get("id").in(parentList));
+        }
+
+        predicates.add(cb.equal(contrato.get("enabled"), true));
+
+        cq.where(predicates.toArray(new Predicate[0]));
+
+        cq.orderBy(cb.asc(contrato.get("funcionario").get("run")), cb.asc(contrato.get("comuna").get("id")), cb.asc(contrato.get("establecimiento").get("id")), cb.asc(contrato.get("ley").get("id")), cb.asc(contrato.get("tipoContrato").get("id")));
+
+        TypedQuery<Contrato> query = em.createQuery(cq);
+        return query.getResultList();
+    }
+
+    @Override
+    public Object getJornadaLaboralByIdContrato(Long id) {
+        return em.createQuery("SELECT c.jornadaLaboral FROM Contrato c WHERE c.id = ?1")
+                .setParameter(1, id)
+                .getResultList().stream().findFirst().orElse(null);
+    }
+
+    @Override
+    public void updateJornadaLaboralByIdContrato(Long id, Integer jornada) {
+        em.createNativeQuery("UPDATE contratos SET jornada_laboral = :jornada WHERE id = :contratoId")
+                .setParameter("jornada", jornada)
+                .setParameter("contratoId", id)
+                .executeUpdate();
     }
 }

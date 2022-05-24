@@ -1,6 +1,7 @@
 package cl.divap.modoaps.app.models.dao.comuna;
 
 import cl.divap.modoaps.app.models.entity.Comuna;
+import cl.divap.modoaps.app.models.entity.ServicioSalud;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,5 +36,13 @@ public class ComunaDao implements IComunaDao {
         return em.createQuery("SELECT c FROM Comuna c WHERE c.servicioSalud.id = ?1 ORDER BY c.comuna", Comuna.class)
                 .setParameter(1, id)
                 .getResultList();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Comuna findComunaByIdComunaRoleComuna(Long idComuna) {
+        return em.createQuery("from Comuna c where c.codigoComuna = ?1", Comuna.class)
+                .setParameter(1, idComuna)
+                .getSingleResult();
     }
 }

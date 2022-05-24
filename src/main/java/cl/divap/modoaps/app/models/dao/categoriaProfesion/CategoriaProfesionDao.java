@@ -20,4 +20,16 @@ public class CategoriaProfesionDao implements ICategoriaProfesionDao {
 
         return em.createQuery("from CategoriaProfesion order by categoriaProfesion").getResultList();
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<CategoriaProfesion> findCategoriaProfesionLey19378() {
+        return em.createQuery("FROM CategoriaProfesion cp WHERE cp.id <> 7", CategoriaProfesion.class).getResultList();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<CategoriaProfesion> findCategoriaProfesionLeyHonorariosCodigo() {
+        return em.createQuery("FROM CategoriaProfesion cp WHERE cp.id = 7", CategoriaProfesion.class).getResultList();
+    }
 }

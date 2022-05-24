@@ -173,4 +173,18 @@ public class CustomUsuarioDao implements ICustomUsuarioDao {
 
         return result;
     }
+
+    @Override
+    public Object findServicioIdByUserName(String username) {
+        return em.createQuery("SELECT u.servicioSalud.id FROM Usuario u WHERE u.username = ?1")
+                .setParameter(1, username)
+                .getResultList().stream().findFirst().orElse(null);
+    }
+
+    @Override
+    public Object findComunaIdByUserName(String username) {
+        return em.createQuery("SELECT u.comuna.codigoComuna FROM Usuario u WHERE u.username = ?1")
+                .setParameter(1, username)
+                .getResultList().stream().findFirst().orElse(null);
+    }
 }

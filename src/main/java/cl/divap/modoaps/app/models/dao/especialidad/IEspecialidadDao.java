@@ -7,4 +7,6 @@ import java.util.List;
 public interface IEspecialidadDao {
 
     public List<Especialidad> findAll();
+
+    public List<Especialidad> findEspecialidadByProfesionId(Long profesionId);
 }

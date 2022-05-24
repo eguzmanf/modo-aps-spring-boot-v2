@@ -8,13 +8,30 @@
 
     <div class="container-fluid py-4">
 
-        <div class="card bg-secondary text-white">
-            <div class="card-header" th:text="${titulo}"></div>
-            <div class="card-body bg-light text-dark">
-
+        <div class="card bg-dark text-white">
+            <div class="card-header" th:text="${titulo} + ${' - Total Registros: ' + contratos.size()}"></div>
+            <div class="card-body color-metal">
+                <a class="btn btn-secondary btn-sm mb-4" th:href="@{/registro/export-excel}">Exportar&nbsp;&nbsp;
+                    <span class="far fa-file-excel"></span>
+                </a>
+                <form th:action="@{/registro/buscar/}" method="post">
+                    <div class="form-row">
+                        <div class="col-sm-3">
+                            <div class="form-group row">
+                                <label for="run" class="col-form-label col-sm-2 font-weight-bolder">Run: </label>
+                                <div class="col-sm-4">
+                                    <input type="text" id="run" name="run" class="form-control form-control-sm">
+                                </div>
+                                <div class="col-sm-4">
+                                    <button class="btn btn-secondary btn-sm" type="submit" name="buscar" id="buscar" value="btnBuscar">Buscar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 <form th:action="@{/registro/acciones/}" method="post">
                     <div class="table-responsive-xxl" style="height: 500px !important; overflow: scroll;"> <!-- width: auto; -->
-                        <table class="table table-striped table-bordered table-hover table-sm mt-3">
+                        <table class="table table-striped table-bordered table-hover table-dark table-sm mt-3">
                             <thead>
                                 <tr style="font-size:10px;">
                                     <th>
@@ -50,6 +67,7 @@
                                     <th>Total Haberes</th>
                                     <th>Validado</th>
                                     <th>Revisado</th>
+                                    <th>Habilitado</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -57,8 +75,8 @@
                                     <td align="center">
                                         <input type="checkbox" name="checkAllTextArray" class="checkSingle" th:value="${contrato.id}">
                                     </td>
-                                    <td sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MINSAL')" style="font-size:12px;">
-                                        <a class="badge badge-primary" th:href="@{/contrato/form-editar/} + ${contrato.id}" th:text="'Editar'"></a>
+                                    <td style="font-size:12px;">
+                                        <a class="badge badge-secondary" th:href="@{/contrato/form-editar/} + ${contrato.id}" th:text="'Editar'"></a>
                                     </td>
                                     <td th:text="${iterator.index+1}"></td>
                                <!-- <td th:text="${contrato.id}"></td> -->
@@ -74,7 +92,7 @@
                                     <td th:text="${contrato.ley.ley}"></td>
                                     <td th:text="${contrato.tipoContrato.tipoContrato}"></td>
                                     <td th:text="${contrato.categoriaProfesion.categoriaProfesion}"></td>
-                                    <td th:text="${contrato.nivelCarrera.nivelCarrera}"></td>
+                                    <td th:text="${contrato.nivelCarrera.nivelCarrera} == 0 ? 'N/A' : ${contrato.nivelCarrera.nivelCarrera}"></td>
                                     <td th:text="${contrato.profesion.profesion}"></td>
                                     <td th:text="${contrato.especialidad.especialidad}"></td>
                                     <td th:text="${contrato.cargo.cargo}"></td>
@@ -89,18 +107,21 @@
                                     <td th:text="${#numbers.formatInteger(contrato.totalHaberes,3,'POINT')}"></td>
                                     <td th:text="${contrato.validado} ? 'Si' : 'No'"></td>
                                     <td th:text="${contrato.revisado} ? 'Si' : 'No'"></td>
+                                    <td th:text="${contrato.enabled} ? 'Si' : 'No'"></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <!-- ########################################### Button Form ################################################ -->
-                    <hr class="style38 mt-5">
-                    <div class="form-group row justify-content-center text-center">
-                        <div class="col-sm-4">
-                            <input id="btnRevisarRegistros" name="btnRevisarRegistros" type="submit" value="Revisar Registros" class="btn btn-dark">
+                    <div class="form-group row justify-content-center text-center mt-4">
+                        <div class="col-sm-4" sec:authorize="hasRole('ROLE_COMUNA')">
+                            <input id="btnRevisarRegistros" name="btnRevisarRegistros" type="submit" value="Revisar Registros" class="btn btn-secondary" onclick="return confirm('Estás seguro que quieres revisar?')">
                         </div>
-                        <div class="col-sm-4">
-                            <input id="btnEliminarRegistros" name="btnEliminarRegistros" type="submit" value="Eliminar Registros" class="btn btn-danger">
+                        <div class="col-sm-4" sec:authorize="hasAnyRole('ROLE_MINSAL', 'ROLE_COMUNA')">
+                            <input id="btnEliminarRegistros" name="btnEliminarRegistros" type="submit" value="Eliminar Registros" class="btn btn-dark" onclick="return confirm('Estás seguro que quieres eliminar?')">
+                        </div>
+                        <div class="col-sm-4" sec:authorize="hasAnyRole('ROLE_MINSAL', 'ROLE_SERVICIO', 'ROLE_LA_GRANJA')">
+                            <input id="btnValidarRegistros" name="btnValidarRegistros" type="submit" value="Validar Registros" class="btn btn-dark" onclick="return confirm('Estás seguro que quieres validar?')">
                         </div>
                     </div>
                 </form>

@@ -7,4 +7,6 @@ import java.util.List;
 public interface IAsignacionChoferDao {
 
     public List<AsignacionChofer> findAll();
+
+    public List<AsignacionChofer> findAsignacionChoferByCargoId(Long cargoId);
 }

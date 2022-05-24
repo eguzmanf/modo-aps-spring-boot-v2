@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <script type="module" th:fragment="javascript-crear">
+
+        import { FuncionesGenerales } from "../../app/funciones/generales/funciones-generales.js";
+        import { AppContratoCrear } from "../../app/contratos/app-contratos-crear.js";
+        import { ApiContratoCrear } from "../../app/contratos/api-contratos-crear.js";
+        import { UiContratoCrear } from "../../app/contratos/ui-contratos-crear.js";
+
+        // ######################################## DEFINICION DE CONSTANTES #######################################
+
+        const urlGetComunas = "/contrato/cargar-comunas";
+        const urlGetEstablecimientos = "/contrato/cargar-establecimientos";
+        const urlGetServicioByIdServicio = "/contrato/cargar-servicio";
+        const urlGetComunasByIdServicioRole = "/contrato/cargar-comunas-servicio-role"
+        const urlGetEstablecimientoByIdComunaServicioRole = "/contrato/cargar-establecimientos-comuna-servicio-role"
+        const urlGetComunaByIdComunaRoleComuna = "/contrato/cargar-comunas-role-comuna"
+        const urlGetServiciosLaGranjaRoleLaGranja = "/contrato/cargar-servicio-la-granja"
+
+        const urlGetTipoContrato = "/contrato/cargar-tipo-Contrato";
+        const urlGetCategoriaProfesionLey19378 = "/contrato/cargar-categoria-ley-19378";
+        const urlGetNivelCarreraLey19378 = "/contrato/cargar-nivel-carrera-ley19378";
+        const urlGetProfesionLey19378 = "/contrato/cargar-profesion-ley19378";
+        const urlGetespecialidad = "/contrato/cargar-especialidad";
+        const urlGetAsignacionChofer = "/contrato/cargar-asignacion-chofer";
+        const urlGetCategoriaProfesionHonorarioCodigo = "/contrato/cargar-categoria-ley-honorario-codigo";
+        const urlGetNivelCarreraLeyHonorarioCodigo = "/contrato/cargar-nivel-carrera-ley-honorario-codigo";
+        const urlGetProfesionLeyHonorarioCodigo = "/contrato/cargar-profesion-ley-honorario-codigo";
+
+        // ################################# INICIALIZAR CLASES - FUNCION DE INIT CAMPOS ###########################
+
+        const metodosCrear = new FuncionesGenerales();
+        const apiCrear = new ApiContratoCrear(urlGetComunas, urlGetEstablecimientos, urlGetServicioByIdServicio, urlGetComunasByIdServicioRole,
+            urlGetEstablecimientoByIdComunaServicioRole, urlGetComunaByIdComunaRoleComuna, urlGetServiciosLaGranjaRoleLaGranja,
+            urlGetTipoContrato, urlGetCategoriaProfesionLey19378, urlGetNivelCarreraLey19378, urlGetProfesionLey19378,
+            urlGetespecialidad, urlGetAsignacionChofer, urlGetCategoriaProfesionHonorarioCodigo, urlGetNivelCarreraLeyHonorarioCodigo,
+            urlGetProfesionLeyHonorarioCodigo);
+        const uiCrear = new UiContratoCrear(apiCrear);
+        const appCrear = new AppContratoCrear(uiCrear, apiCrear);
+
+        function initDOMCrear() {
+            appCrear.initAppCrear();
+        }
+
+        function domIsReadyCrear() {
+            appCrear.domIsReadyAppCrear();
+        }
+
+        // ##################################### INICIAR: CARGAR CONTENIDO DOM HTML #######################################
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initDOMCrear();
+        });
+
+        document.onreadystatechange = () => {
+            domIsReadyCrear();
+        };
+
+        // ####################################### LLAMAR FUNCIONES #######################################################
+
+        appCrear.getComunasSelect();
+        appCrear.getEstablecimientoSelect();
+
+    </script>
+</body>
+</html>

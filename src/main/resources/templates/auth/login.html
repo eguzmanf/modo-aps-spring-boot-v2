@@ -8,9 +8,9 @@
 
     <div class="container py-4">
 
-        <div class="card bg-secondary text-white text-center">
+        <div class="card bg-dark text-white text-center">
             <div class="card-header" th:text="${titulo}"></div>
-            <div class="card-body bg-light text-dark">
+            <div class="card-body color-metal text-white">
 
                 <form th:action="@{/login}" method="post">
                     <div class="form-group row">
@@ -28,7 +28,7 @@
                     <div class="form-group row">
                         <label class="col-form-label col-sm-2"></label>
                         <div class="col-sm-2">
-                            <input id="btnCrear" type="submit" value="Inicie Sesión" class="btn btn-dark btn-lg btn-block">
+                            <input id="btnCrear" type="submit" value="Inicie Sesión" class="btn btn-dark btn-sm btn-block">
                         </div>
                     </div>
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />

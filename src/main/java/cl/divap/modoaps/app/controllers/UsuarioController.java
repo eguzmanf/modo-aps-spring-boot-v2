@@ -477,8 +477,8 @@ public class UsuarioController {
     @PostMapping(value = "/cargar-comunas", produces = {"application/json"})
     public @ResponseBody List<Comuna> cargarComuna(@RequestBody ObjectNode idServicioSalud) {
 
-        String idRoleString = idServicioSalud.get("idRole").asText();
-        logger.info("El string idRole: " + idRoleString);
+        // String idRoleString = idServicioSalud.get("idRole").asText();
+        // logger.info("El string idRole: " + idRoleString);
 
         String idString = idServicioSalud.get("idServicioSalud").asText();
         logger.info("El string idServicioSalud: " + idString);

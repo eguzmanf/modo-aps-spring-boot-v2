@@ -11,7 +11,7 @@ public class Establecimiento implements Serializable {
 
     private static final long serialVersionUID = -9030842399557835058L;
 
-    @NotNull
+    // @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -49,6 +49,7 @@ public class Establecimiento implements Serializable {
     private String dependencia;
     private String codigoAntiguo;
 
+    @NotNull
     @Column(name = "codigo_nuevo")
     private Integer codigoNuevo;
 

@@ -1,5 +1,6 @@
 package cl.divap.modoaps.app.models.dao.establecimiento;
 
+import cl.divap.modoaps.app.models.entity.Comuna;
 import cl.divap.modoaps.app.models.entity.Establecimiento;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,5 +27,13 @@ public class EstablecimientoDao implements IEstablecimientoDao {
         return em.createQuery("from Establecimiento e where e.codigoNuevo = ?1", Establecimiento.class)
                 .setParameter(1, codigoNuevo)
                 .getSingleResult();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Establecimiento> findEstablecimientoByIdComuna(Long id) {
+        return em.createQuery("SELECT e FROM Establecimiento e WHERE e.comuna.codigoComuna = ?1 ORDER BY e.establecimientoNombre", Establecimiento.class)
+                .setParameter(1, id)
+                .getResultList();
     }
 }

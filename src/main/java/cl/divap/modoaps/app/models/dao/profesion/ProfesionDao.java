@@ -20,4 +20,18 @@ public class ProfesionDao implements IProfesionDao {
         //
         return em.createQuery("from Profesion order by profesion").getResultList();
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Profesion> findProfesionLey19378(Long idCategoriaProfesion) {
+        return em.createQuery("FROM Profesion p WHERE p.categoriaProfesion.id = ?1", Profesion.class)
+                .setParameter(1, idCategoriaProfesion)
+                .getResultList();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Profesion> findProfesionLeyHonorariosCodigo() {
+        return em.createQuery("FROM Profesion p WHERE p.categoriaProfesion.id = 7", Profesion.class).getResultList();
+    }
 }

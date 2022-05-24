@@ -10,13 +10,13 @@
 
         <div th:replace="usuario/listar-form-buscar :: listarFormBuscar"></div>
 
-        <div class="card bg-secondary text-white">
+        <div class="card bg-dark text-white">
             <div class="card-header" th:text="${titulo} + ${' - Total Registros: ' + usuarios.getTotalElements()}"></div>
-            <div class="card-body bg-light text-dark">
+            <div class="card-body color-metal text-white">
                 <h4 class="card-title">
                     <a sec:authorize="hasAnyRole('ROLE_MINSAL')" th:href="@{/usuario/form}" class="btn btn-dark btn-sm">Crear Usuario</a>
                 </h4>
-                <table class="table table-striped table-bordered table-hover table-sm mt-3">
+                <table class="table table-striped table-bordered table-hover table-dark table-sm mt-3">
                     <thead>
                         <tr style="font-size:12px;">
                             <th>Id</th>
@@ -56,25 +56,25 @@
                             <td th:text="${usuario.comuna.comuna}"></td>
                             <td>
                                 <i th:each="rol: ${usuario.roles}">
-                                    <span class="badge badge-primary" th:text="${rol.authority}"></span>
+                                    <span class="badge badge-secondary" th:text="${rol.authority}"></span>
                                 </i>
                             </td>
                             <td th:text="${#dates.format(usuario.createAt, 'dd/MM/yyyy HH:mm:ss')}"></td>
                             <td>
-                                <span class="badge badge-success" th:if="${usuario.enabled == true}" th:text="'Habilitado'"></span>
-                                <span class="badge badge-danger" th:unless="${usuario.enabled == true}" th:text="'Deshabilitado'"></span>
+                                <span class="badge badge-secondary" th:if="${usuario.enabled == true}" th:text="'Habilitado'"></span>
+                                <span class="badge badge-dark" th:unless="${usuario.enabled == true}" th:text="'Deshabilitado'"></span>
                             </td>
                             <td sec:authorize="hasAnyRole('ROLE_MINSAL')">
-                                <a class="btn btn-primary btn-sm" th:href="@{/usuario/form/} + ${usuario.id}" th:text="'Editar'"></a>
+                                <a class="btn btn-secondary btn-sm" th:href="@{/usuario/form/} + ${usuario.id}" th:text="'Editar'"></a>
                             </td>
                             <td sec:authorize="hasRole('ROLE_MINSAL')">
-                                <a class="btn btn-danger btn-sm" th:href="@{/usuario/eliminar/} + ${usuario.id}" th:text="'Eliminar'" onclick="return confirm('Estás seguro que quieres eliminar?')"></a>
+                                <a class="btn btn-dark btn-sm" th:href="@{/usuario/eliminar/} + ${usuario.id}" th:text="'Eliminar'" onclick="return confirm('Estás seguro que quieres eliminar?')"></a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 <nav th:replace="paginator/paginator-nav :: paginator"></nav>
-                <a class="btn btn-success panel-shadow-green-2" th:href="@{/usuario/export-excel}">Exportar&nbsp;&nbsp;
+                <a class="btn btn-secondary" th:href="@{/usuario/export-excel}">Exportar&nbsp;&nbsp;
                     <span class="far fa-file-excel"></span>
                 </a>
             </div>

@@ -26,6 +26,7 @@ export class AppUsuarioBuscar {
            this.api.fetchComunaByServicioChange(idServicioSalud)
                .then( data => {
                    let dataObject = data.resultado;
+                   console.log(dataObject);
                    this.ComunaByServicioChangeSelectList(dataObject, this.comuna);
                });
         });

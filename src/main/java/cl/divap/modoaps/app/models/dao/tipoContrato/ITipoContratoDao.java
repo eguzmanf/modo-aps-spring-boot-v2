@@ -8,4 +8,6 @@ public interface ITipoContratoDao {
 
     public List<TipoContrato> findAll();
 
+    public List<TipoContrato> findTipoContratoByLeyId(Long LeyId);
+
 }

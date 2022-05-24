@@ -2,6 +2,7 @@ package cl.divap.modoaps.app.controllers;
 
 import cl.divap.modoaps.app.models.dao.nacionalidad.INacionalidadDao;
 import cl.divap.modoaps.app.models.dao.sexo.ISexoDao;
+import cl.divap.modoaps.app.models.dao.usuario.ICustomUsuarioDao;
 import cl.divap.modoaps.app.models.entity.Funcionario;
 import cl.divap.modoaps.app.models.entity.Nacionalidad;
 import cl.divap.modoaps.app.models.entity.Sexo;
@@ -50,17 +51,46 @@ public class FuncionarioController {
     @Autowired
     private INacionalidadDao nacionalidadDao;
 
+    @Autowired
+    private ICustomUsuarioDao customUsuarioDao;
+
     // @Secured({"ROLE_LA_GRANJA", "ROLE_COMUNA", "ROLE_SERVICIO", "ROLE_MINSAL"})
     @PreAuthorize("hasAnyRole('ROLE_LA_GRANJA', 'ROLE_COMUNA', 'ROLE_SERVICIO', 'ROLE_MINSAL')")
     @GetMapping(value = "/ver/{id}")
-    public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
+    public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash, Authentication authentication) {
         //
-        // Funcionario funcionario = funcionarioService.findOne(id);
-        Funcionario funcionario = funcionarioService.fetchByIdWithContratos(id);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String userLoggedIn = auth.getName();
+        logger.info("Usuario Autenticado: " + userLoggedIn);
+
+        Collection<? extends GrantedAuthority> role = authentication.getAuthorities();
+        String roleString = String.valueOf(role);
+        logger.info("Su Rol es: ".concat(roleString));
+
+        Funcionario funcionario = null;
+
+        Object servicioObject = customUsuarioDao.findServicioIdByUserName(userLoggedIn);
+        Long servicioLong = Long.parseLong(servicioObject.toString());
+        logger.info("Servicio de Salud del Usuario: " + servicioLong);
+
+        Object comunaObject = customUsuarioDao.findComunaIdByUserName(userLoggedIn);
+        Long comunaLong = Long.parseLong(comunaObject.toString());
+        logger.info("Comuna del Usuario: " + comunaLong);
+
+        if(roleString.equals("[ROLE_MINSAL]")) {
+            // Funcionario funcionario = funcionarioService.findOne(id);
+            funcionario = funcionarioService.fetchByIdWithContratos(id);
+        } else if(roleString.equals("[ROLE_SERVICIO]")) {
+            funcionario = funcionarioService.fetchByIdByIdServicioWithContratosRoleServicio(id, servicioLong);
+        } else if(roleString.equals("[ROLE_COMUNA]")) {
+            funcionario = funcionarioService.fetchByIdByIdComunaByIdServicioWithContratosRoleComuna(id, servicioLong, comunaLong);
+        } else if(roleString.equals("[ROLE_LA_GRANJA]")) {
+            funcionario = funcionarioService.fetchByIdWithContratosRoleLaGranja(id);
+        }
 
         if(funcionario == null) {
             //
-            flash.addFlashAttribute("error", "El Id del Funcionario no existe en la base de datos!");
+            flash.addFlashAttribute("error", "No existen registros de contratos para su perfil. Puede crear uno en boton 'Crear Contrato'");
             return "redirect:/funcionario/listar";
         }
 
@@ -114,6 +144,10 @@ public class FuncionarioController {
             logger.info("Forma utilizando HttpServletRequest (nativa): Hola ".concat(auth.getName()).concat(" NO tienes acceso"));
         }
 
+        Collection<? extends GrantedAuthority> role = authentication.getAuthorities();
+        String roleString = String.valueOf(role);
+        logger.info("Su Rol es: ".concat(roleString));
+
         Integer numeroRegistros=4;
         Pageable pageRequest = PageRequest.of(page, numeroRegistros);
         Page<Funcionario> funcionarios = funcionarioService.findAll(pageRequest);
@@ -127,7 +161,7 @@ public class FuncionarioController {
         return "funcionario/listar";
     }
 
-    @Secured({"ROLE_MINSAL"})
+    @Secured({"ROLE_LA_GRANJA", "ROLE_COMUNA", "ROLE_SERVICIO", "ROLE_MINSAL"})
     @RequestMapping(value="/form")
     public String crear(Map<String, Object> model) {
         //
@@ -139,8 +173,8 @@ public class FuncionarioController {
         return "funcionario/form";
     }
 
-    // @Secured({"ROLE_MINSAL"})
-    @PreAuthorize("hasAnyRole('ROLE_MINSAL')")
+    // @Secured({"ROLE_MINSAL", "ROLE_COMUNA"})
+    @PreAuthorize("hasAnyRole('ROLE_LA_GRANJA', 'ROLE_COMUNA', 'ROLE_SERVICIO', 'ROLE_MINSAL')")
     @GetMapping("/form/{id}")
     public String editar(@PathVariable("id") Long id, Model model, RedirectAttributes flash) {
         //
@@ -164,7 +198,7 @@ public class FuncionarioController {
         return "funcionario/form";
     }
 
-    @Secured({"ROLE_MINSAL"})
+    @Secured({"ROLE_LA_GRANJA", "ROLE_COMUNA", "ROLE_SERVICIO", "ROLE_MINSAL"})
     @RequestMapping(value="/form", method=RequestMethod.POST)
     public String guardar(@Valid @ModelAttribute("funcionario") Funcionario funcionario, BindingResult result, Model model, RedirectAttributes flash, SessionStatus status) {
         //
@@ -184,6 +218,7 @@ public class FuncionarioController {
         funcionario.setApellidoPaterno(funcionario.getApellidoPaterno().toUpperCase());
         funcionario.setApellidoMaterno(funcionario.getApellidoMaterno().toUpperCase());
         funcionario.setRun(funcionario.getRun().toUpperCase());
+        funcionario.setEnabled(true);
 
         String mensajeFlash = (funcionario.getId() != null) ? "Funcionario editado con éxito!" : "Funcionario creado con éxito!";
 
@@ -193,7 +228,7 @@ public class FuncionarioController {
         return "redirect:/funcionario/listar";
     }
 
-    @Secured({"ROLE_MINSAL"})
+    @Secured({"ROLE_LA_GRANJA", "ROLE_COMUNA", "ROLE_SERVICIO", "ROLE_MINSAL"})
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable("id") Long id, RedirectAttributes flash) {
         //

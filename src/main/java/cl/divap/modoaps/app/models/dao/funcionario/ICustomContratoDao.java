@@ -2,6 +2,8 @@ package cl.divap.modoaps.app.models.dao.funcionario;
 
 import cl.divap.modoaps.app.models.entity.Contrato;
 
+import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 
 public interface ICustomContratoDao {
@@ -57,4 +59,24 @@ public interface ICustomContratoDao {
     public Object getIdFuncionarioByRutFuncionario(String rut);
 
     public List<Contrato> getContratosByRutFuncionarioWithFuncionario(String rut);
+
+    public void updateTrueRevisadoByIdContrato(Long id, String usuario, Date fecha);
+
+    public void updateFalseEnabledByIdContrato(Long id, String usuario, Date fecha);
+
+    public List<Contrato> findAllContratosNotDisabled();
+
+    public void updateTrueValidadoByIdContrato(Long id, String usuario, Date fecha);
+
+    public List<Contrato> findContratosNotDisabledRoleServicio(Long idServicio);
+
+    public List<Contrato> findContratosNotDisabledRoleComuna(Long idServicio, Long idComuna);
+
+    public List<Contrato> findContratosNotDisabledRoleLaGranja();
+
+    public List<Contrato> searchContratosCriteriaApi(HttpSession session);
+
+    public Object getJornadaLaboralByIdContrato(Long id);
+
+    public void updateJornadaLaboralByIdContrato(Long id, Integer jornada);
 }

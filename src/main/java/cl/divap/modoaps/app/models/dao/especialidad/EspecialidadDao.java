@@ -19,4 +19,12 @@ public class EspecialidadDao implements IEspecialidadDao {
     public List<Especialidad> findAll() {
         return em.createQuery("from Especialidad order by especialidad").getResultList();
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Especialidad> findEspecialidadByProfesionId(Long profesionId) {
+        return em.createQuery("FROM Especialidad e WHERE e.profesion.id = ?1", Especialidad.class)
+                .setParameter(1, profesionId)
+                .getResultList();
+    }
 }

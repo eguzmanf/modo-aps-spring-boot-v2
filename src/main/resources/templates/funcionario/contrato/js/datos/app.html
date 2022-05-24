@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <script type="module" th:fragment="javascript-datos">
+        /*
+        import { AppDatosContrato } from "../../app/contratos/app-datos-contrato.js";
+        import { ApiDatosContrato } from "../../app/contratos/api-datos-contrato.js";
+
+        // ######################################## DEFINICION DE CONSTANTES #######################################
+
+        const urlGetTipoContrato = "/contrato/cargar-tipo-Contrato";
+        const urlGetCategoriaProfesionLey19378 = "/contrato/cargar-categoria-ley-19378";
+        const urlGetNivelCarreraLey19378 = "/contrato/cargar-nivel-carrera-ley19378";
+        const urlGetProfesionLey19378 = "/contrato/cargar-profesion-ley19378";
+        const urlGetespecialidad = "/contrato/cargar-especialidad";
+        const urlGetAsignacionChofer = "/contrato/cargar-asignacion-chofer";
+        const urlGetCategoriaProfesionHonorarioCodigo = "/contrato/cargar-categoria-ley-honorario-codigo";
+        const urlGetNivelCarreraLeyHonorarioCodigo = "/contrato/cargar-nivel-carrera-ley-honorario-codigo";
+        const urlGetProfesionLeyHonorarioCodigo = "/contrato/cargar-profesion-ley-honorario-codigo";
+
+        // ################################# INICIALIZAR CLASES - FUNCION DE INIT CAMPOS ###########################
+
+        const apiDatos = new ApiDatosContrato(urlGetTipoContrato, urlGetCategoriaProfesionLey19378, urlGetNivelCarreraLey19378, urlGetProfesionLey19378,
+            urlGetespecialidad, urlGetAsignacionChofer, urlGetCategoriaProfesionHonorarioCodigo, urlGetNivelCarreraLeyHonorarioCodigo, urlGetProfesionLeyHonorarioCodigo);
+        const appDatos = new AppDatosContrato(apiDatos);
+
+        function initDOMCrear() {
+            appDatos.initAppCrear();
+        }
+
+        function domIsReadyCrear() {
+            appDatos.domIsReadyAppCrear();
+        }
+
+        // ##################################### INICIAR: CARGAR CONTENIDO DOM HTML #######################################
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initDOMCrear();
+        });
+
+        document.onreadystatechange = () => {
+            domIsReadyCrear();
+        };
+
+        // ####################################### LLAMAR FUNCIONES #######################################################
+        */
+    </script>
+</body>
+</html>
