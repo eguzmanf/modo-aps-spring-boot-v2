@@ -25,6 +25,7 @@
             -->
 
             <form th:action="@{/funcionario/form/}" th:object="${funcionario}" method="post">
+                <input type="hidden" id="isCreateOrEdit" name="isCreateOrEdit" th:value="${crear}" />
                 <!-- <input type="hidden" id="idPaciente" th:field="*{id}"> -->
                 <div class="form-group row">
                     <label for="nombres" class="col-form-label col-sm-2">Nombres: </label>
@@ -82,10 +83,19 @@
                     </div>
                     <small th:if="${#fields.hasErrors('fechaNacimiento')}" th:errors="*{fechaNacimiento}" class="form-text text-danger"></small>
                 </div>
+                <div class="form-group row">
+                    <label for="enabled" class="col-form-label col-sm-4">Estado: </label>
+                    <div class="col-sm-6 mt-2">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" id="enabled" th:field="*{enabled}" class="custom-control-input" th:checked="${flag}" th:value="${crear}">
+                            <label class="custom-control-label" for="enabled"><span id="badge-enabled" style="font-size:18px" class="badge badge-pill badge-success">Habilitado</span></label>
+                        </div>
+                    </div>
+                </div>
                 <!-- ########################################### Button Form ################################################ -->
                 <div class="form-group row justify-content-center text-center">
                     <div class="col-sm-4">
-                        <input id="btnCrear" type="submit" value="Crear Funcionario" class="btn btn-secondary">
+                        <input id="btnCrear" type="submit" th:value="${boton}" class="btn btn-secondary">
                     </div>
                 </div>
             </form>
@@ -99,3 +109,44 @@
 
 </body>
 </html>
+
+<script type="text/javascript">
+
+    let enabled = document.getElementById('enabled');
+    let badgeEnabled = document.getElementById('badge-enabled');
+    let isCreateOrEdit = document.getElementById('isCreateOrEdit');
+
+    if(isCreateOrEdit.value === "true") {
+        enabled.checked = true;
+        badgeEnabled.innerHTML = 'Habilitado';
+        $("#badge-enabled").removeClass('badge badge-pill badge-danger').addClass('badge badge-pill badge-success');
+    }
+
+    enabled.addEventListener('change', (e) => {
+        //
+        if (enabled.checked) {
+            //
+            badgeEnabled.innerHTML = 'Habilitado';
+            $("#badge-enabled").removeClass('badge badge-pill badge-danger').addClass('badge badge-pill badge-success');
+
+
+        } else {
+            //
+            badgeEnabled.innerHTML = 'Inhabilitado';
+            $("#badge-enabled").removeClass('badge badge-pill badge-success').addClass('badge badge-pill badge-danger');
+        }
+    });
+
+    if (enabled.checked) {
+        //
+        badgeEnabled.innerHTML = 'Habilitado';
+        $("#badge-enabled").removeClass('badge badge-pill badge-danger').addClass('badge badge-pill badge-success');
+
+
+    } else {
+        //
+        badgeEnabled.innerHTML = 'Inhabilitado';
+        $("#badge-enabled").removeClass('badge badge-pill badge-success').addClass('badge badge-pill badge-danger');
+    }
+
+</script>

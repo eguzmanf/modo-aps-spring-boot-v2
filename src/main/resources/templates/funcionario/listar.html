@@ -8,6 +8,8 @@
 
     <div class="container-fluid py-4">
 
+        <div th:replace="funcionario/listar-form-buscar :: listarFormBuscar"></div>
+
         <div class="card bg-dark text-white">
             <div class="card-header" th:text="${titulo} + ${' - Total Registros: ' + funcionarios.getTotalElements()}"></div>
             <div class="card-body color-metal">
@@ -31,7 +33,7 @@
                             <th>Fecha Creación</th>
                             <th sec:authorize="hasAnyRole('ROLE_MINSAL', 'ROLE_SERVICIO', 'ROLE_COMUNA', 'ROLE_LA_GRANJA')">Crear Contrato</th>
                             <th sec:authorize="hasAnyRole('ROLE_MINSAL')">Editar</th>
-                            <th sec:authorize="hasRole('ROLE_MINSAL')">Eliminar</th>
+                            <!-- <th sec:authorize="hasRole('ROLE_MINSAL')">Eliminar</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -54,9 +56,11 @@
                             <td sec:authorize="hasAnyRole('ROLE_MINSAL')">
                                 <a class="btn btn-secondary btn-sm" th:href="@{/funcionario/form/} + ${funcionario.id}" th:text="'Editar'"></a>
                             </td>
+                            <!--
                             <td sec:authorize="hasRole('ROLE_MINSAL')">
                                 <a class="btn btn-dark btn-sm" th:href="@{/funcionario/eliminar/} + ${funcionario.id}" th:text="'Eliminar'" onclick="return confirm('Estás seguro que quieres eliminar?')"></a>
                             </td>
+                            -->
                         </tr>
                     </tbody>
                 </table>

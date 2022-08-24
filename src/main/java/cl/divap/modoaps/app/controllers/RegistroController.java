@@ -1,9 +1,14 @@
 package cl.divap.modoaps.app.controllers;
 
+import cl.divap.modoaps.app.models.dao.comuna.IComunaDao;
+import cl.divap.modoaps.app.models.dao.establecimiento.IEstablecimientoDao;
+import cl.divap.modoaps.app.models.dao.nacionalidad.INacionalidadDao;
+import cl.divap.modoaps.app.models.dao.servicioSalud.IServicioSaludDao;
+import cl.divap.modoaps.app.models.dao.sexo.ISexoDao;
 import cl.divap.modoaps.app.models.dao.usuario.ICustomUsuarioDao;
-import cl.divap.modoaps.app.models.entity.Contrato;
-import cl.divap.modoaps.app.models.entity.Usuario;
+import cl.divap.modoaps.app.models.entity.*;
 import cl.divap.modoaps.app.models.service.IFuncionarioService;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.poi.hssf.util.HSSFColor;
@@ -20,10 +25,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletOutputStream;
@@ -46,6 +48,21 @@ public class RegistroController {
 
     @Autowired
     private ICustomUsuarioDao customUsuarioDao;
+
+    @Autowired
+    private ISexoDao sexoDao;
+
+    @Autowired
+    private INacionalidadDao nacionalidadDao;
+
+    @Autowired
+    private IServicioSaludDao servicioDao;
+
+    @Autowired
+    private IComunaDao comunaDao;
+
+    @Autowired
+    private IEstablecimientoDao establecimientoDao;
 
     @GetMapping("/listar")
     public String listar(Model model, Authentication authentication) {
@@ -84,6 +101,9 @@ public class RegistroController {
 
         // model.addAttribute("titulo", "Actualiza contratos");
         model.addAttribute("contratos", contratos);
+        model.addAttribute("roleUser", role);
+        model.addAttribute("idServicioUsuario", servicioLong);
+        model.addAttribute("idComunaUsuario", comunaLong);
 
         return "registro/listar";
     }
@@ -197,9 +217,38 @@ public class RegistroController {
         params.put("servicioString", servicioLong.toString());
         params.put("comunaString", comunaLong.toString());
 
-        if(request.getParameterMap().containsKey("run")) {
+        if(request.getParameterMap().containsKey("run") || request.getParameterMap().containsKey("nombres") || request.getParameterMap().containsKey("apellidoPaterno") || request.getParameterMap().containsKey("apellidoMaterno") ||
+                request.getParameterMap().containsKey("sexo") || request.getParameterMap().containsKey("nacionalidad") || request.getParameterMap().containsKey("servicioSalud") || request.getParameterMap().containsKey("comuna") ||
+                request.getParameterMap().containsKey("establecimiento")) {
+
             String run = request.getParameter("run");
+            String nombres = request.getParameter("nombres");
+            String apellidoPaterno = request.getParameter("apellidoPaterno");
+            String apellidoMaterno = request.getParameter("apellidoMaterno");
+            String sexo = request.getParameter("sexo");
+            String nacionalidad = request.getParameter("nacionalidad");
+            String servicioSalud = request.getParameter("servicioSalud");
+            String comuna = request.getParameter("comuna");
+            String establecimiento = request.getParameter("establecimiento");
+
+            if(sexo.equals("")) {
+                sexo = null;
+            }
+            nacionalidad = nacionalidad.equals("") ? null : nacionalidad;
+            servicioSalud = servicioSalud.equals("") ? null : servicioSalud;
+            comuna = comuna.equals("") ? null : comuna;
+            establecimiento = establecimiento.equals("") ? null : establecimiento;
+
             params.put("run", run);
+            params.put("nombres", nombres);
+            params.put("apellidoPaterno", apellidoPaterno);
+            params.put("apellidoMaterno", apellidoMaterno);
+            params.put("sexo", sexo);
+            params.put("nacionalidad", nacionalidad);
+            params.put("servicioSalud", servicioSalud);
+            params.put("comuna", comuna);
+            params.put("establecimiento", establecimiento);
+
             logger.info("Run Parameter from Controller: " + run);
             session.setAttribute("params", params);
             logger.info("Session params from Controller: " + session.getAttribute("params"));
@@ -220,8 +269,22 @@ public class RegistroController {
             model.addAttribute("titulo", "Actualizar contratos Rol La Granja");
         }
         model.addAttribute("contratos", contratos);
+        model.addAttribute("roleUser", role);
+        model.addAttribute("idServicioUsuario", servicioLong);
+        model.addAttribute("idComunaUsuario", comunaLong);
 
         return "registro/listar";
+    }
+
+    @GetMapping("/limpiar")
+    public String limpiarBuscador(HttpServletRequest request, HttpSession session) {
+
+        if(session.getAttribute("params") != null) {
+            session.setAttribute("params", null);
+        }
+
+        logger.info("Limpiando Session params en vista listar");
+        return "redirect:/registro/listar";
     }
 
     @GetMapping("/export-excel")
@@ -249,8 +312,24 @@ public class RegistroController {
 
         if(session.getAttribute("params") == null) {
             params.put("run", "");
+            params.put("nombres", "");
+            params.put("apellidoPaterno", "");
+            params.put("apellidoMaterno", "");
+            params.put("sexo", null);
+            params.put("nacionalidad", null);
+            params.put("servicioSalud", null);
+            params.put("comuna", null);
+            params.put("establecimiento", null);
         } else {
             params.put("run", (String) paramsSession.get("run"));
+            params.put("nombres", (String) paramsSession.get("nombres"));
+            params.put("apellidoPaterno", (String) paramsSession.get("apellidoPaterno"));
+            params.put("apellidoMaterno", (String) paramsSession.get("apellidoMaterno"));
+            params.put("sexo", (String) paramsSession.get("sexo"));
+            params.put("nacionalidad", (String) paramsSession.get("nacionalidad"));
+            params.put("servicioSalud", (String) paramsSession.get("servicioSalud"));
+            params.put("comuna", (String) paramsSession.get("comuna"));
+            params.put("establecimiento", (String) paramsSession.get("establecimiento"));
         }
 
         params.put("userLoggedIn", userLoggedIn);
@@ -562,5 +641,99 @@ public class RegistroController {
         workbook.write(outputStream);
         workbook.close();
         outputStream.close();
+    }
+
+    /* ######################################### METODOS SELECT LIST ######################################### */
+
+    @ModelAttribute("listaSexo")
+    public List<Sexo> sexos() {
+        //
+        List<Sexo> sexos = sexoDao.findAll();
+        return sexos;
+    }
+
+    @ModelAttribute("listaNacionalidad")
+    public List<Nacionalidad> nacionalidades() {
+        //
+        List<Nacionalidad> nacionalidades = nacionalidadDao.findAll();
+        return nacionalidades;
+    }
+
+    @ModelAttribute("listaServiciosSalud")
+    public List<ServicioSalud> servicios() {
+        //
+        List<ServicioSalud> serviciosSalud = servicioDao.findAll();
+        return serviciosSalud;
+    }
+
+    @ModelAttribute("listaComunas")
+    public List<Comuna> comunas() {
+        //
+        List<Comuna> comunas = comunaDao.findAll();
+        return comunas;
+    }
+
+    /* ######################################### METODOS API FETCH ######################################### */
+
+    @PostMapping(value = "/cargar-comunas", produces = {"application/json"})
+    public @ResponseBody List<Comuna> cargarComuna(@RequestBody ObjectNode idServicioSalud) {
+
+        String idString = idServicioSalud.get("idServicioSalud").asText();
+        Long id = Long.parseLong(idString);
+
+        return comunaDao.findComunaByIdServicioSalud(id);
+    }
+
+    @PostMapping(value = "/cargar-establecimientos", produces = {"application/json"})
+    public @ResponseBody List<Establecimiento> cargarEstablecimiento(@RequestBody ObjectNode node) {
+
+        String idString = node.get("idComuna").asText();
+        Long id = Long.parseLong(idString);
+
+        return establecimientoDao.findEstablecimientoByIdComuna(id);
+    }
+
+    @PostMapping(value = "/cargar-servicio", produces = {"application/json"})
+    public @ResponseBody ServicioSalud cargarServicio(@RequestBody ObjectNode node) {
+
+        String idString = node.get("idServicio").asText();
+        Long id = Long.parseLong(idString);
+
+        logger.info(id);
+
+        return servicioDao.findServicioByServicioId(id);
+    }
+
+    @PostMapping(value = "/cargar-comunas-servicio-role", produces = {"application/json"})
+    public @ResponseBody List<Comuna> cargarComunaServicioRole(@RequestBody ObjectNode idServicioSalud) {
+
+        String idString = idServicioSalud.get("idServicio").asText();
+        Long id = Long.parseLong(idString);
+
+        return comunaDao.findComunaByIdServicioSalud(id);
+    }
+
+    @PostMapping(value = "/cargar-comunas-role-comuna", produces = {"application/json"})
+    public @ResponseBody Comuna cargarComunaByIdComunaRoleComuna(@RequestBody ObjectNode node) {
+
+        String idString = node.get("idComuna").asText();
+        Long id = Long.parseLong(idString);
+
+        return comunaDao.findComunaByIdComunaRoleComuna(id);
+    }
+
+    @PostMapping(value = "/cargar-establecimientos-comuna-servicio-role", produces = {"application/json"})
+    public @ResponseBody List<Establecimiento> cargarEstablecimientoServicioRole(@RequestBody ObjectNode node) {
+
+        String idString = node.get("idComuna").asText();
+        Long id = Long.parseLong(idString);
+
+        return establecimientoDao.findEstablecimientoByIdComuna(id);
+    }
+
+    @PostMapping(value = "/cargar-servicio-la-granja", produces = {"application/json"})
+    public @ResponseBody List<ServicioSalud> cargarServiciosLaGranja(@RequestBody ObjectNode node) {
+
+        return servicioDao.findServiciosLaGranja();
     }
 }

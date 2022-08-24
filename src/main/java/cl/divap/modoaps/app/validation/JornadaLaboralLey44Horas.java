@@ -43,10 +43,17 @@ public class JornadaLaboralLey44Horas implements Validator {
 
         Long totalJornadaLong = 0L;
         Integer jornadaLaboralDBInt = 0;
+        Long countJornadaLaboraLong = 0L;
         if(contrato.getId() == null) {
             // crear
             Object countJornadaLaboraObject = funcionarioService.getCountJornadaLaboralByRutFuncionario(run);
-            Long countJornadaLaboraLong = Long.parseLong(countJornadaLaboraObject.toString());
+
+            if(countJornadaLaboraObject != null) {
+                countJornadaLaboraLong = Long.parseLong(countJornadaLaboraObject.toString());
+            } else {
+                countJornadaLaboraLong = 0L;
+            }
+
             totalJornadaLong = countJornadaLaboraLong + jornadaLaboralLong;
             logger.info("totalJornadaLong: " + totalJornadaLong);
         } else {

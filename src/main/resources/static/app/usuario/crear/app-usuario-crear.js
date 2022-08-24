@@ -14,6 +14,7 @@ export class AppUsuarioCrear {
         this.hasErrorsScript = document.getElementById('hasErrorsScript');
         this.enabled = document.getElementById('enabled');
         this.badgeEnabled = document.getElementById('badge-enabled');
+
     }
 
     initAppCrear() {
@@ -489,6 +490,31 @@ export class AppUsuarioCrear {
             //
             this.badgeEnabled.innerHTML = 'Inhabilitado';
             $("#badge-enabled").removeClass('badge badge-pill badge-success').addClass('badge badge-pill badge-danger');
+        }
+    }
+
+    eyesPasswordChangeModal() {
+        const passwordChangeModal = document.getElementById('passwordModal');
+        const togglePasswordEyesModal = document.querySelector('#togglePasswordModal');
+        togglePasswordEyesModal.addEventListener('click', function (e) {
+            const type = passwordChangeModal.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordChangeModal.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
+    }
+
+    eyesPasswordCrear() {
+        const passwordCreate = document.getElementById('password');
+        const togglePasswordEyes = document.querySelector('#togglePassword');
+        if(togglePasswordEyes != null) {
+            togglePasswordEyes.addEventListener('click', function (e) {
+                if (passwordCreate.type === "password") {
+                    passwordCreate.type = "text";
+                } else {
+                    passwordCreate.type = "password";
+                }
+                this.classList.toggle('fa-eye-slash');
+            });
         }
     }
 }

@@ -1,17 +1,16 @@
 package cl.divap.modoaps.app.models.service;
 
 import cl.divap.modoaps.app.models.dao.contrato.IContratoDao;
+import cl.divap.modoaps.app.models.dao.descuentoRetiro.ICustomDescuentoRetiroDao;
 import cl.divap.modoaps.app.models.dao.funcionario.ICustomContratoDao;
+import cl.divap.modoaps.app.models.dao.funcionario.ICustomFuncionarioDao;
 import cl.divap.modoaps.app.models.dao.funcionario.IFuncionarioDao;
 import cl.divap.modoaps.app.models.dao.role.IRoleDao;
 import cl.divap.modoaps.app.models.dao.servicioSaludComuna.ICustomServicioComunaDao;
 import cl.divap.modoaps.app.models.dao.servicioSaludComuna.IServicioComunaDao;
 import cl.divap.modoaps.app.models.dao.usuario.ICustomUsuarioDao;
 import cl.divap.modoaps.app.models.dao.usuario.IUsuarioDao;
-import cl.divap.modoaps.app.models.entity.Contrato;
-import cl.divap.modoaps.app.models.entity.Funcionario;
-import cl.divap.modoaps.app.models.entity.ServicioComuna;
-import cl.divap.modoaps.app.models.entity.Usuario;
+import cl.divap.modoaps.app.models.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -45,6 +44,12 @@ public class FuncionarioService implements IFuncionarioService {
 
     @Autowired
     private ICustomServicioComunaDao customServicioComunaDao;
+
+    @Autowired
+    private ICustomFuncionarioDao customFuncionarioDao;
+
+    @Autowired
+    private ICustomDescuentoRetiroDao customDescuentoRetiroDao;
 
     @Override
     @Transactional(readOnly = true)
@@ -433,6 +438,24 @@ public class FuncionarioService implements IFuncionarioService {
     @Transactional
     public void updateJornadaLaboralByIdContrato(Long id, Integer jornada) {
         customContratoDao.updateJornadaLaboralByIdContrato(id, jornada);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Funcionario> findAllCriteriaApiFuncionarios(Pageable pageable, HttpSession session) {
+        return customFuncionarioDao.findAllCriteriaApiFuncionarios(pageable, session);
+    }
+
+    @Override
+    @Transactional
+    public void updateContratosEnabledFalse(Long id) {
+        customFuncionarioDao.updateContratosEnabledFalse(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<DescuentoRetiro> findAllDescuentoRetiro() {
+        return customDescuentoRetiroDao.findAllDescuentoRetiro();
     }
 
 }

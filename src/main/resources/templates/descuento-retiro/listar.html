@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head">
+
+<body>
+
+    <header th:replace="layout/layout :: header"></header>
+
+    <div class="container-fluid py-4">
+        <div class="card bg-dark text-white">
+            <div class="card-header" th:text="${titulo} + ${' - Total Registros: ' + descuentoRetiroList.size()}"></div>
+            <div class="card-body color-metal">
+
+                <h4 class="card-title">
+                    <a href="#" class="btn btn-dark btn-lg">Crear</a>
+                </h4>
+
+                <div class="table-responsive-xxl" style="height: 600px !important; overflow: scroll;"> <!-- width: auto; -->
+                    <table class="table table-striped table-bordered table-hover table-dark table-sm mt-3">
+                        <thead>
+                            <tr style="font-size:16px;">
+                                <th>Id</th>
+                                <th>Servicio de Salud</th>
+                                <th>Comuna</th>
+                                <th>Fecha Convenio</th>
+                                <th>N° Cuotas Total</th>
+                                <th>Monto Cuota Mensual</th>
+                                <th>Ultima Cuota</th>
+                                <th>Total Recursos</th>
+                                <th>Deuda</th>
+                                <th>N° Cuota</th>
+                                <th>Fecha Cuota</th>
+                                <th>Resolución</th>
+                                <th>Editar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="desc: ${descuentoRetiroList}" style="font-size:14px;">
+                                <td th:text="${desc.id}"></td>
+                                <td th:text="${desc.servicioSalud.servicioSalud}"></td>
+                                <td th:text="${desc.comuna.comuna}"></td>
+                                <td th:text="${#calendars.format(desc.fechaConvenio, 'dd/MM/yyyy')}"></td>
+                                <td th:text="${desc.numeroCuotasTotal}"></td>
+                                <td th:text="${#numbers.formatInteger(desc.montoCuotaMensual,3,'POINT')}"></td>
+                                <td th:text="${#numbers.formatInteger(desc.ultimaCuota,3,'POINT')}"></td>
+                                <td th:text="${#numbers.formatInteger(desc.totalRecursos,3,'POINT')}"></td>
+                                <td th:text="${#numbers.formatInteger(desc.deuda,3,'POINT')}"></td>
+                                <td th:text="${desc.numeroCuota}"></td>
+                                <td th:text="${#dates.format(desc.fechaCuota, 'dd/MM/yyyy')}"></td>
+                                <td th:text="${desc.resolucion}"></td>
+                                <td>
+                                    <a class="btn btn-secondary btn-sm" href="#" th:text="'Editar'"></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="layout/layout :: footer"></footer>
+
+</body>
+</html>

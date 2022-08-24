@@ -33,7 +33,7 @@ public class ExisteUsuarioComunaValidator implements Validator {
         logger.info("Existe Role Perfil Id ???: " + usuario.getRolePerfil().getId());
         logger.info("Existe Comuna Id ???: " + usuario.getComuna().getCodigoComuna());
 
-        if(usuario.getRolePerfil().getId() != null && usuario.getRolePerfil().getId() == 4) {  // ROLE_COMUNA
+        if(usuario.getRolePerfil().getId() != null && usuario.getRolePerfil().getId() == 3) {  // ROLE_COMUNA
             //
             if(usuario.getId() == null) {   // Crear
                 //

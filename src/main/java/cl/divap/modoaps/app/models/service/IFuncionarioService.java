@@ -1,9 +1,6 @@
 package cl.divap.modoaps.app.models.service;
 
-import cl.divap.modoaps.app.models.entity.Contrato;
-import cl.divap.modoaps.app.models.entity.Funcionario;
-import cl.divap.modoaps.app.models.entity.ServicioComuna;
-import cl.divap.modoaps.app.models.entity.Usuario;
+import cl.divap.modoaps.app.models.entity.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -136,5 +133,11 @@ public interface IFuncionarioService {
     public Object getJornadaLaboralByIdContrato(Long id);
 
     public void updateJornadaLaboralByIdContrato(Long id, Integer jornada);
+
+    public Page<Funcionario> findAllCriteriaApiFuncionarios(Pageable pageable, HttpSession session);
+
+    public void updateContratosEnabledFalse(Long id);
+
+    public List<DescuentoRetiro> findAllDescuentoRetiro();
 
 }

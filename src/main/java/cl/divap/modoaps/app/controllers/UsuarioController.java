@@ -422,7 +422,6 @@ public class UsuarioController {
         logger.info("Password: " + usuario.getPassword());
         logger.info("Confirmar Password: " + usuario.getConfirmPassword());
 
-        logger.info(usuario);
         funcionarioService.updatePasswordByIdUsuario(usuario);
         status.setComplete();
         flash.addFlashAttribute("success", "Se ha cambiado la contraseña del Usuario " + usuario.getNombre() + " exitosamente!");

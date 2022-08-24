@@ -32,7 +32,7 @@ public class ExisteUsuarioServicio implements Validator {
         logger.info("Existe Role Perfil Id ???: " + usuario.getRolePerfil().getId());
         logger.info("Existe Servicio Salud Id ???: " + usuario.getServicioSalud().getId());
 
-        if(usuario.getRolePerfil().getId() != null && usuario.getRolePerfil().getId() == 3) {  // ROLE_SERVICIO
+        if(usuario.getRolePerfil().getId() != null && usuario.getRolePerfil().getId() == 2) {  // ROLE_SERVICIO
             //
             if(usuario.getId() == null) {   // Crear
                 //

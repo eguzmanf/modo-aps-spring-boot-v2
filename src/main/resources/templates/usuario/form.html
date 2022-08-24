@@ -134,7 +134,12 @@
                             <div class="form-group row" th:if="${crear}">
                                 <label for="password" class="col-form-label col-sm-4">Contraseña: </label>
                                 <div class="col-sm-6">
-                                    <input type="password" id="password" th:field="*{password}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'" autocomplete="off" th:disabled="${crear == false}">
+                                    <div class="input-group">
+                                        <input type="password" id="password" th:field="*{password}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'" autocomplete="off" th:disabled="${crear == false}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="fas fa-eye" id="togglePassword" style="cursor: pointer;"></i></span>
+                                        </div>
+                                    </div>
                                 </div>
                                 <small th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="form-text text-danger"></small>
                             </div>

@@ -307,6 +307,38 @@ public class CustomContratoDao implements ICustomContratoDao {
             predicates.add(cb.like(contrato.get("funcionario").get("run"),params.get("run") + "%"));
         }
 
+        if(params.get("nombres") != "" || params.get("nombres") != null) {
+            predicates.add(cb.like(contrato.get("funcionario").get("nombres"),"%" + params.get("nombres") + "%"));
+        }
+
+        if(params.get("apellidoPaterno") != "" || params.get("apellidoPaterno") != null) {
+            predicates.add(cb.like(contrato.get("funcionario").get("apellidoPaterno"),"%" + params.get("apellidoPaterno") + "%"));
+        }
+
+        if(params.get("apellidoMaterno") != "" || params.get("apellidoMaterno") != null) {
+            predicates.add(cb.like(contrato.get("funcionario").get("apellidoMaterno"),"%" + params.get("apellidoMaterno") + "%"));
+        }
+
+        if(params.get("sexo") != null) {
+            predicates.add(cb.equal(contrato.get("funcionario").get("sexo").get("id"), params.get("sexo")));
+        }
+
+        if(params.get("nacionalidad") != null) {
+            predicates.add(cb.equal(contrato.get("funcionario").get("nacionalidad").get("id"), params.get("nacionalidad")));
+        }
+
+        if(params.get("servicioSalud") != null) {
+            predicates.add(cb.equal(contrato.get("servicioSalud").get("id"), params.get("servicioSalud")));
+        }
+
+        if(params.get("comuna") != null) {
+            predicates.add(cb.equal(contrato.get("comuna").get("codigoComuna"), params.get("comuna")));
+        }
+
+        if(params.get("establecimiento") != null) {
+            predicates.add(cb.equal(contrato.get("establecimiento").get("codigoNuevo"), params.get("establecimiento")));
+        }
+
         if(params.get("roleString").equals("[ROLE_MINSAL]")) {
             // nothing to do!!!
         } else if(params.get("roleString").equals("[ROLE_SERVICIO]")) {

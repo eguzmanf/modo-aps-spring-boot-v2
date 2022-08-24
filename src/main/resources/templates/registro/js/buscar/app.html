@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <script type="module" th:fragment="javascript">
+
+        // import { FuncionesGenerales } from "../app/funciones-generales/funciones-generales.js";
+
+        import { AppRegistrosBuscar } from "../../app/registros/buscar/app-registros-buscar.js";
+        import { ApiRegistrosBuscar } from "../../app/registros/buscar/api-registros-buscar.js";
+        import { UiRegistrosBuscar } from "../../app/registros/buscar/ui-registros-buscar.js";
+
+        // ######################################## DEFINICION DE CONSTANTES #######################################
+
+        const urlGetComunas = "/registro/cargar-comunas";
+        const urlGetEstablecimientos = "/registro/cargar-establecimientos";
+        const urlGetServicioByIdServicio = "/registro/cargar-servicio";
+        const urlGetComunasByIdServicioRole = "/registro/cargar-comunas-servicio-role"
+        const urlGetComunaByIdComunaRoleComuna = "/registro/cargar-comunas-role-comuna"
+        const urlGetEstablecimientoByIdComunaServicioRole = "/registro/cargar-establecimientos-comuna-servicio-role"
+        const urlGetServiciosLaGranjaRoleLaGranja = "/registro/cargar-servicio-la-granja"
+
+        // ################################# INICIALIZAR CLASES - FUNCION DE INIT CAMPOS ###########################
+
+        // const metodos = new FuncionesGenerales();
+        const api = new ApiRegistrosBuscar(urlGetComunas, urlGetEstablecimientos, urlGetServicioByIdServicio, urlGetComunasByIdServicioRole, urlGetComunaByIdComunaRoleComuna,
+            urlGetEstablecimientoByIdComunaServicioRole, urlGetServiciosLaGranjaRoleLaGranja);
+        const ui = new UiRegistrosBuscar(api);
+        const app = new AppRegistrosBuscar(ui, api);
+
+        function initDOM() {
+            app.initApp();
+        }
+
+        function domIsReady() {
+            app.domIsReadyApp();
+        }
+
+        // ##################################### INICIAR: CARGAR CONTENIDO DOM HTML #######################################
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initDOM();
+        });
+
+        document.onreadystatechange = () => {
+            domIsReady();
+        };
+
+        // ####################################### LLAMAR FUNCIONES #######################################################
+        app.getComunaByServicioChange();
+        app.getEstablecimientoByComunaChange()
+
+    </script>
+</body>
+</html>

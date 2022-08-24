@@ -72,9 +72,9 @@ public class CustomUsuarioDao implements ICustomUsuarioDao {
     @Override
     public void updatePasswordByIdUsuario(Usuario usuario) {
         //
-        em.createNativeQuery("UPDATE users u"
-                + " SET u.password = :pass"
-                + " WHERE u.id = :usuarioid"
+        em.createNativeQuery("UPDATE users"
+                + " SET password = :pass"
+                + " WHERE id = :usuarioid"
         )
                 .setParameter("pass", usuario.getPassword())
                 .setParameter("usuarioid", usuario.getId())

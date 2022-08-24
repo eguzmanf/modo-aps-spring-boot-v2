@@ -1,8 +1,10 @@
 package cl.divap.modoaps.app.controllers;
 
+import cl.divap.modoaps.app.models.dao.contrato.IContratoDao;
 import cl.divap.modoaps.app.models.dao.nacionalidad.INacionalidadDao;
 import cl.divap.modoaps.app.models.dao.sexo.ISexoDao;
 import cl.divap.modoaps.app.models.dao.usuario.ICustomUsuarioDao;
+import cl.divap.modoaps.app.models.entity.Contrato;
 import cl.divap.modoaps.app.models.entity.Funcionario;
 import cl.divap.modoaps.app.models.entity.Nacionalidad;
 import cl.divap.modoaps.app.models.entity.Sexo;
@@ -30,8 +32,10 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,6 +57,9 @@ public class FuncionarioController {
 
     @Autowired
     private ICustomUsuarioDao customUsuarioDao;
+
+    @Autowired
+    private IContratoDao contratoDao;
 
     // @Secured({"ROLE_LA_GRANJA", "ROLE_COMUNA", "ROLE_SERVICIO", "ROLE_MINSAL"})
     @PreAuthorize("hasAnyRole('ROLE_LA_GRANJA', 'ROLE_COMUNA', 'ROLE_SERVICIO', 'ROLE_MINSAL')")
@@ -102,8 +109,15 @@ public class FuncionarioController {
 
     @Secured({"ROLE_LA_GRANJA", "ROLE_COMUNA", "ROLE_SERVICIO", "ROLE_MINSAL"})
     @RequestMapping(value= "/listar", method= RequestMethod.GET)
-    public String listar(@RequestParam(name = "page", defaultValue = "0") Integer page, Model model, Authentication authentication, HttpServletRequest request) {
+    public String listar(@RequestParam(name = "page", defaultValue = "0") Integer page, Model model, Authentication authentication, HttpServletRequest request, HttpSession session) {
         //
+        if(!request.getParameterMap().containsKey("page")) {
+            //
+            if(session.getAttribute("params") != null) {
+                session.setAttribute("params", null);
+            }
+        }
+
         if(authentication != null) {
             //
             logger.info("Hola Usuario autenticado, desde FuncionarioController, tu nombre de usuario es: ".concat(authentication.getName()));
@@ -148,17 +162,78 @@ public class FuncionarioController {
         String roleString = String.valueOf(role);
         logger.info("Su Rol es: ".concat(roleString));
 
-        Integer numeroRegistros=4;
+        Integer numeroRegistros=7;
         Pageable pageRequest = PageRequest.of(page, numeroRegistros);
-        Page<Funcionario> funcionarios = funcionarioService.findAll(pageRequest);
+
+        if(session.getAttribute("params") != null) {
+            model.addAttribute("titulo", "Encontrados: Listado de Funcionarios");
+            Page<Funcionario> funcionarios = funcionarioService.findAllCriteriaApiFuncionarios(pageRequest, session);
+            PageRender<Funcionario> pageRender = new PageRender<>("/funcionario/listar", funcionarios);
+            model.addAttribute("page", pageRender);
+            model.addAttribute("funcionarios", funcionarios);
+        } else {
+            model.addAttribute("titulo", "Listado de Funcionarios");
+            Page<Funcionario> funcionarios = funcionarioService.findAll(pageRequest);
+            PageRender<Funcionario> pageRender = new PageRender<>("/funcionario/listar", funcionarios);
+            model.addAttribute("page", pageRender);
+            model.addAttribute("funcionarios", funcionarios);
+        }
+
+        return "funcionario/listar";
+    }
+
+    @PostMapping("/buscar")
+    public String buscar(@RequestParam(name = "page", defaultValue = "0") Integer page, Model model, HttpServletRequest request, HttpSession session) {
+
+        Map<String, String> params = new HashMap<>();
+
+        if (request.getParameterMap().containsKey("run") || request.getParameterMap().containsKey("nombres") || request.getParameterMap().containsKey("apellidoPaterno") || request.getParameterMap().containsKey("apellidoMaterno") ||
+                request.getParameterMap().containsKey("sexo") || request.getParameterMap().containsKey("nacionalidad") || request.getParameterMap().containsKey("enabled")
+        ) {
+            //
+            String run = request.getParameter("run");
+            String nombres = request.getParameter("nombres");
+            String apellidoPaterno = request.getParameter("apellidoPaterno");
+            String apellidoMaterno = request.getParameter("apellidoMaterno");
+            String sexo = request.getParameter("sexo");
+            String nacionalidad = request.getParameter("nacionalidad");
+            String enabled = request.getParameter("enabled");
+
+            sexo = sexo.equals("") ? null : sexo;
+            nacionalidad = nacionalidad.equals("") ? null : nacionalidad;
+
+            params.put("run", run);
+            params.put("nombres", nombres);
+            params.put("apellidoPaterno", apellidoPaterno);
+            params.put("apellidoMaterno", apellidoMaterno);
+            params.put("sexo", sexo);
+            params.put("nacionalidad", nacionalidad);
+            params.put("enabled", enabled);
+
+            session.setAttribute("params", params);
+        }
+
+        Integer numeroRegistros=7;
+        Pageable pageRequest = PageRequest.of(page, numeroRegistros);
+        Page<Funcionario> funcionarios = funcionarioService.findAllCriteriaApiFuncionarios(pageRequest, session);
 
         PageRender<Funcionario> pageRender = new PageRender<>("/funcionario/listar", funcionarios);
 
-        model.addAttribute("titulo", "Listado de Funcionarios");
+        model.addAttribute("titulo", "Encontrados: Listado de Funcionarios");
         model.addAttribute("funcionarios", funcionarios);
         model.addAttribute("page", pageRender);
 
         return "funcionario/listar";
+    }
+
+    @GetMapping("/limpiar")
+    public String limpiarBuscador(HttpServletRequest request, HttpSession session) {
+
+        if(session.getAttribute("params") != null) {
+            session.setAttribute("params", null);
+        }
+
+        return "redirect:/funcionario/listar";
     }
 
     @Secured({"ROLE_LA_GRANJA", "ROLE_COMUNA", "ROLE_SERVICIO", "ROLE_MINSAL"})
@@ -167,6 +242,9 @@ public class FuncionarioController {
         //
         Funcionario funcionario = new Funcionario();
 
+        model.put("flag", true);
+        model.put("crear", true);
+        model.put("boton", "Crear Funcionario");
         model.put("funcionario", funcionario);
         model.put("titulo", "Formulario de Funcionario");
         
@@ -193,6 +271,8 @@ public class FuncionarioController {
             flash.addFlashAttribute("error", "El Id del Funcionario no puede ser cero!");
             return "redirect:/funcionario/listar";
         }
+
+        model.addAttribute("boton", "Editar Funcionario");
         model.addAttribute("funcionario", funcionario);
         model.addAttribute("titulo", "Editar Funcionario");
         return "funcionario/form";
@@ -205,6 +285,14 @@ public class FuncionarioController {
         if(result.hasErrors()) {
             //
             model.addAttribute("titulo", "Formulario de Funcionario con errores");
+
+            if(funcionario.getId() == null) {
+                model.addAttribute("boton", "Crear Funcionario");
+
+            } else if(funcionario.getId() != null && funcionario.getId() > 0) {
+                model.addAttribute("boton", "Editar Funcionario");
+            }
+
             return "funcionario/form";
         }
 
@@ -212,13 +300,17 @@ public class FuncionarioController {
             //
             Funcionario funcionarioDB = funcionarioService.findOne(funcionario.getId());
             funcionario.setCreateAt(funcionarioDB.getCreateAt());
+
+            if(funcionario.getEnabled() == false) {
+                Long funcionarioId = funcionario.getId();
+                funcionarioService.updateContratosEnabledFalse(funcionarioId);
+            }
         }
 
         funcionario.setNombres(funcionario.getNombres().toUpperCase());
         funcionario.setApellidoPaterno(funcionario.getApellidoPaterno().toUpperCase());
         funcionario.setApellidoMaterno(funcionario.getApellidoMaterno().toUpperCase());
         funcionario.setRun(funcionario.getRun().toUpperCase());
-        funcionario.setEnabled(true);
 
         String mensajeFlash = (funcionario.getId() != null) ? "Funcionario editado con éxito!" : "Funcionario creado con éxito!";
 
