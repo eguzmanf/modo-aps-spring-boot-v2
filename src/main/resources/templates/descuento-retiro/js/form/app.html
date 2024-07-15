@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <script type="module" th:fragment="javascript">
+
+        import { FuncionesGenerales } from "../../app/funciones/generales/funciones-generales.js";
+
+        import { AppDescuentoRetiroForm } from "../../app/descuento-retiro/form/app-descuento-retiro-form.js";
+        import { ApiDescuentoRetiroForm } from "../../app/descuento-retiro/form/api-descuento-retiro-form.js";
+        import { UiDescuentoRetiroForm } from "../../app/descuento-retiro/form/ui-descuento-retiro-form.js";
+
+        // ######################################## DEFINICION DE CONSTANTES #######################################
+
+        const urlGetComunas = "/descuento-retiro/cargar-comunas";
+
+        // ################################# INICIALIZAR CLASES - FUNCION DE INIT CAMPOS ###########################
+
+        const metodos = new FuncionesGenerales();
+        const api = new ApiDescuentoRetiroForm(urlGetComunas);
+        const ui = new UiDescuentoRetiroForm(api);
+        const app = new AppDescuentoRetiroForm(metodos, ui, api);
+
+        function initDOM() {
+            app.initApp();
+        }
+
+        function domIsReady() {
+            app.domIsReadyApp();
+        }
+
+        // ##################################### INICIAR: CARGAR CONTENIDO DOM HTML #######################################
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initDOM();
+        });
+
+        document.onreadystatechange = () => {
+            domIsReady();
+        };
+
+        // ####################################### LLAMAR FUNCIONES #######################################################
+        app.getComunaByServicioChange();
+        app.montoCuotaMensual();
+        app.ultimaCuota();
+        app.totalRecursos();
+        app.deuda();
+        app.submitForm();
+        app.getComunaByServicioError();
+
+    </script>
+</body>
+</html>

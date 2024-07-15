@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head">
+
+<body>
+
+    <header th:replace="layout/layout :: header"></header>
+
+    <div class="container-fluid py-4">
+        <div class="card bg-dark text-white">
+            <div class="card-header" th:text="${titulo} + ${' - Total Registros: ' + establecimientos.getTotalElements}"></div>
+            <div class="card-body color-metal text-white">
+                <h4 class="card-title">
+                    <a sec:authorize="hasAnyRole('ROLE_MINSAL')" th:href="@{/establecimiento/form}" class="btn btn-dark btn-sm">Crear Establecimiento</a>
+                </h4>
+                <table class="table table-striped table-bordered table-hover table-dark table-sm mt-3">
+                    <thead>
+                        <tr style="font-size:12px;">
+                            <th>Id</th>
+                            <th>Región</th>
+                            <th>Servicio de Salud</th>
+                            <th>Comuna</th>
+                            <th>Código Deis</th>
+                            <th>Establecimiento</th>
+                            <th>Tipo</th>
+                            <th>Habilitado</th>
+                            <th sec:authorize="hasAnyRole('ROLE_MINSAL')">Editar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="e: ${establecimientos}" style="font-size:12px;">
+                            <td th:text="${e.id}"></td>
+                            <td th:text="${#strings.toUpperCase(e.region.region)}"></td>
+                            <td th:text="${#strings.toUpperCase(e.servicio.servicioSalud)}"></td>
+                            <td th:text="${#strings.toUpperCase(e.comuna.comuna)}"></td>
+                            <td th:text="${e.codigoNuevo}"></td>
+                            <td th:text="${#strings.toUpperCase(e.establecimientoNombre)}"></td>
+                            <td th:text="${#strings.toUpperCase(e.idTipoEst)}"></td>
+                            <td>
+                                <span class="badge badge-dark" th:if="${e.elimID == 1}" th:text="'Deshabilitado'"></span>
+                                <span class="badge badge-secondary" th:unless="${e.elimID == 1}" th:text="'Habilitado'"></span>
+                            </td>
+                            <td sec:authorize="hasAnyRole('ROLE_MINSAL')">
+                                <a class="btn btn-secondary btn-sm" th:href="@{/establecimiento/form/} + ${e.codigoNuevo}" th:text="'Editar'"></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <nav th:replace="paginator/paginator-nav :: paginator"></nav>
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="layout/layout :: footer"></footer>
+
+</body>
+</html>

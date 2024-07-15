@@ -1,5 +1,6 @@
 package cl.divap.modoaps.app.models.entity;
 
+import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,6 +37,7 @@ public class DescuentoRetiro implements Serializable {
     @NotNull
     @Max(72)
     @Min(0)
+    @Range(min=0, max=72)
     @Column(length = 2, nullable = false)
     private Integer numeroCuotasTotal;
 
@@ -58,6 +60,7 @@ public class DescuentoRetiro implements Serializable {
     @NotNull
     @Max(72)
     @Min(0)
+    @Range(min=0, max=72)
     @Column(length = 2, nullable = false)
     private Integer numeroCuota;
 

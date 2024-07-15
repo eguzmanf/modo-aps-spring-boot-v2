@@ -34,4 +34,12 @@ public class ServicioSaludDao implements IServicioSaludDao {
                 .setParameter(1, servicioId)
                 .getSingleResult();
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<ServicioSalud> findServicioSaludByIdRegion(Long id) {
+        return em.createQuery("SELECT s FROM ServicioSalud s WHERE s.region.id = ?1 ORDER BY s.servicioSalud", ServicioSalud.class)
+                .setParameter(1, id)
+                .getResultList();
+    }
 }

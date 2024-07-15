@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head">
+<body>
+
+    <header th:replace="layout/layout :: header"></header>
+
+    <div class="container py-4">
+        <div class="card bg-dark text-white">
+            <div class="card-header" th:text="${titulo}"></div>
+            <div class="card-body color-metal">
+
+                <h4 class="card-title">
+                    <a class="btn btn-dark btn-sm" th:href="@{/descuento-retiro/listar}" th:text="'&laquo; Volver al Listado del Descuento al Retiro'"></a>
+                </h4>
+
+                <form id="form_descuento_retiro" th:action="@{/descuento-retiro/form/}" th:object="${descuentoRetiro}" method="post">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <input type="hidden" id="editar" name="editar" th:value="${editar}" />
+                    <input type="hidden" id="hasErrorsScript" name="hasErrorsScript" th:value="${hasErrorsScript}" />
+                    <input type="hidden" id="idUsuario" th:field="*{id}">
+                    <div class="form-row justify-content-center">
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label for="servicioSalud.id" class="col-form-label col-sm-4">Servicio de Salud: </label>
+                                <div class="col-sm-6">
+                                    <select id="servicioSalud.id" th:field="*{servicioSalud.id}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'" th:disabled="${disabledServicioComuna == false}" >
+                                        <option value="">-- Seleccionar --</option>
+                                        <option th:each="servicioSalud : ${listaServiciosSalud}" th:text="${servicioSalud.servicioSalud}" th:value="${servicioSalud.id}"></option>
+                                    </select>
+                                </div>
+                                <small th:if="${#fields.hasErrors('servicioSalud.id')}" th:errors="*{servicioSalud.id}" class="form-text text-danger"></small>
+                            </div>
+                            <div class="form-group row">
+                                <label for="comuna.codigoComuna" class="col-form-label col-sm-4">Comuna: </label>
+                                <div class="col-sm-6">
+                                    <select id="comuna.codigoComuna" th:field="*{comuna.codigoComuna}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'" th:disabled="${disabledServicioComuna == false}" >
+                                        <option value="">-- Seleccionar --</option>
+                                        <option th:each="comuna : ${listaComunas}" th:text="${comuna.comuna}" th:value="${comuna.codigoComuna}"></option>
+                                    </select>
+                                </div>
+                                <small th:if="${#fields.hasErrors('comuna.codigoComuna')}" th:errors="*{comuna.codigoComuna}" class="form-text text-danger"></small>
+                            </div>
+                            <div class="form-group row">
+                                <label for="fechaConvenio" class="col-form-label col-sm-4">Fecha Convenio: </label>
+                                <div class="col-sm-6">
+                                    <input type="date" id="fechaConvenio" th:field="*{fechaConvenio}" placeholder="dd/MM/yyyy" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                </div>
+                                <small th:if="${#fields.hasErrors('fechaConvenio')}" th:errors="*{fechaConvenio}" class="form-text text-danger"></small>
+                            </div>
+                            <div class="form-group row">
+                                <label for="numeroCuotasTotal" class="col-form-label col-sm-4">N° Cuotas Total: </label>
+                                <div class="col-sm-6">
+                                    <input type="number" id="numeroCuotasTotal" th:field="*{numeroCuotasTotal}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                </div>
+                                <small th:if="${#fields.hasErrors('numeroCuotasTotal')}" th:errors="*{numeroCuotasTotal}" class="form-text text-danger"></small>
+                            </div>
+                            <div class="form-group row">
+                                <label for="montoCuotaMensual" class="col-form-label col-sm-4">Monto Cuota Mensual: </label>
+                                <div class="col-sm-6">
+                                    <input type="text" id="montoCuotaMensual" th:field="*{montoCuotaMensual}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                </div>
+                                <small th:if="${#fields.hasErrors('montoCuotaMensual')}" th:errors="*{montoCuotaMensual}" class="form-text text-danger"></small>
+                            </div>
+                            <div class="form-group row">
+                                <label for="ultimaCuota" class="col-form-label col-sm-4">Ultima Cuota: </label>
+                                <div class="col-sm-6">
+                                    <input type="text" id="ultimaCuota" th:field="*{ultimaCuota}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                </div>
+                                <small th:if="${#fields.hasErrors('ultimaCuota')}" th:errors="*{ultimaCuota}" class="form-text text-danger"></small>
+                            </div>
+                        </div> <!-------- col-sm-6 -------->
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label for="totalRecursos" class="col-form-label col-sm-4">Total Recursos: </label>
+                                <div class="col-sm-6">
+                                    <input type="text" id="totalRecursos" th:field="*{totalRecursos}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                </div>
+                                <small th:if="${#fields.hasErrors('totalRecursos')}" th:errors="*{totalRecursos}" class="form-text text-danger"></small>
+                            </div>
+                            <div class="form-group row">
+                                <label for="deuda" class="col-form-label col-sm-4">Deuda: </label>
+                                <div class="col-sm-6">
+                                    <input type="text" id="deuda" th:field="*{deuda}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                </div>
+                                <small th:if="${#fields.hasErrors('deuda')}" th:errors="*{deuda}" class="form-text text-danger"></small>
+                            </div>
+                            <div class="form-group row">
+                                <label for="numeroCuota" class="col-form-label col-sm-4">N° Cuota: </label>
+                                <div class="col-sm-6">
+                                    <input type="number" id="numeroCuota" th:field="*{numeroCuota}" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                </div>
+                                <small th:if="${#fields.hasErrors('numeroCuota')}" th:errors="*{numeroCuota}" class="form-text text-danger"></small>
+                            </div>
+                            <div class="form-group row">
+                                <label for="fechaCuota" class="col-form-label col-sm-4">Fecha Cuota: </label>
+                                <div class="col-sm-6">
+                                    <input type="date" id="fechaCuota" th:field="*{fechaCuota}" placeholder="dd/MM/yyyy" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'">
+                                </div>
+                                <small th:if="${#fields.hasErrors('fechaCuota')}" th:errors="*{fechaCuota}" class="form-text text-danger"></small>
+                            </div>
+                            <div class="form-group row">
+                                <label for="resolucion" class="col-form-label col-sm-4">Resolución: </label>
+                                <div class="col-sm-6">
+                                    <textarea id="resolucion" th:field="*{resolucion}" rows="4" cols="50" class="form-control form-control-sm" th:errorclass="'form-control form-control-sm alert-danger is-invalid'"></textarea>
+                                </div>
+                                <small th:if="${#fields.hasErrors('resolucion')}" th:errors="*{resolucion}" class="form-text text-danger"></small>
+                            </div>
+                        </div> <!-------- col-sm-6 -------->
+                    </div> <!-------- form-row -------->
+                    <!-- ########################################### Button Form ################################################ -->
+                    <div class="form-group row justify-content-center text-center">
+                        <div class="col-sm-4">
+                            <input id="btnCrear" type="submit" th:value="${boton}" class="btn btn-dark">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="layout/layout :: footer"></footer>
+
+    <script th:replace="descuento-retiro/js/form/app :: javascript"></script>
+
+</body>
+</html>

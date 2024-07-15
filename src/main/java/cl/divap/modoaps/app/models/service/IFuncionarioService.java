@@ -140,4 +140,8 @@ public interface IFuncionarioService {
 
     public List<DescuentoRetiro> findAllDescuentoRetiro();
 
+    public DescuentoRetiro findDescuentoRetiroById(Long id);
+
+    public void saveDescuentoRetiro(DescuentoRetiro descuentoRetiro);
+
 }

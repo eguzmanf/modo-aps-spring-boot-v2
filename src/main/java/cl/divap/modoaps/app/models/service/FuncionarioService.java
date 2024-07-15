@@ -2,6 +2,7 @@ package cl.divap.modoaps.app.models.service;
 
 import cl.divap.modoaps.app.models.dao.contrato.IContratoDao;
 import cl.divap.modoaps.app.models.dao.descuentoRetiro.ICustomDescuentoRetiroDao;
+import cl.divap.modoaps.app.models.dao.descuentoRetiro.IDescuentoRetiro;
 import cl.divap.modoaps.app.models.dao.funcionario.ICustomContratoDao;
 import cl.divap.modoaps.app.models.dao.funcionario.ICustomFuncionarioDao;
 import cl.divap.modoaps.app.models.dao.funcionario.IFuncionarioDao;
@@ -50,6 +51,9 @@ public class FuncionarioService implements IFuncionarioService {
 
     @Autowired
     private ICustomDescuentoRetiroDao customDescuentoRetiroDao;
+
+    @Autowired
+    private IDescuentoRetiro descuentoRetiroDao;
 
     @Override
     @Transactional(readOnly = true)
@@ -456,6 +460,18 @@ public class FuncionarioService implements IFuncionarioService {
     @Transactional(readOnly = true)
     public List<DescuentoRetiro> findAllDescuentoRetiro() {
         return customDescuentoRetiroDao.findAllDescuentoRetiro();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public DescuentoRetiro findDescuentoRetiroById(Long id) {
+        return descuentoRetiroDao.findById(id).orElse(null);
+    }
+
+    @Override
+    @Transactional
+    public void saveDescuentoRetiro(DescuentoRetiro descuentoRetiro) {
+        descuentoRetiroDao.save(descuentoRetiro);
     }
 
 }

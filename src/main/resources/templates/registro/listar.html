@@ -130,7 +130,7 @@
                             <thead>
                                 <tr style="font-size:10px;">
                                     <th>
-                                        <input type="checkbox" name="checkedAll" id="checkedAll">
+                                        <input type="checkbox" name="checkedAll" id="checkedAll" onclick="toggle(this);">
                                     </th>
                                     <th>Editar</th>
                                     <th>N°</th>
@@ -228,6 +228,18 @@
 <footer th:replace="layout/layout :: footer"></footer>
 
 <script th:replace="registro/js/buscar/app :: javascript"></script>
+
+<script type="text/javascript">
+
+    function toggle(source) {
+        let checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        for (let i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i] != source)
+                checkboxes[i].checked = source.checked;
+        }
+    }
+
+</script>
 
 </body>
 </html>

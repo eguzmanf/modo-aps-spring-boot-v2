@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <script type="module" th:fragment="javascript-form">
+        // ######################################## DEFINICION DE CONSTANTES #######################################
+        // Rutas en EstablecimientoController ::
+        const urlGetServicios = "/establecimiento/cargar-servicios";
+        const urlGetComunas = "/establecimiento/cargar-comunas";
+
+        // ################################################ IMPORTS ################################################
+        import { FuncionesGenerales } from "../../app/funciones/generales/funciones-generales.js";
+        import { AppEstablecimientoForm } from "../../app/establecimiento/form/app-establecimiento-form.js";
+        import { ApiEstablecimientoForm } from "../../app/establecimiento/form/api-establecimiento-form.js";
+        import { UiEstablecimientoForm } from "../../app/establecimiento/form/ui-establecimiento-form.js";
+
+        // ################################# INICIALIZAR CLASES - FUNCION DE INIT CAMPOS ###########################
+        const metodosForm = new FuncionesGenerales();
+        const apiForm = new ApiEstablecimientoForm(urlGetServicios, urlGetComunas);
+        const uiForm = new UiEstablecimientoForm(apiForm);
+        const appForm = new AppEstablecimientoForm(metodosForm, uiForm, apiForm);
+
+        function initDOM() {
+            appForm.initApp();
+        }
+
+        function domIsReady() {
+            appForm.domIsReadyApp();
+        }
+
+        // ##################################### INICIAR: CARGAR CONTENIDO DOM HTML #######################################
+        document.addEventListener('DOMContentLoaded', () => {
+            initDOM();
+        });
+
+        document.onreadystatechange = () => {
+            domIsReady();
+        };
+
+        // ####################################### LLAMAR FUNCIONES #######################################################
+        appForm.getServicioByRegionChange();
+        appForm.getComunaByServicioChange();
+        appForm.enabledOrDisableEstablecimiento();
+        appForm.isEnabledEstablecimiento();
+        appForm.tipoDeEstablecimientoChangeSelectList();
+
+    </script>
+</body>
+</html>

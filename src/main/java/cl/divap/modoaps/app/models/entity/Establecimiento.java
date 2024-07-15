@@ -66,6 +66,8 @@ public class Establecimiento implements Serializable {
     private String iaaps;
     private Integer idServicioIdComuna;
 
+    public Establecimiento(){}
+
     public Long getId() {
         return id;
     }

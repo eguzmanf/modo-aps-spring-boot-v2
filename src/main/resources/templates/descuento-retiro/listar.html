@@ -12,7 +12,7 @@
             <div class="card-body color-metal">
 
                 <h4 class="card-title">
-                    <a href="#" class="btn btn-dark btn-lg">Crear</a>
+                    <a th:href="@{/descuento-retiro/form}" class="btn btn-dark btn-lg">Crear Descuento al Retiro</a>
                 </h4>
 
                 <div class="table-responsive-xxl" style="height: 600px !important; overflow: scroll;"> <!-- width: auto; -->
@@ -49,7 +49,7 @@
                                 <td th:text="${#dates.format(desc.fechaCuota, 'dd/MM/yyyy')}"></td>
                                 <td th:text="${desc.resolucion}"></td>
                                 <td>
-                                    <a class="btn btn-secondary btn-sm" href="#" th:text="'Editar'"></a>
+                                    <a class="btn btn-secondary btn-sm" th:href="@{/descuento-retiro/form/} + ${desc.id}" th:text="'Editar'"></a>
                                 </td>
                             </tr>
                         </tbody>
