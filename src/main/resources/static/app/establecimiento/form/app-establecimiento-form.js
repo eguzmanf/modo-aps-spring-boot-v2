@@ -17,6 +17,7 @@ export class AppEstablecimientoForm {
         this.elimIDInteger = document.getElementById('elimIDInteger');
         this.idTipoEstablecimiento = document.getElementById('idTipoEstablecimiento');
         this.tipoEstablecimientoValue = document.getElementById('tipoEstablecimientoValue');
+        this.resultHasErrors = document.getElementById('resultHasErrors');
     }
 
     initApp() {
@@ -37,10 +38,14 @@ export class AppEstablecimientoForm {
     domIsReadyApp() {
         if (document.readyState === 'complete') {
             // console.log(this.metodos.consoleLogTest())
+            let idRegionValue = this.region.value;
+            let idServicioSaludValue = this.servicioSalud.value;
+            let idComunaValue = this.comuna.value;
+            let tipoEstablecimientoValue = this.tipoEstablecimiento.value;
+            let tipoEstablecimientoOptions = this.tipoEstablecimiento.options[this.tipoEstablecimiento.selectedIndex].text;
+            let idTipoEstablecimientoValue = this.idTipoEstablecimiento.value;
+            //
             if(this.isCreateOrEdit.value === "false") {
-                let idRegionValue = this.region.value;
-                let idServicioSaludValue = this.servicioSalud.value;
-                let idComunaValue = this.comuna.value;
                 this.api.fetchServicioByRegionChange(idRegionValue)
                     .then( data => {
                         let dataObject = data.resultado;
@@ -49,7 +54,26 @@ export class AppEstablecimientoForm {
                             .then( data => {
                                 let dataObject = data.resultado;
                                 this.ComunaByServicioChangeSelectList(dataObject, this.comuna, idComunaValue);
-                                this.tipoEstablecimiento.value = this.idTipoEstablecimiento.value;
+                                this.tipoEstablecimiento.value = idTipoEstablecimientoValue;
+                            });
+                    });
+            }
+            //
+            if(this.resultHasErrors.value === "true") {
+                console.log("Dentro de Form con Errores: " + this.resultHasErrors.value);
+                this.api.fetchServicioByRegionChange(idRegionValue)
+                    .then( data => {
+                        let dataObject = data.resultado;
+                        this.ServicioByRegionChangeSelectList(dataObject, this.servicioSalud, idServicioSaludValue)
+                        this.api.fetchComunaByServicioChange(idServicioSaludValue)
+                            .then( data => {
+                                let dataObject = data.resultado;
+                                this.ComunaByServicioChangeSelectList(dataObject, this.comuna, idComunaValue);
+                                if(this.isCreateOrEdit.value === "true") {
+                                    this.tipoEstablecimientoValue.value = tipoEstablecimientoOptions;
+                                } else {
+                                    this.tipoEstablecimiento.value = tipoEstablecimientoValue;
+                                }
                             });
                     });
             }

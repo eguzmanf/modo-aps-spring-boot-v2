@@ -12,6 +12,14 @@ import cl.divap.modoaps.app.validation.ExisteEstablecimientoValidator;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,9 +32,18 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Secured({"ROLE_MINSAL"})
 @Controller
@@ -55,15 +72,118 @@ public class   EstablecimientoController {
     private ExisteEstablecimientoValidator establecimientoValidator;
 
     @GetMapping("/listar")
-    public String listar(@RequestParam(name = "page", defaultValue = "0") Integer page, Model model) {
+    public String listar(@RequestParam(name = "page", defaultValue = "0") Integer page, Model model, HttpServletRequest request, HttpSession session) {
+
+        if(!request.getParameterMap().containsKey("page")) {
+            if(session.getAttribute("params") != null) {
+                session.setAttribute("params", null);
+            }
+        }
+
         Integer numeroRegistros=10;
         Pageable pageRequest = PageRequest.of(page, numeroRegistros);
-        model.addAttribute("titulo", "Listado de Establecimientos");
-        Page<Establecimiento> establecimientos = establecimientoDao.findAllCriteriaApi(pageRequest);
+
+        if(session.getAttribute("params") != null) {
+            model.addAttribute("titulo", "Encontrados: Listado de Establecimientos");
+            Page<Establecimiento> establecimientos = establecimientoDao.findAllEstablecimientoCriteriaApi(pageRequest, session);
+            PageRender<Establecimiento> pageRender = new PageRender<>("/establecimiento/listar", establecimientos);
+            model.addAttribute("page", pageRender);
+            model.addAttribute("establecimientos", establecimientos);
+        } else {
+            model.addAttribute("titulo", "Listado de Establecimientos");
+            Page<Establecimiento> establecimientos = establecimientoDao.findAllCriteriaApi(pageRequest);
+            PageRender<Establecimiento> pageRender = new PageRender<>("/establecimiento/listar", establecimientos);
+            model.addAttribute("page", pageRender);
+            model.addAttribute("establecimientos", establecimientos);
+        }
+
+        return "establecimiento/listar";
+    }
+
+    @PostMapping("/buscar")
+    public String buscar(@RequestParam(name = "page", defaultValue = "0") Integer page, Model model, HttpServletRequest request, HttpSession session) {
+        Map<String, String> params = new HashMap<>();
+        if (request.getParameterMap().containsKey("region") || request.getParameterMap().containsKey("servicio") || request.getParameterMap().containsKey("comuna") || request.getParameterMap().containsKey("codigoNuevo") ||
+                request.getParameterMap().containsKey("establecimientoNombre") || request.getParameterMap().containsKey("tipoEstablecimiento") || request.getParameterMap().containsKey("enabled") ||
+                request.getParameterMap().containsKey("tipoEstablecimientoText") || request.getParameterMap().containsKey("regionText") || request.getParameterMap().containsKey("servicioText") ||
+                request.getParameterMap().containsKey("comunaText")
+        ) {
+            String region = request.getParameter("region");
+            String servicio = request.getParameter("servicio");
+            String comuna = request.getParameter("comuna");
+            String codigoNuevo = request.getParameter("codigoNuevo");
+            String establecimientoNombre = request.getParameter("establecimientoNombre");
+            String tipoEstablecimiento = request.getParameter("tipoEstablecimiento");
+            String tipoEstablecimientoText = request.getParameter("tipoEstablecimientoText");
+            String enabled = request.getParameter("enabled");
+            String regionText = request.getParameter("regionText");
+            String servicioText = request.getParameter("servicioText");
+            String comunaText = request.getParameter("comunaText");
+
+            region = region.equals("") ? null : region;
+            servicio = servicio.equals("") ? null : servicio;
+            comuna = comuna.equals("") ? null : comuna;
+            codigoNuevo = codigoNuevo.equals("") ? null : codigoNuevo;
+            establecimientoNombre = establecimientoNombre.equals("") ? null : establecimientoNombre;
+            enabled = enabled.equals("") ? null : enabled;
+            tipoEstablecimiento = tipoEstablecimiento.equals("") ? null : tipoEstablecimiento;
+            tipoEstablecimientoText = tipoEstablecimientoText.equals("") ? null : tipoEstablecimientoText;
+            regionText = regionText.equals("") ? null : regionText;
+            servicioText = servicioText.equals("") ? null : servicioText;
+            comunaText = comunaText.equals("") ? null : comunaText;
+
+            params.put("region", region);
+            params.put("servicio", servicio);
+            params.put("comuna", comuna);
+            params.put("codigoNuevo", codigoNuevo);
+            params.put("establecimientoNombre", establecimientoNombre);
+            params.put("tipoEstablecimiento", tipoEstablecimiento);
+            params.put("tipoEstablecimientoText", tipoEstablecimientoText);
+            params.put("enabled", enabled); // estado
+            params.put("regionText", regionText);
+            params.put("servicioText", servicioText);
+            params.put("comunaText", comunaText);
+
+            logger.info("Región Parameter from Controller: " + region);
+            logger.info("Servicio de Salud Parameter from Controller: " + servicio);
+            logger.info("Comuna Parameter from Controller: " + comuna);
+            logger.info("Código Nuevo o Deis Parameter from Controller: " + codigoNuevo);
+            logger.info("Nombre Establecimiento Parameter from Controller: " + establecimientoNombre);
+            logger.info("Tipo Establecimiento Parameter from Controller: " + tipoEstablecimiento);
+            logger.info("Tipo Establecimiento Text Parameter from Controller: " + tipoEstablecimientoText);
+            logger.info("Enabled Parameter from Controller: " + enabled);
+            logger.info("Región Text Parameter from Controller: " + regionText);
+            logger.info("Servicio Text Parameter from Controller: " + servicioText);
+            logger.info("Comuna Text Parameter from Controller: " + comunaText);
+
+            logger.info("Map params from Controller: " + params);
+
+            session.setAttribute("params", params);
+
+            logger.info("Session params from Controller: " + session.getAttribute("params"));
+        }
+
+        Integer numeroRegistros=8;
+        Pageable pageRequest = PageRequest.of(page, numeroRegistros);
+        Page<Establecimiento> establecimientos = establecimientoDao.findAllEstablecimientoCriteriaApi(pageRequest, session);
         PageRender<Establecimiento> pageRender = new PageRender<>("/establecimiento/listar", establecimientos);
         model.addAttribute("page", pageRender);
+
+        model.addAttribute("titulo", "Encontrados: Listado de Establecimientos");
         model.addAttribute("establecimientos", establecimientos);
+
         return "establecimiento/listar";
+    }
+
+    @GetMapping("/limpiar")
+    public String limpiarBuscador(HttpServletRequest request, HttpSession session) {
+
+        if(session.getAttribute("params") != null) {
+            session.setAttribute("params", null);
+        }
+
+        logger.info("Limpiando Session params en vista listar");
+        return "redirect:/establecimiento/listar";
     }
 
     @GetMapping("/form")
@@ -71,6 +191,7 @@ public class   EstablecimientoController {
         Establecimiento establecimiento = new Establecimiento();
         model.addAttribute("establecimiento", establecimiento);
         model.addAttribute("crear", true);
+        model.addAttribute("resultHasErrors", false);
         model.addAttribute("elimIDInteger", 0);
         model.addAttribute("idTipoEstablecimiento", "N/A");
         model.addAttribute("tipoEstablecimientoValue", "N/A");
@@ -95,6 +216,7 @@ public class   EstablecimientoController {
         logger.info("Establecimiento está habilitado?: " + establecimiento.getElimID());
         model.addAttribute("establecimiento", establecimiento);
         model.addAttribute("crear", false);
+        model.addAttribute("resultHasErrors", false);
         model.addAttribute("elimIDInteger", establecimiento.getElimID());
         model.addAttribute("idTipoEstablecimiento", establecimiento.getIdTipo());
         model.addAttribute("tipoEstablecimientoValue", establecimiento.getTipoEstablecimiento());
@@ -112,9 +234,11 @@ public class   EstablecimientoController {
             if(establecimiento.getId() == null) {
                 model.addAttribute("boton", "Crear Establecimiento");
                 model.addAttribute("crear", true);
+                model.addAttribute("resultHasErrors", true);
             } else if(establecimiento.getId() != null && establecimiento.getId() > 0) {
                 model.addAttribute("boton", "Editar Establecimiento");
                 model.addAttribute("crear", false);
+                model.addAttribute("resultHasErrors", true);
             }
             model.addAttribute("titulo", "Formulario Establecimiento con errores");
             model.addAttribute("hasErrorsScript", true);
@@ -222,4 +346,171 @@ public class   EstablecimientoController {
         return comunaDao.findComunaByIdServicioSalud(id);
     }
 
+    /* ######################################### EXPORTAR EXCEL ######################################### */
+
+    @GetMapping("/export-excel")
+    public void exportExcel(@RequestParam(name = "page", defaultValue = "0") Integer page, HttpServletResponse response, HttpServletRequest request, HttpSession session) throws IOException {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        String currentDateTime = dateFormat.format(new Date());
+        String fileName = "establecimientos_" + currentDateTime + ".xlsx";
+
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachement; filename=" + fileName);
+
+        logger.info("Session Get Attribute from Export : " + session.getAttribute("params"));
+        if(session.getAttribute("params") == null) {
+            Map<String, String> params = new HashMap<>();
+            String region = null;
+            String servicio = null;
+            String comuna = null;
+            String codigoNuevo = null;
+            String establecimientoNombre = null;
+            String tipoEstablecimiento = null;
+            String tipoEstablecimientoText = null;
+            String enabled = null;
+            String regionText = null;
+            String servicioText = null;
+            String comunaText = null;
+
+            params.put("region", region);
+            params.put("servicio", servicio);
+            params.put("comuna", comuna);
+            params.put("codigoNuevo", codigoNuevo);
+            params.put("establecimientoNombre", establecimientoNombre);
+            params.put("tipoEstablecimiento", tipoEstablecimiento);
+            params.put("tipoEstablecimientoText", tipoEstablecimientoText);
+            params.put("enabled", enabled); // estado
+            params.put("regionText", regionText);
+            params.put("servicioText", servicioText);
+            params.put("comunaText", comunaText);
+
+            session.setAttribute("params", params);
+        }
+
+        int countEstablecimientos = establecimientoDao.findAll().size();
+        logger.info("Count Establecimientos : " + countEstablecimientos);
+        Pageable pageRequest = PageRequest.of(page, countEstablecimientos);
+        Page<Establecimiento> establecimientos = establecimientoDao.findAllEstablecimientoCriteriaApi(pageRequest, session);
+
+        SXSSFWorkbook workbook = new SXSSFWorkbook();
+        workbook.setCompressTempFiles(true);
+
+        SXSSFSheet sheet = (SXSSFSheet) workbook.createSheet();
+        sheet.setRandomAccessWindowSize(100);                   // keep 100 rows in memory, exceeding rows will be flushed to disk
+
+        Row row = sheet.createRow(0);
+
+        CellStyle style = workbook.createCellStyle();
+        style.setBorderTop(BorderStyle.MEDIUM);
+        style.setBorderBottom(BorderStyle.MEDIUM);
+        style.setBorderLeft(BorderStyle.MEDIUM);
+        style.setBorderRight(BorderStyle.MEDIUM);
+
+        Cell cell = row.createCell(0);
+        cell.setCellValue("#    ");
+        cell.setCellStyle(style);
+
+        cell = row.createCell(1);
+        cell.setCellValue("Id    ");
+        cell.setCellStyle(style);
+
+        cell = row.createCell(2);
+        cell.setCellValue("Región    ");
+        cell.setCellStyle(style);
+
+        cell = row.createCell(3);
+        cell.setCellValue("Servicio de Salud    ");
+        cell.setCellStyle(style);
+
+        cell = row.createCell(4);
+        cell.setCellValue("Comuna    ");
+        cell.setCellStyle(style);
+
+        cell = row.createCell(5);
+        cell.setCellValue("Código Deis    ");
+        cell.setCellStyle(style);
+
+        cell = row.createCell(6);
+        cell.setCellValue("Establecimiento    ");
+        cell.setCellStyle(style);
+
+        cell = row.createCell(7);
+        cell.setCellValue("Id Tipo    ");
+        cell.setCellStyle(style);
+
+        cell = row.createCell(8);
+        cell.setCellValue("Tipo Establecimiento    ");
+        cell.setCellStyle(style);
+
+        cell = row.createCell(9);
+        cell.setCellValue("Estado    ");
+        cell.setCellStyle(style);
+
+        int rowCount = 1;
+
+        CellStyle styleData = workbook.createCellStyle();
+        styleData.setBorderTop(BorderStyle.THIN);
+        styleData.setBorderBottom(BorderStyle.THIN);
+        styleData.setBorderLeft(BorderStyle.THIN);
+        styleData.setBorderRight(BorderStyle.THIN);
+
+        for(Establecimiento e : establecimientos) {
+            Row rowData = sheet.createRow(rowCount);
+
+            Cell cellData = rowData.createCell(0);
+            cellData.setCellValue(rowCount);
+            cellData.setCellStyle(styleData);
+
+            cellData = rowData.createCell(1);
+            cellData.setCellValue(e.getId());
+            cellData.setCellStyle(styleData);
+
+            cellData = rowData.createCell(2);
+            cellData.setCellValue(e.getRegion().getRegion());
+            cellData.setCellStyle(styleData);
+
+            cellData = rowData.createCell(3);
+            cellData.setCellValue(e.getServicio().getServicioSalud());
+            cellData.setCellStyle(styleData);
+
+            cellData = rowData.createCell(4);
+            cellData.setCellValue(e.getComuna().getComuna());
+            cellData.setCellStyle(styleData);
+
+            cellData = rowData.createCell(5);
+            cellData.setCellValue(e.getCodigoNuevo());
+            cellData.setCellStyle(styleData);
+
+            cellData = rowData.createCell(6);
+            cellData.setCellValue(e.getEstablecimientoNombre());
+            cellData.setCellStyle(styleData);
+
+            cellData = rowData.createCell(7);
+            cellData.setCellValue(e.getIdTipo());
+            cellData.setCellStyle(styleData);
+
+            cellData = rowData.createCell(8);
+            cellData.setCellValue(e.getTipoEstablecimiento());
+            cellData.setCellStyle(styleData);
+
+            String estado;
+            if(e.getElimID() == 0) {
+                estado = "Habilitado";
+            } else if (e.getElimID() == 1) {
+                estado = "Deshabilitado";
+            } else {
+                estado = "Error";
+            }
+            cellData = rowData.createCell(9);
+            cellData.setCellValue(estado);
+            cellData.setCellStyle(styleData);
+
+            rowCount++;
+        }
+
+        ServletOutputStream outputStream = response.getOutputStream();
+        workbook.write(outputStream);
+        workbook.close();
+        outputStream.close();
+    }
 }

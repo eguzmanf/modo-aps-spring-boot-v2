@@ -1,6 +1,7 @@
 package cl.divap.modoaps.app.models.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
@@ -16,6 +17,7 @@ public class Region implements Serializable {
     @Column(nullable = false)
     private String region;
 
+    @NotNull
     public Long getId() {
         return id;
     }

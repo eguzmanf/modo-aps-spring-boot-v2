@@ -1,8 +1,10 @@
 package cl.divap.modoaps.app.models.entity;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity
@@ -19,6 +21,7 @@ public class Establecimiento implements Serializable {
     private Integer idMacroZona;
     private String macroZona;
 
+    @Valid
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_id")
     private Region region;
@@ -35,6 +38,7 @@ public class Establecimiento implements Serializable {
     private String servicioNombre;
     private Integer idOrdenServicio;
 
+    @Valid
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "codigo_comuna", referencedColumnName = "codigo_comuna") // Referencia al campo codigo_comuna de la clase (tabla) Comuna, por defecto sería el campo id si no colocamos el referencedColumnName
     private Comuna comuna;
@@ -50,13 +54,20 @@ public class Establecimiento implements Serializable {
     private String codigoAntiguo;
 
     @NotNull
-    @Column(name = "codigo_nuevo")
+    @Column(name = "codigo_nuevo", length = 30, nullable=false, unique = true)
     private Integer codigoNuevo;
 
+    @Size(min = 2, max = 100, message="El campo establecimiento debe tener entre {min} y {max} caracteres")
+    @Column(length = 100, nullable=false)
     private String establecimientoNombre;
+
     private String idTipo;
     private String idTipoEst;
+
+    @NotBlank
     private String tipoEstablecimiento;
+
+    @Column(nullable=false)
     private Integer elimID;
 
     private String Nivel_Atencion;
@@ -92,6 +103,7 @@ public class Establecimiento implements Serializable {
         this.macroZona = macroZona;
     }
 
+    @Valid
     public Region getRegion() {
         return region;
     }
@@ -132,6 +144,7 @@ public class Establecimiento implements Serializable {
         this.regionCodigo = regionCodigo;
     }
 
+    @Valid
     public ServicioSalud getServicio() {
         return servicio;
     }

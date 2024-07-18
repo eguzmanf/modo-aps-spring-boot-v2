@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div class="card shadow p-0 mb-5 bg-dark text-white rounded" th:fragment="listarFormBuscar">
+        <div class="card-header font-weight-bold text-xl-center">
+            <h6 class="card-title">
+                <i style="font-size:18px" class="fas fa-search">&nbsp;&nbsp;Buscar Establecimiento</i>
+            </h6>
+        </div>
+        <div class="card-body color-metal">
+            <form th:action="@{/establecimiento/buscar/}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <input type="hidden" id="tipoEstablecimientoText" name="tipoEstablecimientoText" />
+                <input type="hidden" id="regionText" name="regionText" />
+                <input type="hidden" id="servicioText" name="servicioText" />
+                <input type="hidden" id="comunaText" name="comunaText" />
+                <div class="form-row">
+                    <div class="col-sm-3">
+                        <div class="form-group row">
+                            <label for="establecimientoNombre" class="col-form-label col-sm-3 font-weight-bolder">Establecimiento: </label>
+                            <div class="col-sm-6">
+                                <input type="text" id="establecimientoNombre" name="establecimientoNombre" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="codigoNuevo" class="col-form-label col-sm-3 font-weight-bolder">Código Deis: </label>
+                            <div class="col-sm-6">
+                                <input type="number" id="codigoNuevo" name="codigoNuevo" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                    </div> <!-------- col-sm-3 -------->
+                    <div class="col-sm-3">
+                        <div class="form-group row">
+                            <label for="region" class="col-form-label col-sm-3 font-weight-bolder">Región: </label>
+                            <div class="col-sm-6">
+                                <select id="region" name="region" class="form-control form-control-sm">
+                                    <option value="">-- Seleccionar --</option>
+                                    <option th:each="region : ${listaRegiones}" th:text="${region.region}" th:value="${region.id}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="region" class="col-form-label col-sm-3 font-weight-bolder">Servicio: </label>
+                            <div class="col-sm-6">
+                                <select id="servicio" name="servicio" class="form-control form-control-sm">
+                                    <option value="">-- Seleccionar --</option>
+                                    <option th:each="servicioSalud : ${listaServiciosSalud}" th:text="${servicioSalud.servicioSalud}" th:value="${servicioSalud.id}"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div> <!-------- col-sm-3 -------->
+                    <div class="col-sm-3">
+                        <div class="form-group row">
+                            <label for="region" class="col-form-label col-sm-3 font-weight-bolder">Comuna: </label>
+                            <div class="col-sm-6">
+                                <select id="comuna" name="comuna" class="form-control form-control-sm">
+                                    <option value="">-- Seleccionar --</option>
+                                    <option th:each="comuna : ${listaComunas}" th:text="${comuna.comuna}" th:value="${comuna.codigoComuna}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="region" class="col-form-label col-sm-3 font-weight-bolder">Tipo: </label>
+                            <div class="col-sm-6">
+                                <select id="tipoEstablecimiento" name="tipoEstablecimiento" class="form-control form-control-sm">
+                                    <option value="">-- Seleccionar --</option>
+                                    <option th:each="tipo : ${listaTiposEstablecimientos}" th:text="${tipo[2]}" th:value="${tipo[0]}"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div> <!-------- col-sm-3 -------->
+                    <div class="col-sm-3">
+                        <div class="form-group row">
+                            <label for="enabled" class="col-form-label col-sm-3 font-weight-bolder">Estado: </label>
+                            <div class="col-sm-6">
+                                <select id="enabled" name="enabled" class="form-control form-control-sm">
+                                    <option value="">-- Seleccionar --</option>
+                                    <option value="0">Habilitado</option>
+                                    <option value="1">Deshabilitado</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div> <!-------- col-sm-3 -------->
+                </div> <!-------- form-row -------->
+                <!-- ########################################### Button Form ################################################ -->
+                <div class="form-group d-inline">
+                    <div class="col-sm-4 d-inline">
+                        <button class="btn btn-secondary btn-sm" type="submit" name="buscar" id="buscar" value="btnBuscar">Buscar</button>
+                    </div>
+                </div>
+                <div class="form-group d-inline">
+                    <div class="col-sm-4 offset-sm-0 d-inline">
+                        <a class="btn btn-dark btn-sm" th:href="@{/establecimiento/limpiar}">
+                            <span class="fas fa-eraser"></span> Limpiar Todo
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <ul class="list-group list-group-horizontal" th:unless="${session.params == null}">
+            <li class="list-group-item list-group-item-dark font-weight-bolder font-italic text-light bg-dark border border-primary" th:unless="${session.params == null}">Criterios de Búsqueda:</li>
+
+            <li class="list-group-item list-group-item-secondary font-weight-bold text-muted border border-secondary" th:unless="${session.params == null}">Establecimiento:
+                <span class="badge badge-primary" th:text="${session.params['establecimientoNombre']} == null ? 'Todos' : (${#strings.capitalizeWords(#strings.toLowerCase(session.params['establecimientoNombre']))})"></span>
+            </li>
+            <li class="list-group-item list-group-item-secondary font-weight-bold text-muted border border-secondary" th:unless="${session.params == null}">Código Deis:
+                <span class="badge badge-primary" th:text="${session.params['codigoNuevo']} == null ? 'Todos' : (${session.params['codigoNuevo']})"></span>
+            </li>
+            <li class="list-group-item list-group-item-secondary font-weight-bold text-muted border border-secondary" th:unless="${session.params == null}">Región:
+                <span class="badge badge-primary" th:text="${session.params['regionText']} == null ? 'Todos' : (${#strings.capitalizeWords(#strings.toLowerCase(session.params['regionText']))})"></span>
+            </li>
+            <li class="list-group-item list-group-item-secondary font-weight-bold text-muted border border-secondary" th:unless="${session.params == null}">Servicio:
+                <span class="badge badge-primary" th:text="${session.params['servicioText']} == null ? 'Todos' : (${#strings.capitalizeWords(#strings.toLowerCase(session.params['servicioText']))})"></span>
+            </li>
+            <li class="list-group-item list-group-item-secondary font-weight-bold text-muted border border-secondary" th:unless="${session.params == null}">Comuna:
+                <span class="badge badge-primary" th:text="${session.params['comunaText']} == null ? 'Todos' : (${#strings.capitalizeWords(#strings.toLowerCase(session.params['comunaText']))})"></span>
+            </li>
+            <li class="list-group-item list-group-item-secondary font-weight-bold text-muted border border-secondary" th:unless="${session.params == null}">Id Tipo:
+                <span class="badge badge-primary" th:text="${session.params['tipoEstablecimiento']} == null ? 'Todos' : (${session.params['tipoEstablecimiento']})"></span>
+            </li>
+            <li class="list-group-item list-group-item-secondary font-weight-bold text-muted border border-secondary" th:unless="${session.params == null}">Tipo:
+                <span class="badge badge-primary" th:text="${session.params['tipoEstablecimientoText']} == null ? 'Todos' : (${session.params['tipoEstablecimientoText']})"></span>
+            </li>
+            <li class="list-group-item list-group-item-secondary font-weight-bold text-muted border border-secondary" th:unless="${session.params == null}">Estado:
+                <span class="badge badge-primary" th:text="${session.params['enabled']} == '1' ? 'Deshabilitados' : (${session.params['enabled']} == '0' ? 'Habilitados' : 'Habilitados y Deshabilitados')"></span>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

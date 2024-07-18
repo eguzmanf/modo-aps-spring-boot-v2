@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <script type="module" th:fragment="javascript">
+
+        // ######################################## DEFINICION DE CONSTANTES #######################################
+        const urlGetServicios = "/establecimiento/cargar-servicios";
+        const urlGetComunas = "/establecimiento/cargar-comunas";
+
+        // ################################################ IMPORTS ################################################
+        import { FuncionesGenerales } from "../../app/funciones/generales/funciones-generales.js";
+        import { AppEstablecimientoBuscar } from "../../app/establecimiento/buscar/app-establecimiento-buscar.js";
+        import { ApiEstablecimientoBuscar } from "../../app/establecimiento/buscar/api-establecimiento-buscar.js";
+        import { UiEstablecimientoBuscar } from "../../app/establecimiento/buscar/ui-establecimiento-buscar.js";
+
+        // ################################# INICIALIZAR CLASES - FUNCION DE INIT CAMPOS ###########################
+        const metodosBuscar = new FuncionesGenerales();
+        const apiBuscar = new ApiEstablecimientoBuscar(urlGetServicios, urlGetComunas);
+        const uiBuscar = new UiEstablecimientoBuscar(apiBuscar);
+        const appBuscar = new AppEstablecimientoBuscar(metodosBuscar, uiBuscar, apiBuscar);
+
+        function initDOM() {
+            appBuscar.initApp();
+        }
+
+        function domIsReady() {
+            appBuscar.domIsReadyApp();
+        }
+
+        // ##################################### INICIAR: CARGAR CONTENIDO DOM HTML #######################################
+        document.addEventListener('DOMContentLoaded', () => {
+            initDOM();
+        });
+
+        document.onreadystatechange = () => {
+            domIsReady();
+        };
+
+        // ####################################### LLAMAR FUNCIONES #######################################################
+        appBuscar.getServicioByRegionChange();
+        appBuscar.getComunaByServicioChange();
+        appBuscar.tipoDeEstablecimientoChangeSelectList();
+        appBuscar.getRegionTextChangeSelectList();
+        appBuscar.getServicioTextChangeSelectList();
+        appBuscar.getComunaTextChangeSelectList();
+
+    </script>
+</body>
+</html>

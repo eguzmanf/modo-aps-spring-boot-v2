@@ -129,15 +129,10 @@ public class UsuarioController {
     public String listar(@RequestParam(name = "page", defaultValue = "0") Integer page, Model model, Authentication authentication, HttpServletRequest request, HttpSession session) {
 
         if(!request.getParameterMap().containsKey("page")) {
-            //
             if(session.getAttribute("params") != null) {
                 session.setAttribute("params", null);
             }
         }
-
-        // List<Usuario> usuarios = funcionarioService.findAllUsuarios();
-        // List<Usuario> usuarios = funcionarioService.findAllCriteriaApi();
-
 
         Integer numeroRegistros=7;
         Pageable pageRequest = PageRequest.of(page, numeroRegistros);
