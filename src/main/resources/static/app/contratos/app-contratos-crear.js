@@ -455,7 +455,7 @@ export class AppContratoCrear {
             if (this.roleUser.value === "[ROLE_MINSAL]") {
                 this.servicioId.addEventListener('change', e => {
                     let servicioTargetValue = e.target.value;
-                    console.log(servicioTargetValue);
+                    console.log("Id Servicio: " + servicioTargetValue);
                     this.apiCrear.fetchComunasByIdSarvicio(servicioTargetValue)
                         .then(data => {
                             let dataObject = data.resultado;

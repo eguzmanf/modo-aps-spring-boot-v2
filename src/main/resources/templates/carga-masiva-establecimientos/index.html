@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head">
+
+<body>
+    <header th:replace="layout/layout :: header"></header>
+
+    <div class="container py-4">
+        <div class="alert alert-danger" role="alert" th:if="${errorMessages}">
+            <ul>
+                <li th:each="err: ${errorMessages}" th:text="${err}"></li>
+            </ul>
+        </div>
+        <div class="card bg-dark text-white">
+            <div class="card-header" th:text="${titulo}"></div>
+            <div class="card-body color-metal">
+                <form th:action="@{/carga-masiva-establecimientos/carga-archivo/}" th:object="${establecimiento}" method="post" enctype="multipart/form-data">
+                    <div class="form-row justify-content-center">
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label for="cargaMasivaEstablecimientos" class="col-form-label col-sm-3">Cargar Excel: </label>
+                                <div class="col-sm-9">
+                                    <input type="file" id="cargaMasivaEstablecimientos" name="cargaMasivaEstablecimientos" th:field="*{cargaMasivaEstablecimientos}" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row justify-content-center text-center">
+                        <div class="col-sm-4">
+                            <button type="submit" class="btn btn-secondary"><i class="fas fa-cloud-upload-alt"> Guardar</i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

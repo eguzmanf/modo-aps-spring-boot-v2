@@ -1,5 +1,7 @@
 package cl.divap.modoaps.app.models.entity;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -77,7 +79,66 @@ public class Establecimiento implements Serializable {
     private String iaaps;
     private Integer idServicioIdComuna;
 
+    @Transient
+    private MultipartFile cargaMasivaEstablecimientos;
+
     public Establecimiento(){}
+
+    public Establecimiento(Region region, ServicioSalud servicio, Comuna comuna, String idComunaTexto, String comunaNombre,
+                           String comunaMayusc, Integer codigoNuevo, String establecimientoNombre, String idTipo,
+                           String idTipoEst, String tipoEstablecimiento, Integer elimID, Integer idServicioIdComuna) {
+        this.region = region;
+        this.servicio = servicio;
+        this.comuna = comuna;
+        this.idComunaTexto = idComunaTexto;
+        this.comunaNombre = comunaNombre;
+        this.comunaMayusc = comunaMayusc;
+        this.codigoNuevo = codigoNuevo;
+        this.establecimientoNombre = establecimientoNombre;
+        this.idTipo = idTipo;
+        this.idTipoEst = idTipoEst;
+        this.tipoEstablecimiento = tipoEstablecimiento;
+        this.elimID = elimID;
+        this.idServicioIdComuna = idServicioIdComuna;
+    }
+
+    // Tercer Constructor del controlador: CargaMasivaEstablecimientosController
+    public Establecimiento(String acompanamiento, String dir, String nivelAtencion, String codigoAntiguo, Integer codigoNuevo,
+                           String comunaMayusc, String comunaNombre, String dependencia, Integer elimID, String establecimientoNombre,
+                           String iaaps, String idComunaTexto, Integer idDependencia, Integer idMacroZona, Integer idOrdenServicio,
+                           Integer idServicioIdComuna, String idTipo, String idTipoEst, String macroZona, String regionAlias, String regionCodigo,
+                           String regionNombre, Integer regionOrden, String servicioNombre, String tipoEstablecimiento, Comuna comuna, Region region,
+                           ServicioSalud servicio) {
+
+        this.Acompanamiento = acompanamiento;
+        this.DIR = dir;
+        this.Nivel_Atencion = nivelAtencion;
+        this.codigoAntiguo = codigoAntiguo;
+        this.codigoNuevo = codigoNuevo;
+        this.comunaMayusc = comunaMayusc;
+        this.comunaNombre = comunaNombre;
+        this.dependencia = dependencia;
+        this.elimID = elimID;
+        this.establecimientoNombre = establecimientoNombre;
+        this.iaaps = iaaps;
+        this.idComunaTexto = idComunaTexto;
+        this.idDependencia = idDependencia;
+        this.idMacroZona = idMacroZona;
+        this.idOrdenServicio = idOrdenServicio;
+        this.idServicioIdComuna = idServicioIdComuna;
+        this.idTipo = idTipo;
+        this.idTipoEst = idTipoEst;
+        this.macroZona = macroZona;
+        this.regionAlias = regionAlias;
+        this.regionCodigo = regionCodigo;
+        this.regionNombre = regionNombre;
+        this.regionOrden = regionOrden;
+        this.servicioNombre = servicioNombre;
+        this.tipoEstablecimiento = tipoEstablecimiento;
+        this.comuna = comuna;
+        this.region = region;
+        this.servicio = servicio;
+    }
 
     public Long getId() {
         return id;
@@ -311,6 +372,14 @@ public class Establecimiento implements Serializable {
 
     public void setIdServicioIdComuna(Integer idServicioIdComuna) {
         this.idServicioIdComuna = idServicioIdComuna;
+    }
+
+    public MultipartFile getCargaMasivaEstablecimientos() {
+        return cargaMasivaEstablecimientos;
+    }
+
+    public void setCargaMasivaEstablecimientos(MultipartFile cargaMasivaEstablecimientos) {
+        this.cargaMasivaEstablecimientos = cargaMasivaEstablecimientos;
     }
 
     @Override

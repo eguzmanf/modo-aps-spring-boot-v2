@@ -1,0 +1,9 @@
+cd E:\trabajo\modo-aps-spring-boot
+mvn clean package
+docker build -t modo-aps-spring-boot:2.0 .
+docker run -d --restart always -p 8099:8099 -t modo-aps-spring-boot:2.0
+docker run -d --restart unless-stopped -p 8099:8099 -t modo-aps-spring-boot:2.0
+
+
+-- docker run -d -p 8099:8099 -t modo-aps-spring-boot:2.0
+-- docker run --net="host" -d -p 8099:8099 -t modo-aps-spring-boot:2.0
