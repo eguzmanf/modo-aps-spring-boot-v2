@@ -327,6 +327,16 @@ public class   EstablecimientoController {
     @ModelAttribute("listaTiposEstablecimientos")
     public List<Object> tiposEstablecimiento() {
         List<Object> tiposEstablecimiento = establecimientoDaoJpaRepo.findDistinctTipoEstablecimiento();
+        /*
+            for (Object object : tiposEstablecimiento) {
+                Object[] objArray = (Object[]) object;
+                System.out.println((String) objArray[0]);
+                System.out.println((String) objArray[2]);
+                if (objArray[0] == null && objArray[2] == null) {
+                    System.out.println("Cambiar nombre");
+                }
+            }
+        */
         return tiposEstablecimiento;
     }
 

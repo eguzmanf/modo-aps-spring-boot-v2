@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IJpaRepositoryEstablecimientoDao extends JpaRepository<Establecimiento, Long> {
 
-    @Query("SELECT DISTINCT e.idTipo, e.idTipoEst, e.tipoEstablecimiento FROM Establecimiento e")
+    @Query("SELECT DISTINCT e.idTipo, e.idTipoEst, e.tipoEstablecimiento FROM Establecimiento e WHERE  (e.idTipo is not null) and (e.tipoEstablecimiento is not null)")
     public List<Object> findDistinctTipoEstablecimiento();
 
     public Establecimiento findByCodigoNuevo(Integer codigoNuevo);

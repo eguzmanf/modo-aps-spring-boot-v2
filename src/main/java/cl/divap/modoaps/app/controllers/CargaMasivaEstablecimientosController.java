@@ -3,6 +3,8 @@ package cl.divap.modoaps.app.controllers;
 import cl.divap.modoaps.app.models.dao.comuna.IComunaDao;
 import cl.divap.modoaps.app.models.dao.establecimiento.IEstablecimientoDao;
 import cl.divap.modoaps.app.models.dao.establecimiento.IJpaRepositoryEstablecimientoDao;
+import cl.divap.modoaps.app.models.dao.region.IRegionDao;
+import cl.divap.modoaps.app.models.dao.servicioSalud.IServicioSaludDao;
 import cl.divap.modoaps.app.models.entity.*;
 import com.google.common.io.Files;
 import org.apache.commons.io.FilenameUtils;
@@ -17,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,6 +41,12 @@ public class CargaMasivaEstablecimientosController {
     private IComunaDao comunaDao;
 
     @Autowired
+    private IServicioSaludDao servicioSaludDao;
+
+    @Autowired
+    private IRegionDao regionDao;
+
+    @Autowired
     private IJpaRepositoryEstablecimientoDao establecimientoDaoJpaRepo;
 
     @GetMapping(value={"", "/", "/index", "carga-archivo"})
@@ -49,7 +58,7 @@ public class CargaMasivaEstablecimientosController {
     }
 
     @PostMapping(value="carga-archivo-establecimientos")
-    public String cargaArchivo(Establecimiento establecimiento, RedirectAttributes flash, Model model) throws IOException, ParseException {
+    public String cargaArchivo(@ModelAttribute Establecimiento establecimiento, RedirectAttributes flash, Model model) throws IOException, ParseException {
         //
         List<Establecimiento> establecimientosArrayList = new ArrayList<Establecimiento>();
 
@@ -139,7 +148,7 @@ public class CargaMasivaEstablecimientosController {
                     establecimiento.setCodigoNuevo(codigoNuevoInt);
                 } else {
                     errorFlag = true;
-                    errorMessages.add("El codigo nuevo '" + codigoNuevoInt + "' no es válido, en linea N° " + numeroRegistro);
+                    errorMessages.add("El codigo nuevo no es válido, en linea N° " + numeroRegistro);
                 }
 
                 // Columna codigo comuna: 26
@@ -159,7 +168,7 @@ public class CargaMasivaEstablecimientosController {
                     }
                 } else {
                     errorFlag = true;
-                    errorMessages.add("La comunaMayusc '" + comunaMayusc + "', no es válido, debe ser NULL o string, en linea N° " + numeroRegistro);
+                    errorMessages.add("La comunaMayusc no es válido, debe ser NULL o string, en linea N° " + numeroRegistro);
                 }
 
                 // Columna codigo comuna: 26
@@ -198,7 +207,7 @@ public class CargaMasivaEstablecimientosController {
                     }
                 } else {
                     errorFlag = true;
-                    errorMessages.add("El elimid '" + elimidInt + "', no es válido, debe ser 0 o 1, en linea N° " + numeroRegistro);
+                    errorMessages.add("El elimid no es válido, debe ser 0 o 1, en linea N° " + numeroRegistro);
                 }
 
                 String establecimientoNombre = null;
@@ -207,7 +216,7 @@ public class CargaMasivaEstablecimientosController {
                     establecimiento.setEstablecimientoNombre(establecimientoNombre);
                 } else {
                     errorFlag = true;
-                    errorMessages.add("El establecimiento '" + establecimientoNombre + "', no es válido, en linea N° " + numeroRegistro);
+                    errorMessages.add("El establecimiento no es válido, en linea N° " + numeroRegistro);
                 }
 
                 String iaaps = null;
@@ -233,7 +242,7 @@ public class CargaMasivaEstablecimientosController {
                     }
                 } else {
                     errorFlag = true;
-                    errorMessages.add("La idComunaTexto '" + idComunaTexto + "', no es válido, debe ser NULL, o un valor numerico string, en linea N° " + numeroRegistro);
+                    errorMessages.add("La idComunaTexto no es válido, debe ser NULL, o un valor numerico string, en linea N° " + numeroRegistro);
                 }
 
                 int idDependencia = 0;
@@ -251,7 +260,7 @@ public class CargaMasivaEstablecimientosController {
                     establecimiento.setIdDependencia(idDependencia);
                 } else {
                     errorFlag = true;
-                    errorMessages.add("El idDependencia '" + idDependencia + "' no es válido, en linea N° " + numeroRegistro);
+                    errorMessages.add("El idDependencia no es válido, en linea N° " + numeroRegistro);
                 }
 
                 int idMacroZonaInt = 0;
@@ -269,7 +278,7 @@ public class CargaMasivaEstablecimientosController {
                     establecimiento.setIdMacroZona(idMacroZonaInt);
                 } else {
                     errorFlag = true;
-                    errorMessages.add("El idMacroZona '" + idMacroZonaInt + "' no es válido, en linea N° " + numeroRegistro);
+                    errorMessages.add("El idMacroZona no es válido, en linea N° " + numeroRegistro);
                 }
 
                 int idOrdenServicioInt = 0;
@@ -278,7 +287,7 @@ public class CargaMasivaEstablecimientosController {
                     establecimiento.setIdOrdenServicio(idOrdenServicioInt);
                 } else {
                     errorFlag = true;
-                    errorMessages.add("El idOrdenServicioInt '" + idOrdenServicioInt + "' no es válido, en linea N° " + numeroRegistro);
+                    errorMessages.add("El idOrdenServicioInt no es válido, en linea N° " + numeroRegistro);
                 }
 
                 int idServicioIdComunaInt = 0;
@@ -287,7 +296,7 @@ public class CargaMasivaEstablecimientosController {
                     establecimiento.setIdServicioIdComuna(idServicioIdComunaInt);
                 } else {
                     errorFlag = true;
-                    errorMessages.add("El idServicioIdComuna '" + idServicioIdComunaInt + "' no es válido, en linea N° " + numeroRegistro);
+                    errorMessages.add("El idServicioIdComuna no es válido, en linea N° " + numeroRegistro);
                 }
 
                 String idTipo = null;
@@ -326,7 +335,7 @@ public class CargaMasivaEstablecimientosController {
                     }
                 } else {
                     errorFlag = true;
-                    errorMessages.add("La macroZona '" + macroZona + "', no es válido, debe ser NULL, o un valor string, en linea N° " + numeroRegistro);
+                    errorMessages.add("La macroZona no es válido, debe ser NULL, o un valor string, en linea N° " + numeroRegistro);
                 }
 
                 String regionAlias = null;
@@ -339,7 +348,7 @@ public class CargaMasivaEstablecimientosController {
                     }
                 } else {
                     errorFlag = true;
-                    errorMessages.add("La regionAlias '" + regionAlias + "', no es válido, debe ser NULL, o un valor string, en linea N° " + numeroRegistro);
+                    errorMessages.add("La regionAlias no es válido, debe ser NULL, o un valor string, en linea N° " + numeroRegistro);
                 }
 
                 String regionCodigo = null;
@@ -352,7 +361,7 @@ public class CargaMasivaEstablecimientosController {
                     }
                 } else {
                     errorFlag = true;
-                    errorMessages.add("La regionCodigo '" + regionCodigo + "', no es válido, debe ser NULL, o un valor string, en linea N° " + numeroRegistro);
+                    errorMessages.add("La regionCodigo no es válido, debe ser NULL, o un valor string, en linea N° " + numeroRegistro);
                 }
 
                 String regionNombre = null;
@@ -365,7 +374,7 @@ public class CargaMasivaEstablecimientosController {
                     }
                 } else {
                     errorFlag = true;
-                    errorMessages.add("La regionNombre '" + regionNombre + "', no es válido, debe ser NULL, o un valor string, en linea N° " + numeroRegistro);
+                    errorMessages.add("La regionNombre no es válido, debe ser NULL, o un valor string, en linea N° " + numeroRegistro);
                 }
 
                 int regionOrdenInt = 0;
@@ -383,7 +392,7 @@ public class CargaMasivaEstablecimientosController {
                     establecimiento.setRegionOrden(regionOrdenInt);
                 } else {
                     errorFlag = true;
-                    errorMessages.add("El regionOrdenInt '" + regionOrdenInt + "' no es válido, en linea N° " + numeroRegistro);
+                    errorMessages.add("El regionOrdenInt no es válido, en linea N° " + numeroRegistro);
                 }
 
                 String servicioNombre = null;
@@ -396,7 +405,7 @@ public class CargaMasivaEstablecimientosController {
                     }
                 } else {
                     errorFlag = true;
-                    errorMessages.add("La servicioNombre '" + servicioNombre + "', no es válido, debe ser NULL, o un valor string, en linea N° " + numeroRegistro);
+                    errorMessages.add("La servicioNombre no es válido, debe ser NULL, o un valor string, en linea N° " + numeroRegistro);
                 }
 
                 String tipoEstablecimiento = null;
@@ -415,34 +424,31 @@ public class CargaMasivaEstablecimientosController {
                 long codigoComuna = 0L;
                 if(row.getCell(26).getCellType() == CellType.NUMERIC) {
                     codigoComuna = (long) row.getCell(26).getNumericCellValue();
-                    Comuna comuna = new Comuna();
-                    comuna.setCodigoComuna(codigoComuna);
+                    Comuna comuna = comunaDao.findByCodigoComuna(codigoComuna);
                     establecimiento.setComuna(comuna);
                 } else {
                     errorFlag = true;
-                    errorMessages.add("El codigoComuna '" + codigoComuna + "' no es válido, en linea N° " + numeroRegistro);
+                    errorMessages.add("El codigoComuna no es válido, en linea N° " + numeroRegistro);
                 }
 
                 long regionId = 0L;
                 if(row.getCell(27).getCellType() == CellType.NUMERIC) {
                     regionId = (long) row.getCell(27).getNumericCellValue();
-                    Region region = new Region();
-                    region.setId(regionId);
+                    Region region = regionDao.findRegionByRegionId(regionId);
                     establecimiento.setRegion(region);
                 } else {
                     errorFlag = true;
-                    errorMessages.add("El regionId '" + regionId + "' no es válido, en linea N° " + numeroRegistro);
+                    errorMessages.add("El regionId no es válido, en linea N° " + numeroRegistro);
                 }
 
                 long servicioId = 0L;
                 if(row.getCell(28).getCellType() == CellType.NUMERIC) {
                     servicioId = (long) row.getCell(28).getNumericCellValue();
-                    ServicioSalud servicioSalud = new ServicioSalud();
-                    servicioSalud.setId(servicioId);
+                    ServicioSalud servicioSalud = servicioSaludDao.findServicioByServicioId(servicioId);
                     establecimiento.setServicio(servicioSalud);
                 } else {
                     errorFlag = true;
-                    errorMessages.add("El servicioId '" + servicioId + "' no es válido, en linea N° " + numeroRegistro);
+                    errorMessages.add("El servicioId no es válido, en linea N° " + numeroRegistro);
                 }
 
                 // Del tercer Constructor en model -> entity -> Establecimiento

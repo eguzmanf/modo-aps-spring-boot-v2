@@ -66,7 +66,7 @@ public class Establecimiento implements Serializable {
     private String idTipo;
     private String idTipoEst;
 
-    @NotBlank
+    // @NotBlank
     private String tipoEstablecimiento;
 
     @Column(nullable=false)
